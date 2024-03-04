@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="164dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:gravity="center"
+        android:id="@+id/llViewAll"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:textSize="16dp"
+            android:textColor="@color/gray"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="ViewAll"
+            android:id="@+id/tvViewAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:src="@drawable/arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llViewAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBg"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp">
+            <ImageView
+                android:id="@+id/ivBg"
+                android:src="@drawable/bg_one"
+                android:layout_width="164dp"
+                android:layout_height="200dp"
+                android:scaleType="fitXY"
+                />
+        </androidx.cardview.widget.CardView>
+        <ImageView
+            android:id="@+id/ivKey"
+            android:layout_marginTop="15dp"
+            android:layout_alignEnd="@id/cvBg"
+            android:padding="10dp"
+            android:src="@drawable/icon_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"/>
+        <TextView
+            android:gravity="center"
+            android:layout_alignEnd="@id/cvBg"
+            android:layout_alignBottom="@id/cvBg"
+            android:layout_alignStart="@id/cvBg"
+            android:layout_alignTop="@id/cvBg"
+            android:text="Hdksjdk"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"/>
+    </RelativeLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
