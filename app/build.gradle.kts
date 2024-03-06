@@ -57,21 +57,21 @@ dependencies {
     val lifecycle_version = "2.5.1"
     val nav_version = "2.5.0"
 
+    // room
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
-    // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:$room_version")
-
-    // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
-    // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-    // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
 
-    // Saved state module for ViewModel
+    //vm_ld
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
 
-    //Gilde
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    //sdp
+    implementation("com.intuit.sdp:sdp-android:1.1.0")
+
+
 }
