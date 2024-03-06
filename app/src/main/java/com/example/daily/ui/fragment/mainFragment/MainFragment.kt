@@ -2,12 +2,10 @@ package com.example.daily.ui.fragment.mainFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.daily.R
+import androidx.viewpager2.widget.ViewPager2
 import com.example.daily.base.BaseFragment
 import com.example.daily.databinding.FragmentMainBinding
-import com.example.daily.model.Content
+import com.example.daily.ui.fragment.mainFragment.content.Content
 import com.example.daily.ui.fragment.adapter.ViewPager2Adapter
 import com.example.daily.ui.fragment.categories.CategoriesFragment
 import com.example.daily.ui.fragment.setting.SettingFragment
@@ -17,7 +15,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
 //    private var adapter: MainContentAdapter? = null
 
-    var viewPager2Adapter : ViewPager2Adapter? = null
+    var adapter: ViewPager2Adapter? = null
+
+    private var mListquestion: List<Content>? = null
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -38,12 +38,36 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     private fun viewPager2() {
-//        viewPager2Adapter = ViewPager2Adapter(requireActivity())
-//        binding.viewPager2.adapter = viewPager2Adapter
-
-        val adapter = ViewPager2Adapter(requireActivity())
+        mListquestion = getListQuestion()
+        adapter = ViewPager2Adapter(requireActivity(), mListquestion!!)
         binding.viewPager2.adapter = adapter
+        binding.viewPager2.orientation = ViewPager2.ORIENTATION_VERTICAL
 
+    }
+
+    private fun getListQuestion(): List<Content> {
+        val list: MutableList<Content> = ArrayList()
+//        for (i in 1..10) {
+//            list.add(Content("This is Question : $i"))
+//        }
+
+        list.add(Content(" Love is the master key that opens the gates of happiness. - Oliver Wendell Holmes "))
+        list.add(Content(" The only way to do great work is to love what you do.- Steve Jobs "))
+        list.add(Content(" The only way to do great work is to love what you do. - Steve Jobs "))
+        list.add(Content(" Keep your face to the sunshine and you cannot see a shadow. - Helen Keller "))
+        list.add(Content(" Hope is being able to see that there is light despite all of the darkness.- Desmond Tutu "))
+        list.add(Content(" It's not how much you have, but how much you enjoy that makes happiness. - Charles Spurgeon "))
+        list.add(Content(" Life is a journey, not a destination. - Ralph Waldo Emerson "))
+        list.add(Content(" Love is the master key that opens the gates of happiness. - Oliver Wendell Holmes "))
+        list.add(Content(" The only way to do great work is to love what you do.- Steve Jobs "))
+        list.add(Content(" The only way to do great work is to love what you do. - Steve Jobs "))
+        list.add(Content(" Keep your face to the sunshine and you cannot see a shadow. - Helen Keller "))
+        list.add(Content(" Hope is being able to see that there is light despite all of the darkness.- Desmond Tutu "))
+        list.add(Content(" It's not how much you have, but how much you enjoy that makes happiness. - Charles Spurgeon "))
+        list.add(Content(" Life is a journey, not a destination. - Ralph Waldo Emerson "))
+
+
+        return list
     }
 
     private fun showDataRecycleView() {
@@ -57,45 +81,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
 
     }
-
-//    private fun listDataContent(): List<Content> {
-//
-//        return listOf(
-//            Content(
-//                0,
-//                "There are wounds that don't bleed, but are very painful",
-//            ),
-//            Content(
-//                1,
-//                "There are wounds that don't bleed, but are very painful",
-//            ),
-//            Content(
-//                2,
-//                "There are wounds that don't bleed, but are very painful",
-//                ),
-//            Content(
-//                3,
-//                "There are wounds that don't bleed, but are very painful",
-//                ),
-//            Content(
-//                4,
-//                "There are wounds that don't bleed, but are very painful",
-//                ),
-//            Content(
-//                5,
-//                "There are wounds that don't bleed, but are very painful",
-//                ),
-//            Content(
-//                6,
-//                "There are wounds that don't bleed, but are very painful",
-//                ),
-//            Content(
-//                7,
-//                "There are wounds that don't bleed, but are very painful",
-//            ),
-//        )
-//
-//    }
 
     private fun clickListener() {
 
