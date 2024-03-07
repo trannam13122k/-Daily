@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.example.daily.base.BaseFragment
 import com.example.daily.databinding.FragmentMainBinding
-import com.example.daily.ui.fragment.mainFragment.content.Content
+import com.example.daily.ui.fragment.content.Content
 import com.example.daily.ui.fragment.adapter.ViewPager2Adapter
 import com.example.daily.ui.fragment.categories.CategoriesFragment
 import com.example.daily.ui.fragment.setting.SettingFragment

@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.daily.ui.fragment.mainFragment.content.Content
-import com.example.daily.ui.fragment.mainFragment.content.ContentFragment
+import com.example.daily.ui.fragment.content.Content
+import com.example.daily.ui.fragment.content.ContentFragment
 
 class ViewPager2Adapter(fragmentActivity: FragmentActivity, private val mListquestion: List<Content>) :
     FragmentStateAdapter(fragmentActivity) {
