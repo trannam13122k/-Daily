@@ -48,5 +48,11 @@
 
     <string name="iam">I Am</string>
     <string name="viewAll">ViewAll</string>
+    <string name="color">Color</string>
+
+
+    <string name="unsplash">UnSplash</string>
+
+
 
 </resources>
