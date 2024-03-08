@@ -35,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tvTitleContent"
             android:layout_marginStart="10dp"
             android:text="@string/general"
             android:layout_width="wrap_content"

@@ -1,3 +1,9 @@
 package com.example.daily.ui.Themes.Model
 
-data class ThemesModel (val imageView: Int, val isCheck :Boolean)
+import java.io.Serializable
+
+data class ThemesModel (
+    var TitleBg: String ="",
+    var image:String="",
+    var isKey :Boolean=true
+):Serializable

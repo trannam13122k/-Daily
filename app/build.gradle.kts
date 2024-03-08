@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -69,9 +70,19 @@ dependencies {
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
 
+
     // Saved state module for ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
 
     //Gilde
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    // Thêm dependencies của Firebase vào đây:
+    implementation (platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation ("com.google.firebase:firebase-core:20.0.0")
+    implementation ("com.google.firebase:firebase-firestore:24.10.2")
+    implementation ("com.google.firebase:firebase-auth:21.0.0")
+    implementation ("com.google.firebase:firebase-database:20.0.0")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+
+    implementation ("com.google.code.gson:gson:2.10.1")
 }

@@ -44,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp">
                 <ImageView
+                    android:scaleType="fitXY"
                     android:id="@+id/ivBg"
                     android:background="@drawable/background_two"
                     android:layout_width="match_parent"

@@ -9,13 +9,13 @@ import com.example.daily.databinding.ItemContentBinding
 
 
 class HomeAdapter (
-    private val listContent : List<ContentModel>?,
+    private val listContent : List<String>?,
     private val textColor: String,
 //    private val text_Font :Int
 ): RecyclerView.Adapter<HomeAdapter.HomeViewHolder>(){
     inner class HomeViewHolder(val binding: ItemContentBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(data :ContentModel){
-            binding.content.text=data.content
+        fun bind(data :String){
+            binding.content.text=data
             if (textColor != null) {
                 binding.content.setTextColor(Color.parseColor(textColor))
             }

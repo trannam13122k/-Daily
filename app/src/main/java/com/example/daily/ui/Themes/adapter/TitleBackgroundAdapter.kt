@@ -33,6 +33,7 @@ class TitleBackgroundAdapter(private val listTitle: List<TitleBackgroundModel>) 
                 // Cập nhật lại giao diện
                 notifyItemChanged(previousSelectedItemPosition)
                 notifyItemChanged(selectedItemPosition)
+                onClickItem?.invoke(data)
             }
         }
     }

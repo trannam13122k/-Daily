@@ -1,5 +1,6 @@
 package com.example.daily.ui.Edit.fragment
 
+import Preferences
 import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
@@ -24,7 +25,6 @@ import androidx.recyclerview.widget.SnapHelper
 import com.example.daily.MainActivity
 import com.example.daily.PickerLayoutManager
 import com.example.daily.R
-import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentEditBinding
 import com.example.daily.ui.Edit.adapter.ItemPickAdapter
 import com.example.daily.ui.Edit.adapter.PickerAdapter
@@ -84,7 +84,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     private fun loadImageFromSharedPreferences() {
         CoroutineScope(Dispatchers.IO).launch {
-            val imageUri = preferences.getString("imageUri")
+            val imageUri = preferences.getString("imageBg")
             if (!imageUri.isNullOrEmpty()) {
                 withContext(Dispatchers.Main) {
                     binding.ivBg?.setImageURI(Uri.parse(imageUri))
@@ -94,7 +94,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     }
 
     private fun saveImageUriToSharedPreferences(imageUri: String) {
-        preferences.setString("imageUri", imageUri)
+        preferences.setString("imageBg", imageUri)
     }
 
     override fun onRequestPermissionsResult(
