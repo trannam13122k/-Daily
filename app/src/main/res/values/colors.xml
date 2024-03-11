@@ -8,22 +8,24 @@
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="gray">#444655</color>
-    <color name="color_one">#5369EC</color>
-    <color name="color_two">#4BD392</color>
-    <color name="color_three">#EC8DF4</color>
-    <color name="color_four">#FFD6B0</color>
-    <color name="color_five">#B0FAFF</color>
-    <color name="color_six">#FFB0B0</color>
-    <color name="color_seven">#EA6E14</color>
-    <color name="color_eight">#2984C6</color>
-    <color name="color_nine">#3A4790</color>
-    <color name="color_ten">#225E4F</color>
-    <color name="color_eleven">#C1DA28</color>
-    <color name="color_twelve">#791BB2</color>
+
+    <color name="color_one">#5369EB</color>
+    <color name="color_two">#4BD291</color>
+    <color name="color_three">#EB8CF3</color>
+    <color name="color_four">#FED5AF</color>
+    <color name="color_five">#AFF9FE</color>
+    <color name="color_six">#FEAFAF</color>
+    <color name="color_seven">#E96E14</color>
+    <color name="color_eight">#2983C5</color>
+    <color name="color_nine">#3A478F</color>
+    <color name="color_ten">#225D4F</color>
+    <color name="color_eleven">#C0D928</color>
+    <color name="color_twelve">#791BB1</color>
     <color name="color_thirteen">#76412A</color>
-    <color name="color_fourteen">#EFFD53</color>
-    <color name="color_fifteen">#717797</color>
-    <color name="color_sixteen">#16D0F9</color>
+    <color name="color_fourteen">#EEFC53</color>
+    <color name="color_fifteen">#717796</color>
+    <color name="color_sixteen">#16CFF8</color>
+    <color name="color_seventeen">#F8F3F1</color>
 
 
 

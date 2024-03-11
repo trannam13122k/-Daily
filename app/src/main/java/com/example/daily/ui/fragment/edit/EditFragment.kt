@@ -1,8 +1,9 @@
 package com.example.daily.ui.fragment.edit
 
-import android.content.ContentValues.TAG
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,19 +12,24 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
+import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentEditBinding
 import com.example.daily.ui.fragment.edit.colorEdittingBG.ColorAdapter
 import com.example.daily.ui.fragment.edit.colorEdittingBG.ColorsBG
 import com.example.daily.ui.fragment.edit.unsplash.UnSplashFragment
-import com.example.daily.ui.fragment.themes.titleBG.TitleBackground
 import com.example.daily.util.PickerLayoutManager
 import com.example.daily.util.Utils
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class EditFragment : BaseFragment<FragmentEditBinding>() {
@@ -32,11 +38,10 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     private lateinit var colorAdapter: ColorAdapter
 
-
-    var listColors: List<ColorsBG>? = null
-
-
+    var listDrawableColors: List<ColorsBG>? = null
     private val snapHelper: SnapHelper = LinearSnapHelper()
+
+    private lateinit var preferences: Preferences
 
 
     override fun getViewBinding(
@@ -49,32 +54,64 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         clickListener()
     }
 
-    override fun setUpView() {
-//        listColorData()
 
+
+    override fun setUpView() {
         setUpTapLayoutMain()
         tabLayoutEditing()
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkPermissionsLoadImage()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        preferences = Preferences.getInstance(requireContext())
         launcher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 binding.ivBg?.setImageURI(uri)
             } else {
-                Toast.makeText(requireContext(), "1212313232 - no chekc ", Toast.LENGTH_SHORT)
-                    .show()
+                loadImageFromSharedPreferences()
             }
-
         }
     }
 
     private fun clickListener() {
-        binding.ivBack.setOnClickListener {
+        binding.tvCancel.setOnClickListener {
             activity?.onBackPressed()
         }
     }
 
+    private fun checkPermissionsLoadImage() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        ) {
+            loadImageFromSharedPreferences()
+        } else {
+            requestStoragePermission()
+        }
+    }
+
+    private fun requestStoragePermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            Utils.PERMISSION_REQUEST_CODE
+        )
+    }
+
+
+    private fun loadImageFromSharedPreferences() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val imageUri = preferences.getString("imageUri")
+            if (!imageUri.isNullOrEmpty()) {
+                withContext(Dispatchers.Main) {
+                    binding.ivBg?.setImageURI(Uri.parse(imageUri))
+                }
+            }
+        }
+    }
 
     private fun setUpTapLayoutMain() {
         binding.tabLayout.setSelectedTabIndicatorColor(
@@ -87,7 +124,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.icon_bg_edit))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.icon_text_lock))
 
-
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
@@ -96,14 +132,13 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         binding.tabLayoutBg.visibility = View.VISIBLE
                         binding.relativeLayout.visibility = View.GONE
                         binding.rvColorBg.visibility = View.GONE
-
                     }
 
                     1 -> {
-//                        binding.ivName.text = getString(R.string.text_editing)
-//                        binding.tabLayoutBg.visibility = View.GONE
-//                        binding.relativeLayout.visibility = View.VISIBLE
-//                        binding.rvColorBg.visibility = View.GONE
+                        binding.ivName.text = getString(R.string.text_editing)
+                        binding.tabLayoutBg.visibility = View.GONE
+                        binding.relativeLayout.visibility = View.VISIBLE
+                        binding.rvColorBg.visibility = View.GONE
                         Toast.makeText(requireContext(), "TextEdittoing", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -112,8 +147,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
-
-
     }
 
     // backGround Editting...........................................................................
@@ -146,36 +179,24 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             binding.ivBg?.setImageURI(null)
         }
 
-        binding.tabLayoutBg.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
+        binding.tabLayoutBg.getTabAt(1)?.view?.setOnClickListener {
+            clickUnsplash()
+        }
 
-                    1 -> {
-                        clickUnsplash()
-                    }
-
-                    2 -> {
-                        colorEditing()
-                    }
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
+        binding.tabLayoutBg.getTabAt(2)?.view?.setOnClickListener {
+            colorEditing()
+        }
     }
 
     private fun clickUnsplash() {
         binding.rvColorBg.visibility = View.GONE
-//        openFragment(UnSplashFragment::class.java, null, true)
+        openFragment(UnSplashFragment::class.java, null, true)
         Toast.makeText(requireContext(), "UnSplash", Toast.LENGTH_SHORT).show()
-
     }
 
     private fun colorEditing() {
-
-        listColors = listOf(
-            R.drawable.color_one,
+        listDrawableColors = listOf(
+           R.drawable.color_one,
             R.drawable.color_two,
             R.drawable.color_three,
             R.drawable.color_four,
@@ -190,9 +211,31 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             R.drawable.color_thirteen,
             R.drawable.color_fourteen,
             R.drawable.color_fifteen,
-            R.drawable.color_sixteen
+            R.drawable.color_sixteen,
+            R.drawable.color_seventeen
         ).map { ColorsBG(it) }
 
+
+        val colorList = listOf(
+            R.color.color_one,
+            R.color.color_two,
+            R.color.color_three,
+            R.color.color_four,
+            R.color.color_five,
+            R.color.color_six,
+            R.color.color_seven,
+            R.color.color_eight,
+            R.color.color_nine,
+            R.color.color_ten,
+            R.color.color_eleven,
+            R.color.color_twelve,
+            R.color.color_thirteen,
+            R.color.color_fourteen,
+            R.color.color_fifteen,
+            R.color.color_sixteen,
+            R.color.color_seventeen
+        )
+        binding.relativeLayout.visibility= View.GONE
         Toast.makeText(requireContext(), "Color", Toast.LENGTH_SHORT).show()
         binding.rvColorBg.visibility = View.VISIBLE
 
@@ -200,14 +243,13 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             requireContext(),
             PickerLayoutManager.HORIZONTAL,
             false
-        )  // bánh xe chọn màu
-        pickerLayoutManager.changeAlpha = true    //thay đổi độ mờ của các mục
-        pickerLayoutManager.scaleDownBy =
-            0.99f   //giảm kích thước của các mục khi chúng di chuyển xa
+        )
+        pickerLayoutManager.changeAlpha = true
+        pickerLayoutManager.scaleDownBy = 0.99f
         pickerLayoutManager.scaleDownDistance = 0.8f
 
 
-        colorAdapter = ColorAdapter(listColors)
+        colorAdapter = ColorAdapter(listDrawableColors)
         snapHelper.attachToRecyclerView(binding.rvEditText)
         binding.rvColorBg.layoutManager = pickerLayoutManager
 
@@ -215,76 +257,34 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             adapter = colorAdapter
         }
 
-
-        pickerLayoutManager.setOnScrollStopListener { view ->       //lắng nghe được gọi khi cuộn dừng lại và hiển thị một mục cụ thể
+        pickerLayoutManager.setOnScrollStopListener { view ->
             val position = binding.rvColorBg.getChildAdapterPosition(view)
-            val selectedItem = listColors?.get(position)             //lấy vị trí của mục hiện tại
-            if (selectedItem != null) {
-//                binding.ivBg.setImageResource(selectedItem.colorCode.toInt())
-                Toast.makeText(requireContext(), "Color" + selectedItem, Toast.LENGTH_SHORT).show()
+            Log.e("color", "color: -> " + position)
+
+                if (position in 0 until colorList.size) {
+                    binding.ivBg.setBackgroundResource(colorList[position])
+                } else {
+                    Toast.makeText(requireContext(), "say no", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+        override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+        ) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            if (requestCode == Utils.PERMISSION_REQUEST_CODE) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setUpView()
+                } else {
+                    Toast.makeText(
+                        requireContext(), "Storage permission is required...", Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
 
 
-//    fun colorEditing(){
-//                Toast.makeText(requireContext(), "Color", Toast.LENGTH_SHORT).show()
-//        colorAdapter = ColorAdapter(listColors)
-//        binding.rvColorBg.apply {
-//            adapter = colorAdapter
-//        }
-//    }
-
-//    private fun listColorData()  {
-//        val listNameColors = listOf(
-//            "#5369EC", "#4BD392", "#EC8DF4", "#FFD6B0", "#B0FAFF", "#FFB0B0", "#EA6E14", "#2984C6",
-//            "#3A4790", "#225E4F", "#C1DA28", "#791BB2", "#76412A", "#EFFD53", "#717797", "#16D0F9"
-//        )
-//        val listDrawableColors = listOf(
-//            R.drawable.color_one,
-//            R.drawable.color_two,
-//            R.drawable.color_three,
-//            R.drawable.color_four,
-//            R.drawable.color_five,
-//            R.drawable.color_six,
-//            R.drawable.color_seven,
-//            R.drawable.color_eight,
-//            R.drawable.color_nine,
-//            R.drawable.color_ten,
-//            R.drawable.color_eleven,
-//            R.drawable.color_twelve,
-//            R.drawable.color_thirteen,
-//            R.drawable.color_fourteen,
-//            R.drawable.color_fifteen,
-//            R.drawable.color_sixteen
-//        )
-//        val listTextColor = listOf("Color", "Color", "Color","Color", "Color", "Color","Color", "Color", "Color",
-//            "Color", "Color", "Color","Color", "Color", "Color", "Color")
-//
-//        for (i in 0 until listNameColors.size) {
-//            Log.d(TAG, "dataListColor: " + i)
-//            listColors?.add(ColorsBG(listNameColors.get(i), listDrawableColors.get(i), listTextColor.get(i)))
-//        }
-//    }
-
-
-    // permisstion
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == Utils.PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(requireContext(), "Storage Ok", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(
-                    requireContext(), "Storage permission is required...", Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-}
-
-//cm
