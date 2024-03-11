@@ -92,7 +92,7 @@
         app:tabTextAppearance="@style/TabTextAppearance" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/relativeLayout"
+        android:id="@+id/layoutTextEditing"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@color/color_six">

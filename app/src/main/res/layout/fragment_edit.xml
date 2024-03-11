@@ -92,34 +92,42 @@
         app:tabGravity="center"
         app:tabTextAppearance="@style/TabTextAppearance" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout"
+        android:background="@color/color_fourteen"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@color/color_six"
-        android:visibility="visible">
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tvNameEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_marginStart="4dp"
             android:paddingStart="20dp"
-            android:text="@string/color"
+            android:text="Color"
             android:textColor="@color/gray"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvEditText"
-            android:layout_width="351dp"
-            android:layout_height="51dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_toEndOf="@id/tvNameEdit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="2dp"
             android:clipToPadding="false"
-            android:orientation="horizontal" />
-    </RelativeLayout>
+            android:paddingLeft="183dp"
+            android:paddingRight="183dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.992"
+            app:layout_constraintStart_toEndOf="@+id/tvNameEdit"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.514" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvColorBg"
@@ -129,7 +137,7 @@
         android:clipToPadding="false"
         android:paddingLeft="183dp"
         android:paddingRight="183dp"
-            android:visibility="visible"
+        android:visibility="visible"
         tools:listitem="@layout/item_edit" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
