@@ -20,9 +20,9 @@ import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentEditBinding
-import com.example.daily.ui.fragment.edit.colorEdittingBG.ColorAdapter
-import com.example.daily.ui.fragment.edit.colorEdittingBG.ColorsBG
-import com.example.daily.ui.fragment.edit.unsplash.UnSplashFragment
+import com.example.daily.ui.fragment.edit.backGroundEditing.colorEdittingBG.ColorAdapter
+import com.example.daily.ui.fragment.edit.backGroundEditing.colorEdittingBG.ColorsBG
+import com.example.daily.ui.fragment.edit.backGroundEditing.unsplash.UnSplashFragment
 import com.example.daily.util.PickerLayoutManager
 import com.example.daily.util.Utils
 import com.google.android.material.tabs.TabLayout
@@ -34,19 +34,20 @@ import kotlinx.coroutines.withContext
 
 class EditFragment : BaseFragment<FragmentEditBinding>() {
 
-    private lateinit var launcher: ActivityResultLauncher<PickVisualMediaRequest>
 
     private lateinit var colorAdapter: ColorAdapter
 
     var listDrawableColors: List<ColorsBG>? = null
     private val snapHelper: SnapHelper = LinearSnapHelper()
 
-    private lateinit var preferences: Preferences
-
-
-    override fun getViewBinding(
-        inflater: LayoutInflater, container: ViewGroup?
-    ): FragmentEditBinding {
+    private  val launcher: ActivityResultLauncher<PickVisualMediaRequest>  =registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            binding.ivBg?.setImageURI(uri)
+        } else {
+            Toast.makeText(requireContext(), "No say", Toast.LENGTH_SHORT).show()
+        }
+    }
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentEditBinding {
         return FragmentEditBinding.inflate(inflater)
     }
 
@@ -54,45 +55,35 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         clickListener()
     }
 
-
-
     override fun setUpView() {
         setUpTapLayoutMain()
         tabLayoutEditing()
     }
 
-    override fun onResume() {
-        super.onResume()
-        checkPermissionsLoadImage()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        preferences = Preferences.getInstance(requireContext())
-        launcher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            if (uri != null) {
-                binding.ivBg?.setImageURI(uri)
-            } else {
-                loadImageFromSharedPreferences()
-            }
-        }
-    }
-
-    private fun clickListener() {
-        binding.tvCancel.setOnClickListener {
-            activity?.onBackPressed()
-        }
-    }
-
-    private fun checkPermissionsLoadImage() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    //permissions
+    private fun checkPermissions() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
-            loadImageFromSharedPreferences()
+            launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         } else {
             requestStoragePermission()
         }
     }
-
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Utils.PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            } else {
+                Toast.makeText(
+                    requireContext(), "Storage permission is required...", Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
     private fun requestStoragePermission() {
         ActivityCompat.requestPermissions(
             requireActivity(),
@@ -101,15 +92,12 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         )
     }
 
-
-    private fun loadImageFromSharedPreferences() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val imageUri = preferences.getString("imageUri")
-            if (!imageUri.isNullOrEmpty()) {
-                withContext(Dispatchers.Main) {
-                    binding.ivBg?.setImageURI(Uri.parse(imageUri))
-                }
-            }
+    private fun clickListener() {
+        binding.tvCancel.setOnClickListener {
+            activity?.onBackPressed()
+        }
+        binding.tvSave.setOnClickListener {
+            Toast.makeText(requireContext(), "Save", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -139,7 +127,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         binding.tabLayoutBg.visibility = View.GONE
                         binding.relativeLayout.visibility = View.VISIBLE
                         binding.rvColorBg.visibility = View.GONE
-                        Toast.makeText(requireContext(), "TextEdittoing", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -158,7 +145,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         )
 
         val library = binding.tabLayoutBg.newTab()
-        library.text = "Library"
+        library.text = resources.getString(R.string.library)
         library.setIcon(R.drawable.icon_libary)
 
         val unSplash = binding.tabLayoutBg.newTab()
@@ -175,12 +162,13 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
         binding.tabLayoutBg.getTabAt(0)?.view?.setOnClickListener {
             binding.rvColorBg.visibility = View.GONE
-            launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            checkPermissions()
             binding.ivBg?.setImageURI(null)
         }
 
         binding.tabLayoutBg.getTabAt(1)?.view?.setOnClickListener {
-            clickUnsplash()
+            binding.rvColorBg.visibility = View.GONE
+            openFragment(UnSplashFragment::class.java, null, true)
         }
 
         binding.tabLayoutBg.getTabAt(2)?.view?.setOnClickListener {
@@ -188,15 +176,9 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         }
     }
 
-    private fun clickUnsplash() {
-        binding.rvColorBg.visibility = View.GONE
-        openFragment(UnSplashFragment::class.java, null, true)
-        Toast.makeText(requireContext(), "UnSplash", Toast.LENGTH_SHORT).show()
-    }
-
     private fun colorEditing() {
         listDrawableColors = listOf(
-           R.drawable.color_one,
+            R.drawable.color_one,
             R.drawable.color_two,
             R.drawable.color_three,
             R.drawable.color_four,
@@ -214,7 +196,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             R.drawable.color_sixteen,
             R.drawable.color_seventeen
         ).map { ColorsBG(it) }
-
 
         val colorList = listOf(
             R.color.color_one,
@@ -235,19 +216,15 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             R.color.color_sixteen,
             R.color.color_seventeen
         )
-        binding.relativeLayout.visibility= View.GONE
-        Toast.makeText(requireContext(), "Color", Toast.LENGTH_SHORT).show()
+
+        binding.relativeLayout.visibility = View.GONE
+        binding.ivBg.setImageURI(null)
         binding.rvColorBg.visibility = View.VISIBLE
 
-        val pickerLayoutManager = PickerLayoutManager(
-            requireContext(),
-            PickerLayoutManager.HORIZONTAL,
-            false
-        )
+        val pickerLayoutManager = PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
         pickerLayoutManager.changeAlpha = true
         pickerLayoutManager.scaleDownBy = 0.99f
         pickerLayoutManager.scaleDownDistance = 0.8f
-
 
         colorAdapter = ColorAdapter(listDrawableColors)
         snapHelper.attachToRecyclerView(binding.rvEditText)
@@ -259,32 +236,17 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
         pickerLayoutManager.setOnScrollStopListener { view ->
             val position = binding.rvColorBg.getChildAdapterPosition(view)
-            Log.e("color", "color: -> " + position)
 
-                if (position in 0 until colorList.size) {
-                    binding.ivBg.setBackgroundResource(colorList[position])
-                } else {
-                    Toast.makeText(requireContext(), "say no", Toast.LENGTH_SHORT).show()
-                }
-        }
-    }
-
-        override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
-        ) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            if (requestCode == Utils.PERMISSION_REQUEST_CODE) {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    setUpView()
-                } else {
-                    Toast.makeText(
-                        requireContext(), "Storage permission is required...", Toast.LENGTH_SHORT
-                    ).show()
-                }
+            if (position in 0 until colorList.size) {
+                binding.ivBg.setBackgroundResource(colorList[position])
+            } else {
+                Toast.makeText(requireContext(), "Please Select The Image ", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+  //Text Editting
+
+}
 
 

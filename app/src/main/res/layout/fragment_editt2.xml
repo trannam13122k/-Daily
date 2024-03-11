@@ -128,7 +128,7 @@
         android:paddingLeft="183dp"
         android:paddingRight="183dp"
         android:visibility="invisible"
-        tools:listitem="@layout/item_color" />
+        tools:listitem="@layout/item_edit" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="260dp"

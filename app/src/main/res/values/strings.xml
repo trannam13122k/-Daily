@@ -48,11 +48,12 @@
 
     <string name="iam">I Am</string>
     <string name="viewAll">ViewAll</string>
-    <string name="color">Color</string>
-
 
     <string name="unsplash">UnSplash</string>
     <string name="iAm">I Am</string>
+
+    <string name="library">Library</string>
+    <string name="color">Color</string>
 
 
 </resources>

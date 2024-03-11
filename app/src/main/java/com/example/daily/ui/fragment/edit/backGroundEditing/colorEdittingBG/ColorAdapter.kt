@@ -1,9 +1,9 @@
-package com.example.daily.ui.fragment.edit.colorEdittingBG
+package com.example.daily.ui.fragment.edit.backGroundEditing.colorEdittingBG
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.daily.databinding.ItemColorBinding
+import com.example.daily.databinding.ItemEditBinding
 
 class ColorAdapter(  private val listColor: List<ColorsBG>?) : RecyclerView.Adapter<ColorAdapter.ColorViewHolder>() {
 
@@ -11,7 +11,7 @@ class ColorAdapter(  private val listColor: List<ColorsBG>?) : RecyclerView.Adap
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
-        val binding = ItemColorBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ItemEditBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ColorViewHolder(binding)
     }
 
@@ -25,7 +25,7 @@ class ColorAdapter(  private val listColor: List<ColorsBG>?) : RecyclerView.Adap
        return listColor?.size ?: 0
     }
 
-    inner class ColorViewHolder(private val binding: ItemColorBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ColorViewHolder(private val binding: ItemEditBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(colors: ColorsBG) {
 
             binding.ivIcon.post {
@@ -38,5 +38,3 @@ class ColorAdapter(  private val listColor: List<ColorsBG>?) : RecyclerView.Adap
         }
     }
 }
-
-//cm

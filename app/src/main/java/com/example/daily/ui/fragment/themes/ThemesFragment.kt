@@ -1,11 +1,8 @@
 package com.example.daily.ui.fragment.themes
 
-import android.graphics.Rect
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
@@ -96,7 +93,4 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
             Toast.makeText(requireContext(), "onClickViewAllItem", Toast.LENGTH_SHORT).show()
         }
     }
-
-
-    //vface
 }
