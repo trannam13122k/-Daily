@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.daily.databinding.ItemEditBinding
 
 class TextEditingAdapter(private val listText: List<TextEdit>?) :
+
     RecyclerView.Adapter<TextEditingAdapter.TextEditingViewHolder>() {
 
     var onClickItem: ((TextEdit) -> Unit)? = null

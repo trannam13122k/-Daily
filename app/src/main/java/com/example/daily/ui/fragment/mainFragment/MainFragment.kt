@@ -32,8 +32,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun setUpView() {
         clickListener()
 
-        showDataRecycleView()
-
         viewPager2()
     }
 
@@ -66,21 +64,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         list.add(Content(" It's not how much you have, but how much you enjoy that makes happiness. - Charles Spurgeon "))
         list.add(Content(" Life is a journey, not a destination. - Ralph Waldo Emerson "))
 
-
         return list
     }
 
-    private fun showDataRecycleView() {
-//        adapter = MainContentAdapter()
-//        val linearLayoutManager =
-//            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-//        binding.rcvHome.setLayoutManager(linearLayoutManager)
-//
-//        adapter!!.setData(listDataContent())
-//        binding.rcvHome.setAdapter(adapter)
-
-
-    }
 
     private fun clickListener() {
 
