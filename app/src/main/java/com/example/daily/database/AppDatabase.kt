@@ -4,14 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.daily.database.dao.AddContentDao
 import com.example.daily.database.dao.CollectionDao
+import com.example.daily.model.AddModel
 import com.example.daily.model.CollectionModel
 
 
-@Database(entities = [CollectionModel::class], version = 1)
+@Database(entities = [CollectionModel::class, AddModel::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun collectionDao(): CollectionDao
+    abstract fun addContentDao(): AddContentDao
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null

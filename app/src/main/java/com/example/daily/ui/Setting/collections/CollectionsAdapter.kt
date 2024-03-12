@@ -7,7 +7,7 @@ import com.example.daily.databinding.ItemColletionsBinding
 
 import com.example.daily.model.CollectionModel
 
-class CollectionsAdapter  (private val listCollections : List<CollectionModel>?): RecyclerView.Adapter<CollectionsAdapter.CollectionsViewHolder>(){
+class CollectionsAdapter  (private var listCollections : List<CollectionModel>?): RecyclerView.Adapter<CollectionsAdapter.CollectionsViewHolder>(){
     var onClickItem: ((CollectionModel) -> Unit)? = null
     inner class CollectionsViewHolder(val binding: ItemColletionsBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(data : CollectionModel){
@@ -32,5 +32,9 @@ class CollectionsAdapter  (private val listCollections : List<CollectionModel>?)
 
     override fun getItemCount(): Int {
         return listCollections!!.size
+    }
+    fun setData(newList: List<CollectionModel>?) {
+        listCollections = newList
+        notifyDataSetChanged()
     }
 }

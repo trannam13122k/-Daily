@@ -36,6 +36,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         titleContent= preferences.getString("titleContent") ?: "General"
         binding.tvTitleContent.text=titleContent
         listContent= preferences.getList("myListKey")
+        if (listContent == null) {
+            // Nếu listContent là null hoặc rỗng, khởi tạo nó với một danh sách chứa một phần tử "Abcd"
+            listContent = listOf("Abcd")
+        }
         textColor = arguments?.getString("text_color") ?: "#000000"
         val bgColor = arguments?.getString("bg_color")
 //        val imageBg = arguments?.getString("imageUri")

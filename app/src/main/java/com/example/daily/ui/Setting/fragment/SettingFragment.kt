@@ -8,8 +8,8 @@ import com.example.daily.R
 import com.example.daily.databinding.FragmentSettingBinding
 import com.example.daily.ui.Setting.SettingAdapter
 import com.example.daily.ui.Setting.SettingModel
-import com.example.daily.ui.Setting.add.AddFragment
-import com.example.daily.ui.Setting.collections.CollectionsFragment
+import com.example.daily.ui.Setting.add.fragment.AddFragment
+import com.example.daily.ui.Setting.collections.fragment.CollectionsFragment
 import com.example.notisave.base.BaseFragment
 
 class SettingFragment:BaseFragment<FragmentSettingBinding>() {

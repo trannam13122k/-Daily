@@ -27,14 +27,6 @@
             android:textColor="@color/black"
             android:textSize="25dp"
             android:textStyle="bold" />
-<!--        <TextView-->
-<!--            android:layout_weight="3"-->
-<!--            android:textSize="20dp"-->
-<!--            android:id="@+id/tvAddNew"-->
-<!--            android:text="@string/add_new"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:paddingEnd="20dp"/>-->
     </LinearLayout>
     <ImageView
         android:id="@+id/ivNoData"
@@ -54,6 +46,8 @@
         app:layout_constraintBottom_toTopOf="@id/btnAdd"
         android:paddingBottom="60dp"/>
     <androidx.appcompat.widget.AppCompatButton
+        android:textSize="18dp"
+        android:textAllCaps="false"
         android:id="@+id/btnAdd"
         android:textColor="@color/white"
         android:text="@string/add"

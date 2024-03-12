@@ -9,10 +9,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="003792fe-89a6-4ce5-9fbf-d430b81f7d9b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/sha1-checksums.bin" afterDir="false" />
+    <list default="true" id="003792fe-89a6-4ce5-9fbf-d430b81f7d9b" name="Changes" comment="categories">
+      <change afterPath="$PROJECT_DIR$/app/google-services.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/add/fragment/AddFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/add/fragment/NewAddFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/collections/fragment/NewCollectionsFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
@@ -22,24 +23,28 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/database/SharedPreferences.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/database/SharedPreferences.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/database/AppDatabase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/database/AppDatabase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/database/dao/CollectionDao.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/database/dao/CollectionDao.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/repository/CollectionRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/repository/CollectionRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Categories/CategoriesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Categories/CategoriesFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Edit/fragment/EditFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Edit/fragment/EditFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Home/HomeAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Home/HomeAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Home/HomeFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/DetailBgTitleFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/DetailBgTitleFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/Model/ThemesModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/Model/ThemesModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/ThemesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/ThemesFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/adapter/ThemesAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/adapter/ThemesAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/adapter/TitleBackgroundAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Themes/adapter/TitleBackgroundAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/add/AddFragment.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/add/NewAddFragment.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/collections/CollectionsAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/collections/CollectionsAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/collections/CollectionsFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/collections/fragment/CollectionsFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/collections/NewCollectionsFragment.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/collections/viewModel/CollectionsViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/collections/viewModel/CollectionsViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/fragment/SettingFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/daily/ui/Setting/fragment/SettingFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/icon_close.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/icon_close.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragemnt_new_collection.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragemnt_new_collection.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_add.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_add.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_categories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_categories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail_bg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail_bg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_themes.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_collections.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_collections.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_colletions.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_colletions.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_content.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_content.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/new_app_widget.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/new_app_widget.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,8 +90,8 @@
       <list>
         <option value="resourceFile" />
         <option value="Kotlin Interface" />
-        <option value="Kotlin Class" />
         <option value="layoutResourceFile" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -109,6 +114,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;PROJECT_TRUSTED_KEY&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
@@ -117,7 +123,7 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;last_directory_selection&quot;: &quot;D:/DuLieu/Daily/app/src/main/res/drawable&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/DuLieu/-Daily/app&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;experimental&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -129,13 +135,14 @@
       <recent name="D:\DuLieu\Daily\app\src\main\java\com\example\daily\database" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="com.example.daily.database.firebase.model" />
-      <recent name="com.example.daily.ui.Edit.adapter" />
-      <recent name="com.example.daily.ui.Edit.model" />
-      <recent name="com.example.daily.ui.Setting.collections.viewModel" />
-      <recent name="com.example.daily.ui.Setting.collections" />
+      <recent name="com.example.daily.ui.Categories.Model" />
+      <recent name="com.example.daily.ui.Categories.Adapter" />
+      <recent name="com.example.daily.ui.Categories.viewModel" />
+      <recent name="com.example.daily.ui.Categories" />
+      <recent name="com.example.daily.ui.Setting.collections.fragment" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.example.daily.ui.Categories.viewModel" />
       <recent name="com.example.daily.ui.Edit.adapter" />
       <recent name="com.example.daily.ui.Edit.model" />
       <recent name="com.example.daily.database" />
@@ -298,6 +305,18 @@
       <option name="presentableId" value="Default" />
       <updated>1708325370806</updated>
     </task>
+    <task id="LOCAL-00001" summary="edit_background">
+      <created>1709893254839</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1709893254839</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="edit_background" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit_background" />
   </component>
 </project>

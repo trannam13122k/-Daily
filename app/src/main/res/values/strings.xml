@@ -41,4 +41,6 @@
     <string name="favorites">Favorites</string>
     <string name="my_new_collections">My new collection</string>
     <string name="text_editing">Text editing</string>
+    <string name="collections_content">Write a name for your new collection. You can rename it later.</string>
+    <string name="affirmations">Affirmations</string>
 </resources>

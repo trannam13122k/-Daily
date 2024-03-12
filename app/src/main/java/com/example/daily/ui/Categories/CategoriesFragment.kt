@@ -5,25 +5,40 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.daily.MainActivity
-import com.example.daily.database.firebase.Content
+import com.example.daily.R
 import com.example.daily.databinding.FragmentCategoriesBinding
+import com.example.daily.ui.Categories.Adapter.CategoriesAdapter
+import com.example.daily.ui.Categories.Adapter.CategoriesFirebaseAdapter
+import com.example.daily.ui.Categories.Model.Content
+import com.example.daily.ui.Categories.Model.ContentModelFireBase
+import com.example.daily.ui.Categories.viewModel.CategoriesViewModel
 import com.example.daily.ui.Home.HomeFragment
+import com.example.daily.ui.Setting.add.fragment.AddFragment
+import com.example.daily.ui.Themes.DetailBgTitleFragment
 import com.example.daily.ui.Themes.Model.TitleBackgroundModel
+import com.example.daily.ui.Themes.adapter.ThemesAdapter
 import com.example.daily.ui.Themes.adapter.TitleBackgroundAdapter
 import com.example.notisave.base.BaseFragment
 import java.io.Serializable
 
-class CategoriesFragment :BaseFragment<FragmentCategoriesBinding>() {
-    private var categoriesAdapter : CategoriesAdapter?=null
+class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
+    private var categoriesAdapter: CategoriesAdapter? = null
+    private var categoriesFireBaseAdapter: CategoriesFirebaseAdapter? = null
 
-    private var listCategories :List<Content>?=null
+    private var listCategories: List<Content>? = null
+    private var listCategoriesByTitle: List<ContentModelFireBase>? = null
 
     private var titleContentAdapter: TitleBackgroundAdapter? = null
     private var listTitleContent: List<TitleBackgroundModel>? = null
 
     private lateinit var preferences: Preferences
+
+    private lateinit var viewModel: CategoriesViewModel
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -35,6 +50,7 @@ class CategoriesFragment :BaseFragment<FragmentCategoriesBinding>() {
 
     override fun init() {
         preferences = Preferences.getInstance(requireContext())
+        viewModel = ViewModelProvider(this).get(CategoriesViewModel::class.java)
 
     }
 
@@ -62,40 +78,70 @@ class CategoriesFragment :BaseFragment<FragmentCategoriesBinding>() {
         }
         titleContentAdapter?.onClickItem = { titleBg ->
             val title = titleBg.title
+            viewModel.getContentByTitle(title) { contentList, _ ->
+                Log.d("contentList", "setUpDataTitleBg: $contentList")
+                setUpContentByTitle(contentList)
             }
-
         }
+    }
+
+    private fun setUpContentByTitle(contentList: List<ContentModelFireBase>) {
+        binding.rvContentByTitle.apply {
+            val layoutParams = GridLayoutManager(requireContext(), 2)
+            layoutManager = layoutParams
+            categoriesFireBaseAdapter = CategoriesFirebaseAdapter(contentList)
+            adapter = categoriesFireBaseAdapter
+        }
+        categoriesFireBaseAdapter?.onClickItem = {
+            preferences.setString("titleContent", it.nameContent).toString()
+            preferences.saveList("myListKey", it.listContent)
+            (activity as MainActivity).replaceFragment(HomeFragment())
+            Log.d("contentList", "setUpContentByTitle: ${it.listContent}")
+        }
+
+    }
 
 
     private fun setUpDataRecycleView() {
         listCategories = listOf(
-            Content("General", "true", listOf("123", "456"), ""),
-            Content("My favorite", "true", listOf("456", "789"), ""),
-            Content("My affirmations", "true", listOf("dsdsd", "dsds"), ""),
-            Content("My collection", "true", listOf("dsds12232", "456"), ""),
+            Content("General", "true", listOf("123", "456"), R.drawable.icon_general),
+            Content("My favorite", "true", listOf("456", "789"), R.drawable.icon_favourite),
+            Content("My affirmations", "true", listOf(), R.drawable.icon_user_content),
+            Content("My collection", "true", arrayListOf("dsds12232", "456"), R.drawable.book_open),
         )
         binding.rvContentDefault.apply {
             val layoutParams = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            layoutManager=layoutParams
-            categoriesAdapter= CategoriesAdapter(listCategories)
-            adapter=categoriesAdapter
+            layoutManager = layoutParams
+            categoriesAdapter = CategoriesAdapter(listCategories)
+            adapter = categoriesAdapter
             Log.d("listCategories", "setUpDataRecycleView: $listCategories")
         }
-        categoriesAdapter?.onClickItem ={
-            preferences.setString("titleContent",it.titleContent).toString()
-            preferences.saveList("myListKey", it.listContent)
-            Log.d("myListKey", "setUpDataRecycleView: ${it.listContent}")
+        categoriesAdapter?.onClickItem = {
+            when (it.titleContent) {
+                "General" -> {
+                    preferences.setString("titleContent", it.titleContent).toString()
+                    preferences.saveList("myListKey", it.listContent)
+                    (activity as MainActivity).replaceFragment(HomeFragment())
+                }
 
-            val bundle = Bundle().apply {
-                putString("titleContent",it.titleContent)
-                putSerializable("listContent", it.listContent as Serializable)
-                Log.d("themesList", "setUpDataBackground: ${it.listContent}")
+                "My favorite" -> {}
+                "My affirmations" -> {
+                    it.listContent = preferences.getList("list_my_affirmations")
+                    if (it.listContent == null) {
+                        (activity as MainActivity).replaceFragment(AddFragment())
+                    } else {
+                        preferences.setString("titleContent", it.titleContent).toString()
+                        preferences.saveList("myListKey", it.listContent)
+                        (activity as MainActivity).replaceFragment(HomeFragment())
+                    }
 
+                }
+
+                "My collection" -> {}
             }
-            var homeFragment = HomeFragment().apply {
-                arguments = bundle
-            }
-            (activity as MainActivity).replaceFragment(homeFragment)
+//
+
+
         }
     }
 

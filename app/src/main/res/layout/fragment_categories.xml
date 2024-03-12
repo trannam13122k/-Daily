@@ -88,4 +88,10 @@
         app:layout_constraintTop_toBottomOf="@id/rvContentDefault"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvContentByTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvTitleContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
