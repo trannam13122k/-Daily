@@ -12,26 +12,26 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.databinding.FragmentEditBinding
 import com.example.daily.ui.fragment.edit.backGroundEditing.colorEdittingBG.ColorAdapter
-import com.example.daily.ui.fragment.edit.backGroundEditing.colorEdittingBG.ColorsBG
 import com.example.daily.ui.fragment.edit.backGroundEditing.unsplash.UnSplashFragment
-import com.example.daily.ui.fragment.edit.textEditing.TextEdit
 import com.example.daily.ui.fragment.edit.textEditing.TextEditingAdapter
-import com.example.daily.util.DataColors
+import com.example.daily.ui.fragment.edit.textEditing.font.FontAdapter
+import com.example.daily.util.DataB
 import com.example.daily.util.PickerLayoutManager
 import com.example.daily.util.Utils
 import com.google.android.material.tabs.TabLayout
+import kotlin.math.log
 
 class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     private lateinit var colorAdapter: ColorAdapter
     private lateinit var textEditingAdapter: TextEditingAdapter
+    private lateinit var fontAdapter: FontAdapter
 
     private var type: String = "Color"
 
@@ -119,7 +119,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     }
 
     private fun setUpTapLayoutMain() {
-        binding.rvColorBg.visibility = View.GONE
+        binding.rcvItem.visibility = View.GONE
         binding.tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
         binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.icon_bg_edit))
@@ -142,7 +142,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         binding.ivName.text = getString(R.string.text_editing)
                         binding.tabLayoutBg.visibility = View.GONE
                         binding.relativeLayout.visibility = View.VISIBLE
-                        binding.rvColorBg.visibility = View.VISIBLE
+                        binding.rcvItem.visibility = View.VISIBLE
                     }
                 }
             }
@@ -176,16 +176,16 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         binding.tabLayoutBg.addTab(color)
 
         binding.tabLayoutBg.getTabAt(0)?.view?.setOnClickListener {
-            binding.rvColorBg.visibility = View.GONE
+            binding.rcvItem.visibility = View.GONE
             checkPermissions()
             binding.ivBg?.setImageURI(null)
         }
         binding.tabLayoutBg.getTabAt(1)?.view?.setOnClickListener {
-            binding.rvColorBg.visibility = View.GONE
+            binding.rcvItem.visibility = View.GONE
             openFragment(UnSplashFragment::class.java, null, true)
         }
         binding.tabLayoutBg.getTabAt(2)?.view?.setOnClickListener {
-            binding.rvColorBg.visibility = View.VISIBLE
+            binding.rcvItem.visibility = View.VISIBLE
 
         }
     }
@@ -196,20 +196,20 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
         val pickerLayoutManager =
             PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
-        colorAdapter = ColorAdapter(DataColors.listDrawableColors)
+        colorAdapter = ColorAdapter(DataB.listDrawableColors)
         snapHelper.attachToRecyclerView(binding.rvEditText)
         pickerLayoutManager.apply {
             changeAlpha = true
             scaleDownBy = 0.99f
             scaleDownDistance = 0.8f
         }
-        binding.rvColorBg.layoutManager = pickerLayoutManager
-        binding.rvColorBg.adapter = colorAdapter
+        binding.rcvItem.layoutManager = pickerLayoutManager
+        binding.rcvItem.adapter = colorAdapter
 
         pickerLayoutManager.setOnScrollStopListener { view ->
-            val position = binding.rvColorBg.getChildAdapterPosition(view)
+            val position = binding.rcvItem.getChildAdapterPosition(view)
 
-            if (position in 0 until DataColors.colorList.size) {
+            if (position in 0 until DataB.colorList.size) {
                 setColor(type, position)
             } else {
                 Toast.makeText(requireContext(), "Please Select The Image ", Toast.LENGTH_SHORT)
@@ -220,12 +220,13 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     fun setColor(type: String, position: Int) {
         if (binding.tabLayout.getTabAt(0)?.isSelected == true) {
-            binding.ivBg.setBackgroundResource(DataColors.colorList.get(position))
+            binding.ivBg.setBackgroundResource(DataB.colorList.get(position))
         } else {
             when (type) {
                 "Color" -> {
-                    context?.getColor(DataColors.colorList[position])
+                    context?.getColor(DataB.colorList[position])
                         ?.let { binding.tvContent.setTextColor(it) }
+                    Log.e("setColor", "setColor: ${DataB.colorList[position]}", )
                 }
             }
 
@@ -237,61 +238,61 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     fun setUpTextEditing() {
 
-        val pickerLayoutManager =
-            PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
+        val pickerLayoutManager = PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
         pickerLayoutManager.apply {
             changeAlpha = true
             scaleDownBy = 0.99f
             scaleDownDistance = 0.8f
         }
-        textEditingAdapter = TextEditingAdapter(DataColors.listTextEditing)
         snapHelper.attachToRecyclerView(binding.rvEditText)
         binding.rvEditText.layoutManager = pickerLayoutManager
 
+        textEditingAdapter = TextEditingAdapter(DataB.listTextEditing)
         binding.rvEditText.adapter = textEditingAdapter
-
 
         pickerLayoutManager.setOnScrollStopListener { view ->
             val position = binding.rvEditText.getChildAdapterPosition(view)
-            val selectedItem = DataColors.listTextEditing?.get(position)
+            val selectedItem = DataB.listTextEditing?.get(position)
             binding.tvNameEdit.text = selectedItem?.text
             when (selectedItem?.text) {
                 "Color" -> {
                     type = "Color"
-                    binding.rvColorBg.visibility = View.VISIBLE
-
+                    binding.rcvItem.visibility = View.VISIBLE
                 }
 
                 "Font" -> {
-                    type = "Font"
-                    binding.rvColorBg.visibility = View.GONE
+                    binding.rcvItem.visibility = View.VISIBLE
                     Toast.makeText(requireContext(), "Font", Toast.LENGTH_SHORT).show()
+
+                    fontAdapter = FontAdapter(DataB.listFontEditing)
+                    fontAdapter.notifyDataSetChanged()
+                    binding.rcvItem.adapter = fontAdapter
 
                 }
 
                 "Size" -> {
                     Toast.makeText(requireContext(), "Size", Toast.LENGTH_SHORT).show()
-                    type = "Size"
+
                 }
 
                 "Alignment" -> {
                     Toast.makeText(requireContext(), "Alignment", Toast.LENGTH_SHORT).show()
-                    type = "Alignment"
+
                 }
 
                 "Case" -> {
                     Toast.makeText(requireContext(), "Case", Toast.LENGTH_SHORT).show()
-                    type = "Case"
+
                 }
 
                 "Shadow" -> {
                     Toast.makeText(requireContext(), "Shadow", Toast.LENGTH_SHORT).show()
-                    type = "Shadow"
+
                 }
 
                 "Stroke" -> {
                     Toast.makeText(requireContext(), "Stroke", Toast.LENGTH_SHORT).show()
-                    type = "Stroke"
+
                 }
             }
             Log.d("selectedItem", "onCreate: ${selectedItem?.text}")

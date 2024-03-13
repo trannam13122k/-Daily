@@ -3,8 +3,9 @@ package com.example.daily.util
 import com.example.daily.R
 import com.example.daily.ui.fragment.edit.backGroundEditing.colorEdittingBG.ColorsBG
 import com.example.daily.ui.fragment.edit.textEditing.TextEdit
+import com.example.daily.ui.fragment.edit.textEditing.font.FontEditting
 
-object DataColors {
+object DataB {
     val colorList = listOf(
         R.color.color_one,
         R.color.color_two,
@@ -25,18 +26,6 @@ object DataColors {
         R.color.color_seventeen
     )
 
-    val listTextEditing: List<TextEdit> = listOf(
-        TextEdit(R.drawable.icon_color, "Color"),
-        TextEdit(R.drawable.icon_font, "Font"),
-        TextEdit(R.drawable.icon_size, "Size"),
-        TextEdit(R.drawable.icon_alignment, "Alignment"),
-        TextEdit(R.drawable.icon_alignment_top, "Alignment Top"),
-        TextEdit(R.drawable.icon_case, "Case"),
-        TextEdit(R.drawable.icon_shadow, "Shadow"),
-        TextEdit(R.drawable.icon_stroke, "Stroke")
-    )
-
-
     var listDrawableColors: List<ColorsBG>? = listOf(
         R.drawable.color_one,
         R.drawable.color_two,
@@ -56,4 +45,29 @@ object DataColors {
         R.drawable.color_sixteen,
         R.drawable.color_seventeen
     ).map { ColorsBG(it) }
+
+    val listTextEditing: List<TextEdit> = listOf(
+        TextEdit(R.drawable.icon_color, "Color"),
+        TextEdit(R.drawable.icon_font, "Font"),
+        TextEdit(R.drawable.icon_size, "Size"),
+        TextEdit(R.drawable.icon_alignment, "Alignment"),
+        TextEdit(R.drawable.icon_alignment_top, "Alignment Top"),
+        TextEdit(R.drawable.icon_case, "Case"),
+        TextEdit(R.drawable.icon_shadow, "Shadow"),
+        TextEdit(R.drawable.icon_stroke, "Stroke")
+    )
+
+    var listFontEditing: List<FontEditting>? = listOf(
+        R.drawable.amatic_bold,
+        R.drawable.sacramento,
+        R.drawable.bahiana,
+        R.drawable.bubblerone,
+        R.drawable.bangers,
+        R.drawable.bellota,
+        R.drawable.caveatbrush,
+        R.drawable.bellefair,
+        R.drawable.coiny,
+        R.drawable.beaurivage
+    ).map { FontEditting(it) }
+
 }

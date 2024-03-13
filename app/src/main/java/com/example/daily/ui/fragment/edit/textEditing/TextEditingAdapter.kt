@@ -11,6 +11,11 @@ class TextEditingAdapter(private val listText: List<TextEdit>?) :
 
     var onClickItem: ((TextEdit) -> Unit)? = null
 
+    fun clearData(){
+        (listText as ArrayList).clear()
+        notifyDataSetChanged()
+    }
+
     inner class TextEditingViewHolder(private val binding: ItemEditBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(textEdit: TextEdit) {
