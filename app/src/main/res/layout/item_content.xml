@@ -23,11 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <ImageView
+            android:id="@+id/ivFavourite"
             android:layout_marginStart="20dp"
             android:src="@drawable/favourite"
             android:layout_width="wrap_content"

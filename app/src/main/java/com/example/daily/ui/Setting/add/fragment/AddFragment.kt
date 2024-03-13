@@ -79,6 +79,7 @@ class AddFragment :BaseFragment<FragmentAddBinding>(){
             if (collections.isEmpty()) {
                 binding.rvListAdd.visibility = View.GONE
                 binding.ivNoData.visibility=View.VISIBLE
+
             } else {
                 binding.rvListAdd.visibility = View.VISIBLE
                 binding.ivNoData.visibility=View.GONE

@@ -5,7 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.daily.R
 import com.example.daily.databinding.ItemContentBinding
+import com.example.daily.ui.Categories.Model.ContentModelFireBase
 
 
 class HomeAdapter (
@@ -13,11 +15,19 @@ class HomeAdapter (
     private val textColor: String,
 //    private val text_Font :Int
 ): RecyclerView.Adapter<HomeAdapter.HomeViewHolder>(){
+    var onClickFavourite: ((String) -> Unit)? = null
+    var isFavourite = true
     inner class HomeViewHolder(val binding: ItemContentBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(data :String){
             binding.content.text=data
             if (textColor != null) {
                 binding.content.setTextColor(Color.parseColor(textColor))
+            }
+
+            binding.ivFavourite.setOnClickListener {
+                isFavourite=!isFavourite
+                binding.ivFavourite.setImageResource(if(isFavourite) R.drawable.favourite else R.drawable.favourite_true)
+                onClickFavourite?.invoke(data)
             }
 //            val context = binding.root.context
 //            binding.content.typeface = ResourcesCompat.getFont(context, text_Font)

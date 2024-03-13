@@ -50,13 +50,10 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     private var listFont: List<ItemColorModel>? = null
 
 
-
-
     private val snapHelper: SnapHelper = LinearSnapHelper()
 
     override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
+        inflater: LayoutInflater, container: ViewGroup?
     ): FragmentEditBinding {
         return FragmentEditBinding.inflate(inflater)
     }
@@ -98,9 +95,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_REQUEST_CODE) {
@@ -130,35 +125,35 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             PickerItem(R.drawable.icon_shadow, "Shadow"),
             PickerItem(R.drawable.icon_stroke, "Stroke")
         )
-        listColor=listOf(
-            ItemColorModel("#5369EC",R.drawable.color_one,"Color"),
-            ItemColorModel("#4BD392",R.drawable.color_two,"Color"),
-            ItemColorModel("#EC8DF4",R.drawable.color_three,"Color"),
-            ItemColorModel("#FFD6B0",R.drawable.color_four,"Color"),
-            ItemColorModel("#B0FAFF",R.drawable.color_five,"Color"),
-            ItemColorModel("#FFB0B0",R.drawable.color_six,"Color"),
-            ItemColorModel("#EA6E14",R.drawable.color_seven,"Color"),
-            ItemColorModel("#2984C6",R.drawable.color_eight,"Color"),
-            ItemColorModel("#3A4790",R.drawable.color_nine,"Color"),
-            ItemColorModel("#225E4F",R.drawable.color_ten,"Color"),
-            ItemColorModel("#C1DA28",R.drawable.color_eleven,"Color"),
-            ItemColorModel("#791BB2",R.drawable.color_twelve,"Color"),
-            ItemColorModel("#76412A",R.drawable.color_thirteen,"Color"),
-            ItemColorModel("#EFFD53",R.drawable.color_fourteen,"Color"),
-            ItemColorModel("#717797",R.drawable.color_fifteen,"Color"),
-            ItemColorModel("#16D0F9",R.drawable.color_sixteen,"Color")
+        listColor = listOf(
+            ItemColorModel("#5369EC", 0, R.drawable.color_one, "Color"),
+            ItemColorModel("#4BD392", 0, R.drawable.color_two, "Color"),
+            ItemColorModel("#EC8DF4", 0, R.drawable.color_three, "Color"),
+//            ItemColorModel("#FFD6B0",R.drawable.color_four,"Color"),
+//            ItemColorModel("#B0FAFF",R.drawable.color_five,"Color"),
+//            ItemColorModel("#FFB0B0",R.drawable.color_six,"Color"),
+//            ItemColorModel("#EA6E14",R.drawable.color_seven,"Color"),
+//            ItemColorModel("#2984C6",R.drawable.color_eight,"Color"),
+//            ItemColorModel("#3A4790",R.drawable.color_nine,"Color"),
+//            ItemColorModel("#225E4F",R.drawable.color_ten,"Color"),
+//            ItemColorModel("#C1DA28",R.drawable.color_eleven,"Color"),
+//            ItemColorModel("#791BB2",R.drawable.color_twelve,"Color"),
+//            ItemColorModel("#76412A",R.drawable.color_thirteen,"Color"),
+//            ItemColorModel("#EFFD53",R.drawable.color_fourteen,"Color"),
+//            ItemColorModel("#717797",R.drawable.color_fifteen,"Color"),
+//            ItemColorModel("#16D0F9",R.drawable.color_sixteen,"Color")
         )
 
-        listFont= listOf(
-//            ItemColorModel(R.font.amatic_bold,R.drawable.amatic_bold,"Font"),
-//            ItemColorModel(R.font.sacramento_regular,R.drawable.sacramento,"Font"),
-//            ItemColorModel(R.font.bahiana_regular,R.drawable.bahiana,"Font"),
-//            ItemColorModel(R.font.bangers_regular,R.drawable.bangers,"Font"),
-//            ItemColorModel(R.font.bellota_regular,R.drawable.bellota,"Font"),
-//            ItemColorModel(R.font.caveat_brush_regular,R.drawable.caveat_brush,"Font"),
-//            ItemColorModel(R.font.bellefair_regular,R.drawable.bellefair,"Font"),
-//            ItemColorModel(R.font.coiny_regular,R.drawable.coiny,"Font"),
-//            ItemColorModel(R.font.beau_rivage_regular,R.drawable.bellefair,"Font"),
+        listFont = listOf(
+            ItemColorModel("", R.font.amatic_bold, R.drawable.amatic_bold, "Font"),
+            ItemColorModel("", R.font.sacramento_regular, R.drawable.sacramento, "Font"),
+            ItemColorModel("", R.font.bahiana_regular, R.drawable.bahiana, "Font"),
+            ItemColorModel("", R.font.bangers_regular, R.drawable.bangers, "Font"),
+            ItemColorModel("", R.font.bellota_regular, R.drawable.bellota, "Font"),
+            ItemColorModel("", R.font.caveat_brush_regular, R.drawable.caveat_brush, "Font"),
+            ItemColorModel("", R.font.bellefair_regular, R.drawable.bellefair, "Font"),
+            ItemColorModel("", R.font.coiny_regular, R.drawable.coiny, "Font"),
+            ItemColorModel("", R.font.beau_rivage_regular, R.drawable.bellefair, "Font"),
         )
 
 
@@ -170,7 +165,8 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     }
 
     private fun setDataRecyclerView() {
-        val pickerLayoutManager = PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
+        val pickerLayoutManager =
+            PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
         pickerLayoutManager.changeAlpha = true
         pickerLayoutManager.scaleDownBy = 0.99f
         pickerLayoutManager.scaleDownDistance = 0.8f
@@ -180,22 +176,29 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         binding.rvEditText.adapter = adapter
 
         pickerLayoutManager.setOnScrollStopListener { view ->
-            binding.rvColorBg.visibility=View.VISIBLE
+            binding.rvColorBg.visibility = View.VISIBLE
             val position = binding.rvEditText.getChildAdapterPosition(view)
             val selectedItem = list?.get(position)
             binding.tvNameEdit.text = selectedItem?.text
-            when(selectedItem?.text){
-                "Color" ->{setupRecyclerView(requireContext(),listColor!!)}
-                "Font" ->{setupRecyclerView(requireContext(),listFont!!)}
-                "Size" ->{}
-                "Alignment"->{}
-                "Case" ->{}
-                "Shadow"->{}
-                "Stroke"->{}
+            when (selectedItem?.text) {
+                "Color" -> {
+                    setupRecyclerView(requireContext(), listColor!!)
+                }
+
+                "Font" -> {
+                    setupRecyclerView(requireContext(), listFont!!)
+                }
+
+                "Size" -> {}
+                "Alignment" -> {}
+                "Case" -> {}
+                "Shadow" -> {}
+                "Stroke" -> {}
             }
             Log.d("selectedItem", "onCreate: ${selectedItem?.text}")
         }
     }
+
     fun setupRecyclerView(context: Context, itemList: List<ItemColorModel>): RecyclerView {
         if (!::adapterItem.isInitialized) {
             adapterItem = ItemPickAdapter(requireContext(), itemList, binding.rvColorBg)
@@ -204,7 +207,8 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         }
 
         adapterItem.notifyDataSetChanged()
-        val pickerLayoutManager = PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
+        val pickerLayoutManager =
+            PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
         pickerLayoutManager.changeAlpha = true
         pickerLayoutManager.scaleDownBy = 0.99f
         pickerLayoutManager.scaleDownDistance = 0.8f
@@ -215,26 +219,30 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         pickerLayoutManager.setOnScrollStopListener { view ->
             val position = binding.rvColorBg.getChildAdapterPosition(view)
             val selectedItem = itemList?.get(position)
-            when(selectedItem?.text){
-                "Color" ->{
-                  preferences.setString("text_color",selectedItem.rs)
-                    binding.tvContent.setTextColor(Color.parseColor(selectedItem.rs))}
-                "Font" ->{
-                    val fontValue = ResourcesCompat.getFont(context, selectedItem.rs.toInt())?.toString()
+            when (selectedItem?.text) {
+                "Color" -> {
+                    preferences.setString("text_color", selectedItem.rs)
+                    binding.tvContent.setTextColor(Color.parseColor(selectedItem.rs))
+                }
+
+                "Font" -> {
+                    val fontValue =
+                        ResourcesCompat.getFont(context, selectedItem.font.toInt())?.toString()
                     preferences.setString("font", fontValue ?: "")
-                    binding.tvContent.typeface = ResourcesCompat.getFont(context, selectedItem.rs.toInt())}
-                "Size" ->{}
-                "Alignment"->{}
-                "Case" ->{}
-                "Shadow"->{}
-                "Stroke"->{}
+                    binding.tvContent.typeface =
+                        ResourcesCompat.getFont(context, selectedItem.font.toInt())
+                }
+
+                "Size" -> {}
+                "Alignment" -> {}
+                "Case" -> {}
+                "Shadow" -> {}
+                "Stroke" -> {}
 
             }
         }
         return binding.rvColorBg
     }
-
-
 
 
     override fun onResume() {
@@ -244,8 +252,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     private fun checkAndLoadImage() {
         if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             loadImageFromSharedPreferences()
@@ -265,8 +272,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     private fun setUpTabLayOutBackground() {
         binding.tabLayoutBg.setSelectedTabIndicatorColor(
             ContextCompat.getColor(
-                requireContext(),
-                R.color.gray
+                requireContext(), R.color.gray
             )
         )
         val tabLayout = binding.tabLayoutBg
@@ -286,7 +292,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         tabLayout.addTab(tab3)
 
         binding.tabLayoutBg.getTabAt(0)?.view?.setOnClickListener {
-            binding.rvColorBg.visibility= View.GONE
+            binding.rvColorBg.visibility = View.GONE
             launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
         binding.tabLayoutBg.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -299,7 +305,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
                     2 -> {
                         setColorRecyclerView()
-                        binding.rvColorBg.visibility= View.VISIBLE
+                        binding.rvColorBg.visibility = View.VISIBLE
                     }
                 }
 
@@ -311,7 +317,8 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     }
 
     private fun setColorRecyclerView() {
-        val pickerLayoutManager = PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
+        val pickerLayoutManager =
+            PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
         pickerLayoutManager.changeAlpha = true
         pickerLayoutManager.scaleDownBy = 0.99f
         pickerLayoutManager.scaleDownDistance = 0.8f
@@ -344,10 +351,10 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             Log.d("font", "setUpListener: $font")
             Log.d("color", "setUpListener: $imageUri")
             val bundle = Bundle().apply {
-                    putString("text_color", color?:"")
+                putString("text_color", color ?: "")
 //                    putString("bg_color",bgColor?:"")
-                    putString("text_font",font)
-                    putString("imageUri",imageUri)
+                putString("text_font", font)
+                putString("imageUri", imageUri)
 
             }
             // Khởi tạo HomeFragment và truyền Bundle vào
@@ -366,8 +373,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     private fun setUpTabLayOut() {
         binding.tabLayout.setSelectedTabIndicatorColor(
             ContextCompat.getColor(
-                requireContext(),
-                R.color.gray
+                requireContext(), R.color.gray
             )
         )
         binding.tabLayout.tabGravity = TabLayout.GRAVITY_FILL
@@ -381,14 +387,15 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         binding.ivName.text = getString(R.string.background_edit)
                         binding.tabLayoutBg.visibility = View.VISIBLE
                         binding.relativeLayout.visibility = View.GONE
-                        binding.rvColorBg.visibility= View.GONE
+                        binding.rvColorBg.visibility = View.GONE
 
                     }
+
                     1 -> {
                         binding.ivName.text = getString(R.string.text_editing)
                         binding.tabLayoutBg.visibility = View.GONE
                         binding.relativeLayout.visibility = View.VISIBLE
-                        binding.rvColorBg.visibility= View.GONE
+                        binding.rvColorBg.visibility = View.GONE
                     }
 
                 }
@@ -398,6 +405,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
+
     companion object {
         private const val PERMISSION_REQUEST_CODE = 100
     }

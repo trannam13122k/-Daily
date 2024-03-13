@@ -1,5 +1,6 @@
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.daily.ui.Home.ContentModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

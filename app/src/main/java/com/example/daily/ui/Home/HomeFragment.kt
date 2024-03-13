@@ -16,7 +16,6 @@ import com.example.notisave.base.BaseFragment
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private var listContent: List<String>? = null
-    private var listContent1: List<String>? = null
     private var homeAdapter: HomeAdapter? = null
 
     private var textColor: String = "" // Mặc định là màu đen
@@ -38,7 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         listContent= preferences.getList("myListKey")
         if (listContent == null) {
             // Nếu listContent là null hoặc rỗng, khởi tạo nó với một danh sách chứa một phần tử "Abcd"
-            listContent = listOf("Abcd")
+//            listContent = listOf("Abcd",true)
         }
         textColor = arguments?.getString("text_color") ?: "#000000"
         val bgColor = arguments?.getString("bg_color")
@@ -92,5 +91,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             homeAdapter = HomeAdapter(listContent, textColor) // Truyền màu sắc cho HomeAdapter
             adapter = homeAdapter
         }
+        homeAdapter?.onClickFavourite ={
+
+        }
+
     }
 }
