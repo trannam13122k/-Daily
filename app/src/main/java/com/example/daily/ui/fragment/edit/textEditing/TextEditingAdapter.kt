@@ -1,45 +1,40 @@
 package com.example.daily.ui.fragment.edit.textEditing
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.daily.databinding.ItemEditBinding
+import com.example.daily.databinding.ItemColorPickerBinding
 
-class TextEditingAdapter(private val listText: List<TextEdit>?) :
+class TextEditingAdapter(private val context: Context, private var dataList: List<PickerItem>, private val recyclerView: RecyclerView?) :
 
     RecyclerView.Adapter<TextEditingAdapter.TextEditingViewHolder>() {
 
-    var onClickItem: ((TextEdit) -> Unit)? = null
+    var onClickItem: ((PickerItem) -> Unit)? = null
 
-    fun clearData(){
-        (listText as ArrayList).clear()
-        notifyDataSetChanged()
-    }
 
-    inner class TextEditingViewHolder(private val binding: ItemEditBinding) :
+    inner class TextEditingViewHolder(private val binding: ItemColorPickerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(textEdit: TextEdit) {
-            binding.ivIcon.post {
-                binding.ivIcon.setImageResource(textEdit.icon)
-            }
-
-            binding.root.setOnClickListener {
-                onClickItem?.invoke(textEdit)
-            }
+        fun bind(item: PickerItem) {
+            binding.ivIcon.setImageResource(item.icon)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextEditingViewHolder {
-        val binding = ItemEditBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemColorPickerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TextEditingViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-        return listText?.size ?: 0
+        return dataList.size
     }
 
     override fun onBindViewHolder(holder: TextEditingViewHolder, position: Int) {
-       holder.bind(listText!![position])
+        val item = dataList[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener {
+            recyclerView?.smoothScrollToPosition(position)
+        }
     }
 
 }
