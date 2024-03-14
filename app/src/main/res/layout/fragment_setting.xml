@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
-    tools:context=".ui.fragment.setting.SettingFragment">
+    tools:context=".ui.fragment.settingDaiLy.layoutSetting.SettingFragment">
 
 
     <ImageView

@@ -222,6 +222,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             openFragment(UnSplashFragment::class.java, null, true)
         }
         binding.tabLayoutBg.getTabAt(2)?.view?.setOnClickListener {
+            binding.ivBg?.setImageURI(null)
             binding.rcvItem.visibility = View.VISIBLE
             colorAdapter.notifyDataSetChanged()
             binding.rcvItem.adapter = colorAdapter

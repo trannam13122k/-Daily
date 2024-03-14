@@ -5,6 +5,7 @@ import com.example.daily.R
 import com.example.daily.ui.fragment.edit.backGroundEditing.colorEdittingBG.ColorsBG
 import com.example.daily.ui.fragment.edit.textEditing.textEffect.PickerItem
 import com.example.daily.ui.fragment.edit.textEditing.textEffect.pickerItem.ItemPickerModel
+import com.example.daily.ui.fragment.settingDaiLy.layoutSetting.SettingModel
 
 object DataB {
     val colorList = listOf(
@@ -122,5 +123,21 @@ object DataB {
         ItemPickerModel("#5369EC", 0, R.drawable.stroke2, "Color", 0, 0, 0,""),
         ItemPickerModel("#EC8DF4", 0, R.drawable.stroke3, "Color", 0, 0, 0,"")
     )
+
+
+// setting
+    val listSettings = listOf(
+    SettingModel("General", R.drawable.icon_setting),
+    SettingModel("Reminders", R.drawable.icon_reminders),
+    SettingModel("Widgets", R.drawable.icon_widgets)
+    )
+
+     val listAffirmations = listOf(
+         SettingModel("Collection", R.drawable.icon_book_open),
+         SettingModel("Add your own", R.drawable.feather),
+         SettingModel("Search", R.drawable.icon_search),
+         SettingModel("Favorite", R.drawable.icon_favourite)
+     )
+
 
 }
