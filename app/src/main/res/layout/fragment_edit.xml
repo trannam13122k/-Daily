@@ -94,9 +94,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout"
-        android:background="@color/color_fourteen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/color_fourteen"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -146,7 +146,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_13sdp"
         android:layout_marginBottom="@dimen/_20sdp"
-        android:background="@drawable/background_custom">
+        android:background="@drawable/background_custom"
+        tools:ignore="MissingClass">
 
         <ImageView
             android:id="@+id/ivBg"
@@ -154,16 +155,30 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
-        <TextView
-            android:id="@+id/tvContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/iAm"
-            android:textSize="@dimen/_18sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvContent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/iAm"
+                    android:textSize="@dimen/_18sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <com.example.daily.base.StrokedTextView-->
+<!--            android:id="@+id/tvContent"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/iAm"-->
+<!--            android:textSize="@dimen/_18sdp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:strokeThickness="3dp" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

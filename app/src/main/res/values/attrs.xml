@@ -4,4 +4,8 @@
         <attr name="appWidgetInnerRadius" format="dimension" />
         <attr name="appWidgetRadius" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="StrokedTextView">
+        <attr name="strokeThickness" format="dimension"/>
+        <attr name="strokeColor" format="color"/>
+    </declare-styleable>
 </resources>

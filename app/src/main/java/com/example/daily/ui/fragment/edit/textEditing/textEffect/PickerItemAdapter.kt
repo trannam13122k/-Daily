@@ -1,4 +1,4 @@
-package com.example.daily.ui.fragment.edit.textEditing
+package com.example.daily.ui.fragment.edit.textEditing.textEffect
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,12 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.daily.databinding.ItemColorPickerBinding
 
-class TextEditingAdapter(private val context: Context, private var dataList: List<PickerItem>, private val recyclerView: RecyclerView?) :
+class PickerItemAdapter(private val context: Context, private var dataList: List<PickerItem>, private val recyclerView: RecyclerView?) :
 
-    RecyclerView.Adapter<TextEditingAdapter.TextEditingViewHolder>() {
-
-    var onClickItem: ((PickerItem) -> Unit)? = null
-
+    RecyclerView.Adapter<PickerItemAdapter.TextEditingViewHolder>() {
 
     inner class TextEditingViewHolder(private val binding: ItemColorPickerBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -36,5 +33,4 @@ class TextEditingAdapter(private val context: Context, private var dataList: Lis
             recyclerView?.smoothScrollToPosition(position)
         }
     }
-
 }

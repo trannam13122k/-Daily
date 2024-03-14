@@ -1,4 +1,4 @@
-package com.example.daily.ui.fragment.edit.textEditing.pickerItem
+package com.example.daily.ui.fragment.edit.textEditing.textEffect.pickerItem
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.daily.databinding.ItemColorPickerBinding
 
 
-class ItemPickAdapter (private val context: Context, private var dataList: List<ItemColorModel>, private val recyclerView: RecyclerView?) :
-    RecyclerView.Adapter<ItemPickAdapter.TextViewHolder>() {
+class ItemPickerAdapter (private val context: Context, private var dataList: List<ItemPickerModel>, private val recyclerView: RecyclerView?) :
+    RecyclerView.Adapter<ItemPickerAdapter.TextViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextViewHolder {
         val inflater = LayoutInflater.from(context)
@@ -27,14 +27,14 @@ class ItemPickAdapter (private val context: Context, private var dataList: List<
 
     override fun getItemCount(): Int = dataList.size
 
-    fun swapData(newData: List<ItemColorModel>) {
+    fun swapData(newData: List<ItemPickerModel>) {
         dataList = newData
         notifyDataSetChanged()
     }
 
     inner class TextViewHolder(private val binding: ItemColorPickerBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ItemColorModel) {
+        fun bind(item: ItemPickerModel) {
             binding.ivIcon.setImageResource(item.icon)
         }
     }
