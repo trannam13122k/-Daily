@@ -1,4 +1,4 @@
-package com.example.daily.ui.fragment.edit.backGroundEditing.colorEdittingBG
+package com.example.daily.ui.fragment.themes.edit.backGroundEditing.colorEdittingBG
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

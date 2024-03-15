@@ -1,4 +1,4 @@
-package com.example.daily.ui.fragment.edit.textEditing.textEffect.pickerItem
+package com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.pickerItem
 
 import android.content.Context
 import android.view.LayoutInflater

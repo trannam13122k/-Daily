@@ -1,4 +1,4 @@
-package com.example.daily.ui.fragment.edit.textEditing.textEffect
+package com.example.daily.ui.fragment.themes.edit.textEditing.textEffect
 
 import android.content.Context
 import android.view.LayoutInflater

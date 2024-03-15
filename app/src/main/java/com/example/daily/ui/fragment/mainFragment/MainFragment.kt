@@ -8,7 +8,7 @@ import com.example.daily.databinding.FragmentMainBinding
 import com.example.daily.ui.fragment.content.Content
 import com.example.daily.ui.fragment.adapter.ViewPager2Adapter
 import com.example.daily.ui.fragment.categories.CategoriesFragment
-import com.example.daily.ui.fragment.setting.SettingFragment
+import com.example.daily.ui.fragment.settingDaiLy.settingMain.SettingFragment
 import com.example.daily.ui.fragment.themes.ThemesFragment
 
 class MainFragment : BaseFragment<FragmentMainBinding>() {

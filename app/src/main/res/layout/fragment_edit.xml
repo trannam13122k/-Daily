@@ -35,7 +35,6 @@
         android:id="@+id/constraint"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="@color/color_five"
         app:layout_constraintTop_toBottomOf="@id/llHeader">
 
         <TextView
@@ -86,7 +85,6 @@
         android:id="@+id/tabLayoutBg"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="@color/color_four"
         app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="center"
 
@@ -96,7 +94,6 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_fourteen"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -114,7 +111,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:visibility="visible"
             android:id="@+id/rvEditText"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -138,7 +134,6 @@
         android:clipToPadding="false"
         android:paddingLeft="183dp"
         android:paddingRight="183dp"
-        android:visibility="gone"
         tools:listitem="@layout/item_color_picker" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -156,30 +151,30 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
-                <TextView
-                    android:id="@+id/tvContent"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:text="@string/iAm"
-                    android:textSize="@dimen/_18sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/iAm"
+            android:textSize="@dimen/_18sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <com.example.daily.base.StrokedTextView-->
-<!--            android:id="@+id/tvContent"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:gravity="center"-->
-<!--            android:text="@string/iAm"-->
-<!--            android:textSize="@dimen/_18sdp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:strokeThickness="3dp" />-->
+        <!--        <com.example.daily.base.StrokedTextView-->
+        <!--            android:id="@+id/tvContent"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="@string/iAm"-->
+        <!--            android:textSize="@dimen/_18sdp"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:strokeThickness="3dp" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

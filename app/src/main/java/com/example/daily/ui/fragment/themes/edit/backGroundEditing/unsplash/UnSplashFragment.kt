@@ -1,4 +1,4 @@
-package com.example.daily.ui.fragment.edit.backGroundEditing.unsplash
+package com.example.daily.ui.fragment.themes.edit.backGroundEditing.unsplash
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

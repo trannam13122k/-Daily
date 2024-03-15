@@ -1,4 +1,4 @@
-package com.example.daily.ui.fragment.edit
+package com.example.daily.ui.fragment.themes.edit
 
 import android.Manifest
 import android.content.Context
@@ -24,11 +24,11 @@ import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentEditBinding
-import com.example.daily.ui.fragment.edit.backGroundEditing.colorEdittingBG.ColorAdapter
-import com.example.daily.ui.fragment.edit.backGroundEditing.unsplash.UnSplashFragment
-import com.example.daily.ui.fragment.edit.textEditing.textEffect.PickerItemAdapter
-import com.example.daily.ui.fragment.edit.textEditing.textEffect.pickerItem.ItemPickerAdapter
-import com.example.daily.ui.fragment.edit.textEditing.textEffect.pickerItem.ItemPickerModel
+import com.example.daily.ui.fragment.themes.edit.backGroundEditing.colorEdittingBG.ColorAdapter
+import com.example.daily.ui.fragment.themes.edit.backGroundEditing.unsplash.UnSplashFragment
+import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.PickerItemAdapter
+import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.pickerItem.ItemPickerAdapter
+import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.pickerItem.ItemPickerModel
 import com.example.daily.util.DataB
 import com.example.daily.util.PickerLayoutManager
 import com.example.daily.util.Utils
@@ -62,7 +62,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     override fun init() {
         preferences = Preferences.getInstance(requireContext())
-
         clickListener()
     }
 
@@ -175,14 +174,13 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         binding.ivName.text = getString(R.string.background_edit)
                         binding.tabLayoutBg.visibility = View.VISIBLE
                         binding.relativeLayout.visibility = View.GONE
-                        binding.rcvItem.visibility = View.GONE
                     }
 
                     1 -> {
                         binding.ivName.text = getString(R.string.text_editing)
                         binding.tabLayoutBg.visibility = View.GONE
                         binding.relativeLayout.visibility = View.VISIBLE
-
+                        binding.rcvItem.visibility= View.VISIBLE
                     }
                 }
             }
@@ -250,7 +248,11 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             val position = binding.rcvItem.getChildAdapterPosition(view)
 
             if (position in 0 until DataB.colorList.size) {
-                setEffect(type, position)
+              try {
+                  setEffect(type, position)
+              }catch (e:Throwable){
+                  e.printStackTrace()
+              }
             } else {
                 Toast.makeText(requireContext(), "Please Select The Image ", Toast.LENGTH_SHORT).show()
             }
@@ -397,7 +399,11 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
         pickerLayoutManager.setOnScrollStopListener { view ->
             val position = binding.rcvItem.getChildAdapterPosition(view)
-            setEffect(type, position)
+            try {
+                setEffect(type, position)
+            }catch (e:Throwable){
+                e.printStackTrace()
+            }
 
         }
         return binding.rcvItem

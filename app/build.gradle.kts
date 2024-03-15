@@ -66,7 +66,6 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
 
     implementation ("com.github.bumptech.glide:glide:4.16.0")
-
     implementation("com.intuit.sdp:sdp-android:1.1.0")
 
 }

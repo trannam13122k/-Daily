@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.databinding.FragmentThemesBinding
-import com.example.daily.ui.fragment.edit.EditFragment
+import com.example.daily.ui.fragment.themes.edit.EditFragment
 import com.example.daily.ui.fragment.themes.background.Themes
 import com.example.daily.ui.fragment.themes.background.ThemesAdapter
+import com.example.daily.ui.fragment.themes.random.RandomFragment
 import com.example.daily.ui.fragment.themes.titleBG.TitleBackground
 import com.example.daily.ui.fragment.themes.titleBG.TitleBackgroundAdapter
 
@@ -42,6 +43,10 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
 
         binding.btnEdit.setOnClickListener {
             openFragment(EditFragment::class.java,null,true)
+        }
+
+        binding.constraintRandom.setOnClickListener {
+            openFragment(RandomFragment::class.java,null,true)
         }
 
     }

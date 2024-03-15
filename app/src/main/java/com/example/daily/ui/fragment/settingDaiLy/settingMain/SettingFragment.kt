@@ -1,8 +1,8 @@
-package com.example.daily.ui.fragment.settingDaiLy.layoutSetting
+package com.example.daily.ui.fragment.settingDaiLy.settingMain
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.daily.base.BaseFragment
 import com.example.daily.databinding.FragmentSettingBinding
 import com.example.daily.util.DataB
@@ -28,7 +28,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         affirmations()
     }
 
-
     private fun listenerClick() {
         binding.ivBack.setOnClickListener {
             activity?.onBackPressed()
@@ -37,58 +36,29 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
 
     private fun settings() {
         binding.rvSetting.apply {
-            val gridLayoutManager = GridLayoutManager(requireContext(), 2)
-            layoutManager = gridLayoutManager
+            val linearLayoutManager = LinearLayoutManager(requireContext())
+            layoutManager = linearLayoutManager
             settingAdapter = SettingAdapter(DataB.listSettings)
             adapter = settingAdapter
         }
         settingAdapter.onClickItem = { setting ->
-            when (setting.title) {
-                "General" -> {
-
-                }
-
-                "Reminders" -> {
-
-                }
-
-                "Widgets" -> {
-
-                }
+            if (setting.fragment != null){
+                openFragment(setting.fragment, null, true)
             }
-
         }
-
-
     }
 
     private fun affirmations() {
         binding.rvAffirmations.apply {
-            val gridLayoutManager = GridLayoutManager(context, 2)
-            layoutManager = gridLayoutManager
+            val linearLayoutManager = LinearLayoutManager(requireContext())
+            layoutManager = linearLayoutManager
             settingAdapter = SettingAdapter(DataB.listAffirmations)
             adapter = settingAdapter
         }
         settingAdapter?.onClickItem = { affirmations ->
-
-            when (affirmations.title) {
-                "Collection" -> {
-
-                }
-
-                "Add your own" -> {
-
-                }
-
-                "Search" -> {
-
-                }
-
-                "Favorite" -> {
-
-                }
+            if (affirmations.fragment != null){
+                openFragment(affirmations.fragment, null, true)
             }
-
         }
     }
 }

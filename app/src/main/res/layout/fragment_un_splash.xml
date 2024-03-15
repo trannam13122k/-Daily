@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
-    tools:context=".ui.fragment.edit.backGroundEditing.unsplash.UnSplashFragment">
+    tools:context=".ui.fragment.themes.edit.backGroundEditing.unsplash.UnSplashFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rlHeader"

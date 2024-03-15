@@ -1,4 +1,4 @@
-package com.example.daily.ui.fragment.settingDaiLy.layoutSetting
+package com.example.daily.ui.fragment.settingDaiLy.settingMain
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
