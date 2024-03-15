@@ -75,8 +75,7 @@ class AddFragment :BaseFragment<FragmentAddBinding>(){
 
             }
             else{
-//                val deleteFavourite = FavouriteModel(nameFavourite = item.nameAdd, isFavourite = true, day = item.day)
-//                viewModel.insertFavourite(deleteFavourite)
+                viewModel.deleteFavourite(item.nameAdd)
             }
         }
         addContentAdapter?.onClickDialog={ item->

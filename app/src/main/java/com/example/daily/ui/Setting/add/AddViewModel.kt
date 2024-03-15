@@ -42,6 +42,11 @@ class AddViewModel(application: Application) : AndroidViewModel(application) {
         repository.deleteContent(addModel)
     }
 
+    fun deleteFavourite(name: String) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteFavouriteByName(name)
+    }
+
+
 
 
 }
