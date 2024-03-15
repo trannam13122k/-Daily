@@ -10,17 +10,24 @@ import com.example.daily.model.AddModel
 class NewAddContentAdapter (private var list : List<AddModel>?): RecyclerView.Adapter<NewAddContentAdapter.CollectionsViewHolder>(){
     var onClickItem: ((AddModel) -> Unit)? = null
     var onClickIsFavourite: ((AddModel) -> Unit)? = null
+    var onClickDialog: ((AddModel) -> Unit)? = null
 
     var isFavourite = false
     inner class CollectionsViewHolder(val binding: ItemNewAddBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(data : AddModel){
             binding.tvContent.text=data.nameAdd
+            binding.tvDay.text=data.day
             binding.ivSave.setOnClickListener{
                 onClickItem?.invoke(data)
             }
+            binding.ivMore.setOnClickListener {
+                onClickDialog?.invoke(data)
+            }
+            binding.ivSave.setImageResource(if(data.nameCollection=="")R.drawable.icon_save else R.drawable.icon_lock_save)
+            binding.ivFavourite.setImageResource(if(data.isFavourite)R.drawable.icon_lock_favourite else R.drawable.icon_favourite_add)
             binding.ivFavourite.setOnClickListener {
                 data.isFavourite=!data.isFavourite
-                binding.ivFavourite.setImageResource(if(data.isFavourite)R.drawable.icon_favourite_add else R.drawable.icon_lock_favourite)
+                binding.ivFavourite.setImageResource(if(data.isFavourite)R.drawable.icon_lock_favourite else R.drawable.icon_favourite_add)
                 onClickIsFavourite?.invoke(data)
             }
 

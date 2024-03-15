@@ -2,6 +2,7 @@ package com.example.daily.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
@@ -16,7 +17,13 @@ interface AddContentDao {
     @Query("SELECT * FROM `add`")
     fun getAllContentLiveData(): LiveData<List<AddModel>>
 
-    @Query("SELECT COUNT(*) FROM collection WHERE nameCollection = :name")
+    @Update
+    fun updateContent(addModel: AddModel)
+
+    @Delete
+    fun deleteContent(addModel: AddModel)
+
+    @Query("SELECT COUNT(*) FROM 'add' WHERE nameAdd = :name")
     suspend fun countCollectionsByName(name: String): Int
 
     @Transaction
@@ -32,6 +39,9 @@ interface AddContentDao {
 
     @Query("UPDATE 'add' SET nameCollection = :nameCollection WHERE id = :id")
     suspend fun updateNameCollection(id: Long, nameCollection: String)
+
+    @Query("UPDATE 'add' SET isFavourite = :isFavourite WHERE id = :id")
+    suspend fun updateFavourite(id: Long, isFavourite :Boolean)
 
     @Query("SELECT * FROM 'add' WHERE nameCollection = :nameCollection")
     suspend fun getItemsByCollection(nameCollection: String): List<AddModel>

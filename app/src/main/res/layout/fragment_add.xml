@@ -27,14 +27,7 @@
             android:textColor="@color/black"
             android:textSize="25dp"
             android:textStyle="bold" />
-        <TextView
-            android:layout_weight="3"
-            android:textSize="25dp"
-            android:id="@+id/tvAdd"
-            android:text="@string/add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="20dp"/>
+
     </LinearLayout>
     <ImageView
         android:id="@+id/ivNoData"

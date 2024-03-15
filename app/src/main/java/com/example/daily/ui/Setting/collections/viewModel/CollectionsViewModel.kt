@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.daily.database.AppDatabase
 import com.example.daily.model.AddModel
 import com.example.daily.model.CollectionModel
-import com.example.daily.repository.CollectionRepository // Import CollectionRepository ở đây
+import com.example.daily.repository.CollectionRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -20,7 +20,8 @@ class CollectionsViewModel(application: Application) : AndroidViewModel(applicat
     init {
         val collectionDao = AppDatabase.getInstance(application).collectionDao()
         val addContentDao = AppDatabase.getInstance(application).addContentDao()
-        repository = CollectionRepository(collectionDao, addContentDao)
+        val favouriteDao = AppDatabase.getInstance(application).favouriteDao()
+        repository = CollectionRepository(collectionDao, addContentDao,favouriteDao)
         allCollections = repository.allCollection
     }
 

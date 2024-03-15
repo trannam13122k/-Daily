@@ -28,7 +28,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, fragment)
+            add(R.id.fragment_container, fragment)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             addToBackStack(null)
             commit()

@@ -11,23 +11,23 @@ import com.example.daily.ui.Categories.Model.ContentModelFireBase
 
 
 class HomeAdapter (
-    private val listContent : List<String>?,
+    private val listContent : List<String>,
     private val textColor: String,
 //    private val text_Font :Int
 ): RecyclerView.Adapter<HomeAdapter.HomeViewHolder>(){
-    var onClickFavourite: ((String) -> Unit)? = null
-    var isFavourite = true
+    var onClickFavourite: ((String, Boolean) -> Unit)? = null
+    var isFavourite= false
+//    var onClickItem: ((String) -> Unit)? = null
     inner class HomeViewHolder(val binding: ItemContentBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(data :String){
             binding.content.text=data
             if (textColor != null) {
                 binding.content.setTextColor(Color.parseColor(textColor))
             }
-
             binding.ivFavourite.setOnClickListener {
-                isFavourite=!isFavourite
-                binding.ivFavourite.setImageResource(if(isFavourite) R.drawable.favourite else R.drawable.favourite_true)
-                onClickFavourite?.invoke(data)
+                isFavourite =!isFavourite
+                binding.ivFavourite.setImageResource(if(isFavourite) R.drawable.favourite_true else R.drawable.favourite)
+                onClickFavourite?.invoke(data,isFavourite)
             }
 //            val context = binding.root.context
 //            binding.content.typeface = ResourcesCompat.getFont(context, text_Font)
@@ -44,6 +44,6 @@ class HomeAdapter (
     }
 
     override fun getItemCount(): Int {
-        return listContent!!.size
+        return listContent?.size ?: 0
     }
 }

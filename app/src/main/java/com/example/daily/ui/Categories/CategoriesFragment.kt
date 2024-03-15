@@ -1,14 +1,12 @@
 package com.example.daily.ui.Categories
 
 import Preferences
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.daily.MainActivity
 import com.example.daily.R
 import com.example.daily.databinding.FragmentCategoriesBinding
@@ -19,12 +17,9 @@ import com.example.daily.ui.Categories.Model.ContentModelFireBase
 import com.example.daily.ui.Categories.viewModel.CategoriesViewModel
 import com.example.daily.ui.Home.HomeFragment
 import com.example.daily.ui.Setting.add.fragment.AddFragment
-import com.example.daily.ui.Themes.DetailBgTitleFragment
 import com.example.daily.ui.Themes.Model.TitleBackgroundModel
-import com.example.daily.ui.Themes.adapter.ThemesAdapter
 import com.example.daily.ui.Themes.adapter.TitleBackgroundAdapter
 import com.example.notisave.base.BaseFragment
-import java.io.Serializable
 
 class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
     private var categoriesAdapter: CategoriesAdapter? = null

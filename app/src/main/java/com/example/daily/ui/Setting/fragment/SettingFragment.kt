@@ -10,6 +10,7 @@ import com.example.daily.ui.Setting.SettingAdapter
 import com.example.daily.ui.Setting.SettingModel
 import com.example.daily.ui.Setting.add.fragment.AddFragment
 import com.example.daily.ui.Setting.collections.fragment.CollectionsFragment
+import com.example.daily.ui.Setting.favorites.FavoritesFragment
 import com.example.notisave.base.BaseFragment
 
 class SettingFragment:BaseFragment<FragmentSettingBinding>() {
