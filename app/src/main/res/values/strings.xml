@@ -43,6 +43,7 @@
     <string name="favorites">Favorites</string>
     <string name="my_new_collections">My new collection</string>
     <string name="text_editing">Text Editing</string>
+    <string name="collections_content">Write a name for your new collection. You can rename it later.</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -54,6 +55,8 @@
 
     <string name="library">Library</string>
     <string name="color">Color</string>
+    <string name="delete">Delete\n</string>
+    <string name="affirmations">Affirmations</string>
 
 
 </resources>

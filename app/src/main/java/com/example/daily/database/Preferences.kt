@@ -2,8 +2,12 @@ package com.example.daily.database
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
-class Preferences(var sharedPreferences: SharedPreferences? = null) {
+
+class Preferences(private var sharedPreferences: SharedPreferences? = null) {
+    private val gson = Gson()
 
     fun setString(key: String, string: String) {
         sharedPreferences?.edit()?.putString(key, string)?.apply()
@@ -37,25 +41,33 @@ class Preferences(var sharedPreferences: SharedPreferences? = null) {
         return sharedPreferences?.getInt(key, 0)
     }
 
-    fun getFloat(key: String): Long? {
-        return sharedPreferences?.getLong(key, 0)
-    }
-
-    fun getLong(key: String): Float? {
+    fun getFloat(key: String): Float? {
         return sharedPreferences?.getFloat(key, 0f)
     }
 
+    fun getLong(key: String): Long? {
+        return sharedPreferences?.getLong(key, 0L)
+    }
+
+    fun saveList(key: String, list: List<String>?) {
+        val json = gson.toJson(list)
+        sharedPreferences?.edit()?.putString(key, json)?.apply()
+    }
+
+    fun getList(key: String): List<String>? {
+        val json = sharedPreferences?.getString(key, null)
+        return gson.fromJson(json, object : TypeToken<List<String>>() {}.type)
+    }
+
     companion object {
-        private val PREFS_NAME = "share_prefs"
+        private const val PREFS_NAME = "share_prefs"
         private var INSTANCE: Preferences? = null
 
         fun getInstance(context: Context) = INSTANCE ?: synchronized(Preferences::class.java) {
             INSTANCE ?: Preferences(
-                context.getSharedPreferences(PREFS_NAME, 0)
+                context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             )
                 .also { INSTANCE = it }
         }
     }
-
-
 }

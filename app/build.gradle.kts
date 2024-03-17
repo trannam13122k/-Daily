@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -67,5 +68,14 @@ dependencies {
 
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.intuit.sdp:sdp-android:1.1.0")
+
+    implementation (platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation ("com.google.firebase:firebase-core:21.1.1")
+    implementation ("com.google.firebase:firebase-firestore:24.10.3")
+    implementation ("com.google.firebase:firebase-auth:22.3.1")
+    implementation ("com.google.firebase:firebase-database:20.3.1")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+
+    implementation ("com.google.code.gson:gson:2.10.1")
 
 }

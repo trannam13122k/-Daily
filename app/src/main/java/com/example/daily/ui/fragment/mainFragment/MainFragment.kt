@@ -45,6 +45,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private fun getListQuestion(): List<Content> {
         val list: MutableList<Content> = ArrayList()
+
 //        for (i in 1..10) {
 //            list.add(Content("This is Question : $i"))
 //        }
@@ -65,6 +66,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         list.add(Content(" Life is a journey, not a destination. - Ralph Waldo Emerson "))
 
         return list
+
     }
 
 
