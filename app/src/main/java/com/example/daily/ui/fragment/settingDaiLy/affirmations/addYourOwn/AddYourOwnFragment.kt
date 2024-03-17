@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.database.Preferences
+import com.example.daily.databinding.FragmentAddContentCollectionsBinding
 import com.example.daily.databinding.FragmentAddYourOwnBinding
 import com.example.daily.model.AddModel
 import com.example.daily.model.FavouriteModel
 import com.example.daily.ui.activity.MainActivity
+import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.addContentCollectionsFragment.AddContentCollectionsFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.newAddDataYourOwn.NewAddFragment
+import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsFragment
 
 
 class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
@@ -27,10 +30,7 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
     private lateinit var preferences: Preferences
 
     private var addContentAdapter : AddYourOwnAdapter?=null
-
     private var listContent: List<AddModel> = listOf()
-
-
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -45,16 +45,8 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
     }
 
     override fun setUpView() {
-        listenerClick()
         setUpDataRecycleView()
-    }
-    private fun listenerClick() {
-        binding.ivBack.setOnClickListener {
-            activity?.onBackPressed()
-        }
-        binding.btnAdd.setOnClickListener{
-            (activity as MainActivity).replaceFragment(NewAddFragment())
-        }
+        setUpListener()
     }
 
     private fun setUpDataRecycleView() {
@@ -65,14 +57,14 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
             adapter= addContentAdapter
         }
         setUpData()
-//        addContentAdapter?.onClickItem = { item ->
-//            val bundle = Bundle()
-//            bundle.putLong("itemId", item.id) // Đặt dữ liệu vào Bundle, ở đây là ID của mục
-//            val fragment = AddContentCollectionsFragment()
-//            fragment.arguments = bundle
-//
-//            (activity as MainActivity).replaceFragment(fragment)
-//        }
+        addContentAdapter?.onClickItem = { item ->
+            val bundle = Bundle()
+            bundle.putLong("itemId", item.id) // Đặt dữ liệu vào Bundle, ở đây là ID của mục
+            val fragment = AddContentCollectionsFragment()
+            fragment.arguments = bundle
+
+            (activity as MainActivity).replaceFragment(fragment)
+        }
         addContentAdapter?.onClickIsFavourite ={item->
             Log.d("isFavourite", "setUpDataRecycleView: ${item.isFavourite}")
             val editFavourite = AddModel(id=item.id,nameAdd = item.nameAdd, nameCollection = item.nameCollection, isFavourite = item.isFavourite, day = item.day)
@@ -93,7 +85,6 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
 
     }
 
-    @SuppressLint("MissingInflatedId")
     private fun showDialog(item: AddModel) {
         val dialog = Dialog(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_delete_edit, null)
@@ -105,10 +96,10 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
                 putParcelable("addModel", item)
                 Log.d("showDialog", "showDialog: $item")
             }
-            val newAddFragment = NewAddFragment().apply {
+            val newAddFragment =NewAddFragment().apply {
                 arguments=bundle
             }
-            openFragment(NewAddFragment::class.java,null,true)
+            (activity as MainActivity).replaceFragment(newAddFragment)
             dialog.dismiss()
 
         }
@@ -134,12 +125,21 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
             }
             if (collections.isEmpty()) {
                 binding.rvListAdd.visibility = View.GONE
-                binding.ivNoData.visibility= View.VISIBLE
+                binding.ivNoData.visibility=View.VISIBLE
 
             } else {
                 binding.rvListAdd.visibility = View.VISIBLE
-                binding.ivNoData.visibility= View.GONE
+                binding.ivNoData.visibility=View.GONE
             }
+        }
+    }
+
+    private fun setUpListener() {
+        binding.ivBack.setOnClickListener {
+            (activity as MainActivity).supportFragmentManager.popBackStack()
+        }
+        binding.btnAdd.setOnClickListener{
+            (activity as MainActivity).replaceFragment(NewAddFragment())
         }
     }
 

@@ -1,6 +1,7 @@
-package com.example.daily.ui.fragment.settingDaiLy.affirmations.collections
+package com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.addContentCollectionsFragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +10,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
-import com.example.daily.databinding.FragmentCollectionsBinding
+import com.example.daily.database.Preferences
+import com.example.daily.databinding.FragmentAddContentCollectionsBinding
 import com.example.daily.model.CollectionModel
-import com.example.daily.ui.activity.MainActivity
-import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.detailCollections.DetailCollectionsFragment
-import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.newCollections.NewCollectionsFragment
+import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsAdapter
+import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsViewModel
 
-class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
+class AddContentCollectionsFragment : BaseFragment<FragmentAddContentCollectionsBinding>() {
 
     private lateinit var viewModel: CollectionsViewModel
 
@@ -23,23 +24,23 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
 
     private var collectionsList: List<CollectionModel> = listOf()
 
+    private lateinit var preferences: Preferences
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentCollectionsBinding {
-        return FragmentCollectionsBinding.inflate(inflater)
+    ): FragmentAddContentCollectionsBinding {
+        return FragmentAddContentCollectionsBinding.inflate(inflater)
     }
 
     override fun init() {
+        preferences = Preferences.getInstance(requireContext())
         viewModel = ViewModelProvider(this).get(CollectionsViewModel::class.java)
-        setDataRecycleView()
     }
 
     override fun setUpView() {
-        setUpListener()
-
+        setDataRecycleView()
     }
-
 
     private fun setDataRecycleView() {
         binding.rvCollection.apply {
@@ -49,17 +50,13 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
             adapter = collectionAdapter
         }
         setData()
-        collectionAdapter?.onClickItem={
-            val bundle =Bundle()
-            bundle.putString("nameCollection", it.nameCollection)
-
-            val fragment = DetailCollectionsFragment().apply {
-                arguments= bundle
-            }
-            (activity as MainActivity).replaceFragment(fragment)
-
+        collectionAdapter?.onClickItem = {
+            preferences.setString("NameCollections", it.nameCollection)
+            val itemId = arguments?.getLong("itemId")
+            Log.d("itemId", "setDataRecycleView: $itemId")
+            viewModel.updateNameCollection(itemId!!, it.nameCollection)
+          activity?.onBackPressed()
         }
-
     }
 
     private fun setData() {
@@ -76,16 +73,6 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
                 binding.ivNoData.visibility = View.GONE
 
             }
-        }
-
-    }
-
-    private fun setUpListener() {
-        binding.ivBack.setOnClickListener {
-            (activity as MainActivity).supportFragmentManager.popBackStack()
-        }
-        binding.btnAdd.setOnClickListener {
-            (activity as MainActivity).replaceFragment(NewCollectionsFragment())
         }
     }
 }
