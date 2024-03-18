@@ -47,7 +47,7 @@ class NewCollectionsFragment : BaseFragment<FragmentNewCollectionsBinding>() {
         if (text.isEmpty()) {
             Toast.makeText(
                 requireContext(),
-                "Vui lòng nhập dữ liệu vào edit text",
+                "Please enter data into EditText",
                 Toast.LENGTH_SHORT
             ).show()
         } else {

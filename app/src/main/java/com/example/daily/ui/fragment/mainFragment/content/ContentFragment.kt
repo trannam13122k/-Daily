@@ -1,4 +1,4 @@
-package com.example.daily.ui.fragment.content
+package com.example.daily.ui.fragment.mainFragment.content
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

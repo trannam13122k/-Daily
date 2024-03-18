@@ -11,6 +11,7 @@ import com.example.daily.ui.fragment.settingDaiLy.affirmations.favourite.Favouri
 import com.example.daily.ui.fragment.settingDaiLy.setting.reminders.RemindersFragment
 import com.example.daily.ui.fragment.settingDaiLy.settingMain.SettingModel
 import com.example.daily.ui.fragment.settingDaiLy.setting.widgets.WidgetsFragment
+import com.example.daily.ui.fragment.themes.themBackground.background.model.TitleBackgroundModel
 
 object DataB {
     val colorList = listOf(
@@ -169,5 +170,18 @@ object DataB {
         SettingModel("Favorite", R.drawable.icon_favourite, FavouriteFragment::class.java)
     )
 
-
+    val listTitleBg = listOf(
+        "Most popular",
+        "Free today",
+        "Plain",
+        "Animated",
+        "Spiritual",
+        "Iridescent",
+        "Soft oasis",
+        "Tropical",
+        "Flower",
+        "Gems",
+        "Timeless heritage",
+        "Window"
+    ).map { TitleBackgroundModel(it) }
 }

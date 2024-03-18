@@ -8,6 +8,7 @@
     tools:context=".ui.fragment.settingDaiLy.affirmations.addYourOwn.newAddDataYourOwn.NewAddFragment">
 
     <LinearLayout
+        android:background="@color/white"
         android:weightSum="3"
         android:id="@+id/llHeader"
         android:layout_width="match_parent"

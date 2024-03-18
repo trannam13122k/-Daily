@@ -68,7 +68,7 @@ class NewAddFragment : BaseFragment<FragmentNewAddBinding>() {
     private fun handleBtnSave() {
         val text = binding.edtAdd.text.toString().trim()
         if(text.isEmpty()){
-            Toast.makeText(requireContext(),"Vui lòng nhập dữ liệu vào edit text", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),"Please enter data into EditText", Toast.LENGTH_SHORT).show()
         }
         else{
             val senderRealTime = System.currentTimeMillis()

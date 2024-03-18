@@ -1,43 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_10sdp"
     android:layout_marginTop="250dp"
+    android:background="@drawable/custombg"
+    android:orientation="vertical"
+    android:padding="@dimen/_6sdp"
     app:cardCornerRadius="10dp">
-    <LinearLayout
-        android:paddingStart="100dp"
-        android:paddingEnd="100dp"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="10dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnEdit"
-            android:layout_gravity="center"
-            android:textAllCaps="false"
-            android:text="@string/edit"
-            android:background="@null"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnRemove"
-            android:layout_gravity="center"
-            android:textAllCaps="false"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:text="@string/delete"
-            android:textColor="@color/black"
-            android:layout_marginTop="20dp"
-            android:background="@null"
-            android:layout_marginBottom="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@null"
+        android:gravity="center"
+        android:text="@string/editContent"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_20sdp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/_15sdp"
+        android:background="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@null"
+        android:gravity="center"
+        android:text="@string/deleteContent"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_20sdp" />
+
+</LinearLayout>

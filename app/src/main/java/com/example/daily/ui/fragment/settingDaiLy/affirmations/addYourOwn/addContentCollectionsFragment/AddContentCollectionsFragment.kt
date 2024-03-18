@@ -39,7 +39,14 @@ class AddContentCollectionsFragment : BaseFragment<FragmentAddContentCollections
     }
 
     override fun setUpView() {
+        clickListener()
         setDataRecycleView()
+    }
+
+    private fun clickListener() {
+        binding.ivClose.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
     private fun setDataRecycleView() {

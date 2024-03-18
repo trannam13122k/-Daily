@@ -1,11 +1,15 @@
 package com.example.daily.ui.fragment.mainFragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.daily.base.BaseFragment
+import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentMainBinding
-import com.example.daily.ui.fragment.content.Content
+import com.example.daily.ui.fragment.mainFragment.content.Content
 import com.example.daily.ui.fragment.adapter.ViewPager2Adapter
 import com.example.daily.ui.fragment.categories.CategoriesFragment
 import com.example.daily.ui.fragment.settingDaiLy.settingMain.SettingFragment
@@ -17,7 +21,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     var adapter: ViewPager2Adapter? = null
 
+
+    private  var listContent: List<String> ?=null
+    private lateinit var preferences: Preferences
+    private lateinit var viewModel: MainViewModel
     private var mListquestion: List<Content>? = null
+    lateinit var titleContent: String
+
+    private var textColor: String = ""
+
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -27,12 +39,34 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     override fun init() {
+//        preferences = Preferences.getInstance(requireContext())
+//        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+//        titleContent= preferences.getString("titleContent") ?: "General"
+//        binding.tvTitleContent.text=titleContent
+//        listContent= preferences.getList("myListKey")
+//        if (listContent == null) {
+//            listContent = listOf("Abcd")
+//        }
+//        textColor = arguments?.getString("text_color") ?: "#000000"
+//        val imageBg = preferences.getString("imageBg")
+//
+//        imageBg?.let { uriString ->
+//            Glide.with(requireContext())
+//                .load(imageBg)
+//                .into(binding.imgBgMain)
+//        }
+//        handleDataContent()
     }
 
     override fun setUpView() {
         clickListener()
-
         viewPager2()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        preferences.setString("titleContent", titleContent!!)
+        Log.d("titleContent", "${titleContent.toString()}")
     }
 
     private fun viewPager2() {

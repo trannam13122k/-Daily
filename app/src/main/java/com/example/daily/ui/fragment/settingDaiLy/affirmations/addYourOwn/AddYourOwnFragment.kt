@@ -1,27 +1,26 @@
 package com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn
 
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.database.Preferences
-import com.example.daily.databinding.FragmentAddContentCollectionsBinding
 import com.example.daily.databinding.FragmentAddYourOwnBinding
 import com.example.daily.model.AddModel
 import com.example.daily.model.FavouriteModel
 import com.example.daily.ui.activity.MainActivity
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.addContentCollectionsFragment.AddContentCollectionsFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.newAddDataYourOwn.NewAddFragment
-import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsFragment
 
 
 class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
@@ -59,7 +58,7 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
         setUpData()
         addContentAdapter?.onClickItem = { item ->
             val bundle = Bundle()
-            bundle.putLong("itemId", item.id) // Đặt dữ liệu vào Bundle, ở đây là ID của mục
+            bundle.putLong("itemId", item.id)
             val fragment = AddContentCollectionsFragment()
             fragment.arguments = bundle
 
@@ -86,11 +85,26 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
     }
 
     private fun showDialog(item: AddModel) {
-        val dialog = Dialog(requireContext())
+        val dialog = Dialog(requireContext(), R.style.CustomDialogStyle)
         val view = layoutInflater.inflate(R.layout.dialog_delete_edit, null)
+
+        dialog.setContentView(view)
+
+        val window = dialog.window
+        if (window != null) {
+            val layoutParams = WindowManager.LayoutParams().apply {
+                copyFrom(window.attributes)
+                width = (resources.displayMetrics.widthPixels * 0.8).toInt()
+                height = WindowManager.LayoutParams.WRAP_CONTENT
+                gravity = Gravity.CENTER
+            }
+            window.attributes = layoutParams
+        }
+
+
         val btnEdit= view.findViewById<AppCompatButton>(R.id.btnEdit)
         val btnRemove = view.findViewById<AppCompatButton>(R.id.btnRemove)
-        dialog.setContentView(view)
+
         btnEdit.setOnClickListener {
             val bundle = Bundle().apply {
                 putParcelable("addModel", item)
@@ -108,6 +122,7 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
             viewModel.deleteContent(deleteContent)
             dialog.dismiss()
         }
+
         dialog.setCancelable(true)
         dialog.show()
     }

@@ -7,6 +7,8 @@
     <string name="app_widget_description">This is an app widget description</string>
     <string name="abcd">Abcd</string>
     <string name="edit">Edit</string>
+    <string name="editContent">Edit Content</string>
+
     <string name="random">Random</string>
     <string name="new_theme">New theme</string>
     <string name="setting">SETTINGS</string>
@@ -55,7 +57,9 @@
 
     <string name="library">Library</string>
     <string name="color">Color</string>
-    <string name="delete">Delete\n</string>
+    <string name="delete">Delete</string>
+    <string name="deleteContent">Delete Content</string>
+
     <string name="affirmations">Affirmations</string>
 
 

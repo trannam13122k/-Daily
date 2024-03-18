@@ -37,9 +37,7 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
 
     override fun setUpView() {
         setUpListener()
-
     }
-
 
     private fun setDataRecycleView() {
         binding.rvCollection.apply {
@@ -57,9 +55,7 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
                 arguments= bundle
             }
             (activity as MainActivity).replaceFragment(fragment)
-
         }
-
     }
 
     private fun setData() {
@@ -74,10 +70,8 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
             } else {
                 binding.rvCollection.visibility = View.VISIBLE
                 binding.ivNoData.visibility = View.GONE
-
             }
         }
-
     }
 
     private fun setUpListener() {

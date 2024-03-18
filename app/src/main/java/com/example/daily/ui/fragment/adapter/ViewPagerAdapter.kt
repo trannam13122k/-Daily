@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.example.daily.ui.fragment.content.Content
-import com.example.daily.ui.fragment.content.ContentFragment
+import com.example.daily.ui.fragment.mainFragment.content.Content
+import com.example.daily.ui.fragment.mainFragment.content.ContentFragment
 
 class ViewPagerAdapter(
     fm: FragmentManager,

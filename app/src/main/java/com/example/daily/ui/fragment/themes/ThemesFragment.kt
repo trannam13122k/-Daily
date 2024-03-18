@@ -1,24 +1,35 @@
 package com.example.daily.ui.fragment.themes
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.daily.R
+import com.bumptech.glide.Glide
 import com.example.daily.base.BaseFragment
+import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentThemesBinding
+import com.example.daily.ui.activity.MainActivity
 import com.example.daily.ui.fragment.themes.edit.EditFragment
-import com.example.daily.ui.fragment.themes.background.Themes
-import com.example.daily.ui.fragment.themes.background.ThemesAdapter
+import com.example.daily.ui.fragment.themes.themBackground.background.model.ThemesModel
+import com.example.daily.ui.fragment.themes.themBackground.background.adapter.ThemesAdapter
 import com.example.daily.ui.fragment.themes.random.RandomFragment
-import com.example.daily.ui.fragment.themes.titleBG.TitleBackground
-import com.example.daily.ui.fragment.themes.titleBG.TitleBackgroundAdapter
+import com.example.daily.ui.fragment.themes.themBackground.background.DetailBgTitleFragment
+import com.example.daily.ui.fragment.themes.themBackground.background.adapter.TitleBackgroundAdapter
+import com.example.daily.ui.fragment.themes.themBackground.background.model.TitleBackgroundModel
+import com.example.daily.util.DataB
+import java.io.Serializable
 
 class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
 
-    var titleBackgroundAdapter: TitleBackgroundAdapter? = null
+    private lateinit var preferences: Preferences
 
-    var themesAdapter: ThemesAdapter? = null
+    private lateinit var viewModel: ThemesViewModel
+    private var themesAdapter: ThemesAdapter? = null
+    private var titleBackgroundAdapter: TitleBackgroundAdapter? = null
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -28,12 +39,23 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
     }
 
     override fun init() {
-        clickListener()
+        preferences = Preferences.getInstance(requireContext())
+        val bg = preferences.getString("imageBg")
+        Glide.with(requireContext())
+            .load(bg)
+            .into(binding.ivBg)
+        viewModel = ViewModelProvider(this).get(ThemesViewModel::class.java)
+        themesAdapter = ThemesAdapter(emptyList())
+        viewModel.themes.observe(viewLifecycleOwner, Observer { listThemes ->
+            Log.d("listThemes", "init: $listThemes")
+            themesAdapter?.updateData(listThemes)
+        })
+        viewModel.fetchAllThemes()
     }
 
     override fun setUpView() {
-        setDataTitleBG()
-        setItemBG()
+        clickListener()
+        setUpDataTitleBg()
     }
 
     private fun clickListener() {
@@ -42,60 +64,55 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
         }
 
         binding.btnEdit.setOnClickListener {
-            openFragment(EditFragment::class.java,null,true)
+            openFragment(EditFragment::class.java, null, true)
         }
 
         binding.constraintRandom.setOnClickListener {
-            openFragment(RandomFragment::class.java,null,true)
+            openFragment(RandomFragment::class.java, null, true)
         }
 
     }
 
-    private fun setDataTitleBG() {
-        val listTitleBg = listOf(
-            "Most popular",
-            "Free today",
-            "Plain",
-            "Animated",
-            "Spiritual",
-            "Iridescent",
-            "Soft oasis",
-            "Tropical",
-            "Flower",
-            "Gems",
-            "Timeless heritage",
-            "Window"
-        ).map { TitleBackground(it) }
+    //rcv text ngang
+    private fun setUpDataTitleBg() {
 
-        titleBackgroundAdapter = TitleBackgroundAdapter(listTitleBg!!)
         binding.rvListTitleBackground.apply {
+            val layoutParams =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = layoutParams
+            titleBackgroundAdapter = TitleBackgroundAdapter(DataB.listTitleBg!!)
             adapter = titleBackgroundAdapter
         }
-
         titleBackgroundAdapter?.onClickItem = { titleBg ->
-            Toast.makeText(requireContext(), "Click title BG", Toast.LENGTH_SHORT).show()
+            val title = titleBg.title
+            viewModel.getThemesByTitle(title) { themesList, _ ->
+                setUpDataBackground(themesList)
+            }
         }
     }
 
-    private fun setItemBG() {
-
-        val listThemes = mutableListOf<Themes>()
-
-        for (i in 1..30) {
-            listThemes.add(Themes(R.drawable.bg_one, true))
+    //rcv bg
+    private fun setUpDataBackground(themesList: List<ThemesModel>) {
+        binding.rvListBackground.apply {
+            val layoutParams = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = layoutParams
+            themesAdapter = ThemesAdapter(themesList)
+            adapter = themesAdapter
         }
+        themesAdapter?.onClickViewAllItem = {
+            Log.d("it.titleBg", "setUpDataBackground: $themesList")
+            val bundle = Bundle().apply {
+                putString("titleBg", it.TitleBg)
+                putSerializable("themesList", themesList as Serializable)
+                Log.d("themesList", "setUpDataBackground: $themesList")
 
-        val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        binding.rvListBackground.layoutManager = staggeredGridLayoutManager
-
-        themesAdapter = ThemesAdapter(listThemes)
-        binding.rvListBackground.adapter = themesAdapter
-
-        themesAdapter!!.onClickItem = { titleBg ->
-            Toast.makeText(requireContext(), "onClickItem BackGround", Toast.LENGTH_SHORT).show()
-        }
-        themesAdapter!!.onClickViewAllItem = {
-            Toast.makeText(requireContext(), "onClickViewAllItem", Toast.LENGTH_SHORT).show()
+            }
+            var detailBgTitleFragment = DetailBgTitleFragment().apply {
+                arguments = bundle
+            }
+            (activity as MainActivity).replaceFragment(detailBgTitleFragment)
         }
     }
+
+
 }
