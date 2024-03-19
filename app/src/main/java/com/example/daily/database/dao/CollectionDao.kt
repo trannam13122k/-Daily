@@ -17,8 +17,6 @@ interface CollectionDao {
     @Query("SELECT * FROM collection")
     fun getAllCollectionLiveData(): LiveData<List<CollectionModel>>
 
-    //    @Query("DELETE  FROM collection WHERE nameCollection = :nameCollection")
-//    fun delete(nameCollection: String) : Int
     @Delete
     fun delete(collection: CollectionModel)
 

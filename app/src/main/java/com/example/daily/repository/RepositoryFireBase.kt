@@ -6,7 +6,7 @@ import com.example.daily.ui.fragment.themes.themBackground.background.model.Them
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class BackgroundRepository {
+class RepositoryFireBase {
     private val db = Firebase.firestore
 
     fun getAllThemes(callback: (List<ThemesModel>) -> Unit) {
@@ -31,6 +31,7 @@ class BackgroundRepository {
             .addOnSuccessListener { result ->
                 val themesList = mutableListOf<ThemesModel>()
                 for (document in result) {
+                    Log.d(TAG, "getThemesByTitle: "+ document.toString())
                     val theme = document.toObject(ThemesModel::class.java)
                     themesList.add(theme)
                 }

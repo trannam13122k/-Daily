@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "872651132853",
+    "firebase_url": "https://daily-fa21f-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "daily-fa21f",
+    "storage_bucket": "daily-fa21f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872651132853:android:0237909954cd50e81293fc",
+        "android_client_info": {
+          "package_name": "com.example.daily"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6R29rDlMgd3g2Bh5VPJ22jkEN9DXEGno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872651132853:android:2cff50dad4a2f6d91293fc",
+        "android_client_info": {
+          "package_name": "com.example.dailyxx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6R29rDlMgd3g2Bh5VPJ22jkEN9DXEGno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

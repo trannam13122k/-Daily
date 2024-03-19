@@ -1,4 +1,4 @@
-package com.example.daily.base
+package com.example.daily.effect
 
 import android.content.Context
 import android.graphics.Canvas

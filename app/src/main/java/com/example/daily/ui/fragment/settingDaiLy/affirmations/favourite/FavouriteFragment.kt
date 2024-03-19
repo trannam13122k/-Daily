@@ -1,6 +1,7 @@
 package com.example.daily.ui.fragment.settingDaiLy.affirmations.favourite
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
+import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentFavouriteBinding
 import com.example.daily.model.FavouriteModel
 
@@ -20,6 +22,8 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
 
     private var listFavorites: List<FavouriteModel> = listOf()
 
+    private lateinit var preferences: Preferences
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -29,6 +33,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
 
     override fun init() {
         viewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
+        preferences = Preferences.getInstance(requireContext())
     }
 
     override fun setUpView() {
@@ -49,6 +54,11 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
             collections?.let {
                 listFavorites = it
                 adapterFavorites!!.setData(listFavorites)
+                val stringList: List<String> = listFavorites.map { favoritesModel ->
+                    favoritesModel.nameFavourite
+                }
+                preferences.saveList("list_favorites", stringList)
+                Log.d("stringList", "setUpDataRecycleView: $stringList")
 
             }
             if (collections.isEmpty()) {

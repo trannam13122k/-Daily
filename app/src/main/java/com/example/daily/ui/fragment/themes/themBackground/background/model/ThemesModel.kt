@@ -5,5 +5,5 @@ import java.io.Serializable
 data class ThemesModel (
     var TitleBg: String ="",
     var image:String="",
-    var isKey :Boolean=true
+    var check :Boolean=true
 ):Serializable

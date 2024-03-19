@@ -1,6 +1,7 @@
 package com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.detailCollections
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
+import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentDetailCollectionsBinding
 import com.example.daily.model.AddModel
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.AddYourOwnAdapter
@@ -22,6 +24,8 @@ class DetailCollectionsFragment : BaseFragment<FragmentDetailCollectionsBinding>
 
     private var listContent: List<AddModel> = listOf()
 
+    private lateinit var preferences: Preferences
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -31,6 +35,7 @@ class DetailCollectionsFragment : BaseFragment<FragmentDetailCollectionsBinding>
 
     override fun init() {
         viewModel = ViewModelProvider(this).get(CollectionsViewModel::class.java)
+        preferences = Preferences.getInstance(requireContext())
         setDataRecycleView()
     }
 
@@ -56,6 +61,12 @@ class DetailCollectionsFragment : BaseFragment<FragmentDetailCollectionsBinding>
             collections?.let {
                 listContent = it
                 detailAdapter!!.setData(listContent)
+                val stringList: List<String> = listContent.map { addModel ->
+                    addModel.nameAdd
+                }
+                preferences.saveList("list_content_by_collection", stringList)
+                Log.d("stringList", "setUpDataRecycleView: $stringList")
+
             }
             if (collections.isEmpty()) {
                 binding.rvListAdd.visibility = View.GONE

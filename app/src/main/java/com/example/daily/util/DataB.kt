@@ -2,6 +2,7 @@ package com.example.daily.util
 
 import android.view.Gravity
 import com.example.daily.R
+import com.example.daily.ui.fragment.categories.model.Content
 import com.example.daily.ui.fragment.themes.edit.backGroundEditing.colorEdittingBG.ColorsBG
 import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.PickerItem
 import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.pickerItem.ItemPickerModel
@@ -184,4 +185,34 @@ object DataB {
         "Timeless heritage",
         "Window"
     ).map { TitleBackgroundModel(it) }
+
+    val listTitleContent = listOf(
+        TitleBackgroundModel("Most popular"),
+        TitleBackgroundModel("Improve your relationships"),
+        TitleBackgroundModel("Throught provoking"),
+        TitleBackgroundModel("Improve your mindset"),
+        TitleBackgroundModel("Look on the bright side"),
+        TitleBackgroundModel("Stay mentally strong"),
+    )
+
+    val listCategories = listOf(
+        Content("General", "true", listOf(
+            " Love is the master key that opens the gates of happiness. - Oliver Wendell Holmes ",
+            " The only way to do great work is to love what you do.- Steve Jobs ",
+            " The only way to do great work is to love what you do. - Steve Jobs ",
+            " Keep your face to the sunshine and you cannot see a shadow. - Helen Keller ",
+            " Hope is being able to see that there is light despite all of the darkness.- Desmond Tutu ",
+            " It's not how much you have, but how much you enjoy that makes happiness. - Charles Spurgeon ",
+            " Life is a journey, not a destination. - Ralph Waldo Emerson ",
+            " Love is the master key that opens the gates of happiness. - Oliver Wendell Holmes ",
+            " The only way to do great work is to love what you do.- Steve Jobs ",
+            " The only way to do great work is to love what you do. - Steve Jobs ",
+            " Keep your face to the sunshine and you cannot see a shadow. - Helen Keller ",
+            " Hope is being able to see that there is light despite all of the darkness.- Desmond Tutu ",
+            " It's not how much you have, but how much you enjoy that makes happiness. - Charles Spurgeon ",
+            " Life is a journey, not a destination. - Ralph Waldo Emerson ",), R.drawable.icon_general),
+        Content("My favorite", "true", listOf("456", "789"), R.drawable.icon_favourite),
+        Content("My affirmations", "true", listOf(), R.drawable.icon_user_content),
+        Content("My collection", "true", arrayListOf("dsds12232", "456"), R.drawable.book_open),
+    )
 }

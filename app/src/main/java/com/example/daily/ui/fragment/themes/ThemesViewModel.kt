@@ -3,11 +3,11 @@ package com.example.daily.ui.fragment.themes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.daily.repository.BackgroundRepository
+import com.example.daily.repository.RepositoryFireBase
 import com.example.daily.ui.fragment.themes.themBackground.background.model.ThemesModel
 
 class ThemesViewModel (): ViewModel() {
-    private val repository = BackgroundRepository()
+    private val repository = RepositoryFireBase()
     private val _themes = MutableLiveData<List<ThemesModel>>()
     val themes: LiveData<List<ThemesModel>> = _themes
 

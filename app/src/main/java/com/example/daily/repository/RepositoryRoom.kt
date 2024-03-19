@@ -3,15 +3,18 @@ package com.example.daily.repository
 import androidx.lifecycle.LiveData
 import com.example.daily.database.dao.AddContentDao
 import com.example.daily.database.dao.CollectionDao
+import com.example.daily.database.dao.EditDao
 import com.example.daily.database.dao.FavouriteDao
 import com.example.daily.model.AddModel
 import com.example.daily.model.CollectionModel
+import com.example.daily.model.EditModel
 import com.example.daily.model.FavouriteModel
 
-class CollectionRepository(
+class RepositoryRoom(
     private val collectionDao: CollectionDao,
     private val addContentDao: AddContentDao,
-    private val favouriteDao: FavouriteDao
+    private val favouriteDao: FavouriteDao,
+    private val editDao: EditDao
 ) {
 
     val allCollection : LiveData<List<CollectionModel>> = collectionDao.getAllCollectionLiveData()
@@ -19,6 +22,8 @@ class CollectionRepository(
     val allContent : LiveData<List<AddModel>> =addContentDao.getAllContentLiveData()
 
     val allFavourite : LiveData<List<FavouriteModel>> =favouriteDao.getAllFavouriteLiveData()
+
+    val allEdit : LiveData<List<EditModel>> =editDao.getAllLiveData()
 
     suspend fun insert(collection : CollectionModel){
         collectionDao.insertIfNotExists(collection)
@@ -67,5 +72,14 @@ class CollectionRepository(
     suspend fun deleteFavouriteByName(name: String) {
         favouriteDao.deleteByName(name)
     }
+
+    suspend fun insertEdit(editModel: EditModel){
+        editDao.insert(editModel)
+    }
+
+    suspend fun updateEdit(editModel: EditModel){
+        editDao.update(editModel)
+    }
+
 
 }

@@ -1,6 +1,6 @@
 package com.example.daily.ui.fragment.categories.model
 
-data class ContentHomeModel(
+data class Content(
     val titleContent :String ="",
     val isCheck :String="",
     var listContent: List<String>?=null,

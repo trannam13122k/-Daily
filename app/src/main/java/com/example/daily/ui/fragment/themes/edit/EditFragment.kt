@@ -17,13 +17,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
+import com.bumptech.glide.Glide
 import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentEditBinding
+import com.example.daily.model.EditModel
+import com.example.daily.ui.fragment.mainFragment.MainFragment
 import com.example.daily.ui.fragment.themes.edit.backGroundEditing.colorEdittingBG.ColorAdapter
 import com.example.daily.ui.fragment.themes.edit.backGroundEditing.unsplash.UnSplashFragment
 import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.PickerItemAdapter
@@ -39,7 +43,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-
 class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     private lateinit var colorAdapter: ColorAdapter
@@ -47,6 +50,17 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     private lateinit var adapterItem: ItemPickerAdapter
 
     private var type: String = "Color"
+
+    private lateinit var viewModel: EditViewModel
+
+    private var imageBg: String = ""
+    private var colorBg: Int = 0
+
+    private var textColor: Int = 0
+    private var size: Int = 0
+    private var alignment: Int = 0
+    private var font: Int = 0
+    private var textTransform: String = ""
 
     private val snapHelper: SnapHelper = LinearSnapHelper()
 
@@ -62,6 +76,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     override fun init() {
         preferences = Preferences.getInstance(requireContext())
+        viewModel = ViewModelProvider(this).get(EditViewModel::class.java)
         clickListener()
     }
 
@@ -69,7 +84,85 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         setUpTapLayoutMain()
         tabLayoutBackGroundEditing()
         setUpTextEditing()
+        setUpViewAll()
         colorEditing()
+    }
+
+    private fun setUpViewAll() {
+        viewModel.allEdit.observe(viewLifecycleOwner) { editList ->
+            if (editList.isEmpty()) {
+                textColor = R.color.white
+                size = 30
+                alignment = Gravity.CENTER
+                font = R.font.amatic_bold
+                binding.tvContent.typeface =
+                    ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
+                binding.tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
+                binding.tvContent.gravity = Gravity.CENTER
+                binding.tvContent.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.color_six
+                    )
+                )
+            } else {
+                val lastEdit = editList.last()
+                setBackGround(lastEdit)
+                setCaseText(lastEdit)
+                textColor = lastEdit.textColor
+                size = lastEdit.size
+                alignment = lastEdit.alignment
+                font = lastEdit.font
+                binding.tvContent.typeface =
+                    ResourcesCompat.getFont(requireContext(), lastEdit.font ?: R.font.amatic_bold)
+                binding.tvContent.setTextSize(
+                    TypedValue.COMPLEX_UNIT_SP,
+                    lastEdit.size.toFloat() ?: 30F
+                )
+                binding.tvContent.gravity = lastEdit.alignment ?: Gravity.CENTER
+                binding.tvContent.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        lastEdit.textColor ?: R.color.white
+                    )
+                )
+            }
+
+        }
+    }
+
+    private fun setCaseText(lastEdit: EditModel) {
+        when (lastEdit.textTransform) {
+            "UpperCase" -> {
+                binding.tvContent.text = binding.tvContent.text.toString()?.toUpperCase()
+            }
+
+            "UpperCaseAndLowerCase" -> {
+                var name = binding.tvContent.text.toString().trim()
+                var firstLetter = name.substring(0, 1)
+                val remainingLetters = name.substring(1, name.length).toLowerCase()
+
+                firstLetter = firstLetter.toUpperCase();
+                name = firstLetter + remainingLetters;
+
+                binding.tvContent.text = name
+                textTransform = "UpperCaseAndLowerCase"
+            }
+
+            "LowerCase" -> {
+                binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
+            }
+        }
+    }
+
+    private fun setBackGround(lastEdit: EditModel) {
+        if (lastEdit.imageBg.isNotEmpty()) {
+            Glide.with(requireContext())
+                .load(lastEdit.imageBg)
+                .into(binding.ivBg)
+        } else {
+            binding.ivBg.setBackgroundResource(lastEdit.imageColor)
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -78,7 +171,8 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             if (uri != null) {
                 binding.ivBg?.setImageURI(uri)
                 saveImageUriToSharedPreferences(uri.toString())
-
+                imageBg = uri.toString()
+                colorBg = 0
             } else {
                 Toast.makeText(requireContext(), "No Load Image", Toast.LENGTH_SHORT).show()
                 loadImageFromSharedPreferences()
@@ -152,8 +246,44 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         }
 
         binding.tvSave.setOnClickListener {
+            viewModel.allEdit.observe(viewLifecycleOwner) { edit ->
+                if (edit.isEmpty()) {
+                    var editAdd = EditModel(
+                        imageBg = imageBg,
+                        imageColor = colorBg,
+                        textColor = textColor,
+                        font = font,
+                        size = size,
+                        alignment = alignment,
+                        textTransform = textTransform
+                    )
+                    viewModel.insertEdit(editAdd)
+                } else {
+                    var lastEdit = edit.last()
+                    var edit = EditModel(
+                        id = lastEdit.id,
+                        imageBg = imageBg ?: lastEdit.imageBg,
+                        imageColor = colorBg ?: lastEdit.imageColor,
+                        textColor = textColor ?: R.color.black,
+                        font = font ?: R.font.amatic_bold,
+                        size = size ?: 30,
+                        alignment = alignment ?: Gravity.CENTER,
+                        textTransform = textTransform,
+                    )
+                    viewModel.updateEdit(edit)
+                }
+            }
+
             Toast.makeText(requireContext(), "Save", Toast.LENGTH_SHORT).show()
+            Log.d("Save", "imageBg: $imageBg")
+            Log.d("Save", "imageColor: $colorBg")
+            Log.d("Save", "textColor: $textColor")
+            Log.d("Save", "size: $size")
+            Log.d("Save", "alignment: $alignment")
+            Log.d("Save", "font: $font")
+            openFragment(MainFragment::class.java, null, true)
         }
+
     }
 
     private fun setUpTapLayoutMain() {
@@ -180,7 +310,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         binding.ivName.text = getString(R.string.text_editing)
                         binding.tabLayoutBg.visibility = View.GONE
                         binding.relativeLayout.visibility = View.VISIBLE
-                        binding.rcvItem.visibility= View.VISIBLE
+                        binding.rcvItem.visibility = View.VISIBLE
                     }
                 }
             }
@@ -205,7 +335,12 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         unSplash.setIcon(R.drawable.icon_unsplash)
         color.setIcon(R.drawable.icon_color)
 
-        binding.tabLayoutBg.setSelectedTabIndicatorColor(ContextCompat.getColor(requireContext(), R.color.gray))
+        binding.tabLayoutBg.setSelectedTabIndicatorColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.gray
+            )
+        )
         binding.tabLayoutBg.addTab(library)
         binding.tabLayoutBg.addTab(unSplash)
         binding.tabLayoutBg.addTab(color)
@@ -231,7 +366,8 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     private fun colorEditing() {
         binding.relativeLayout.visibility = View.GONE
 
-        val pickerLayoutManager = PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
+        val pickerLayoutManager =
+            PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
 
         colorAdapter = ColorAdapter(DataB.listDrawableColors)
         snapHelper.attachToRecyclerView(binding.rvEditText)
@@ -248,13 +384,14 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             val position = binding.rcvItem.getChildAdapterPosition(view)
 
             if (position in 0 until DataB.colorList.size) {
-              try {
-                  setEffect(type, position)
-              }catch (e:Throwable){
-                  e.printStackTrace()
-              }
+                try {
+                    setEffect(type, position)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
             } else {
-                Toast.makeText(requireContext(), "Please Select The Image ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please Select The Image ", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
@@ -268,43 +405,62 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                     context?.getColor(DataB.colorList[position])
                         ?.let { binding.tvContent.setTextColor(it) }
                     Log.e("setColor", "setColor: ${DataB.colorList[position]}")
-
+                    textColor = DataB.colorList[position]
                 }
 
                 "Font" -> {
-                    binding.tvContent.typeface = ResourcesCompat.getFont(requireContext(), DataB.listFont.get(position).font)
+                    binding.tvContent.typeface =
+                        ResourcesCompat.getFont(requireContext(), DataB.listFont.get(position).font)
+                    font = DataB.listFont.get(position).font
                 }
 
                 "Size" -> {
-                    binding.tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, DataB.listSize.get(position).size.toFloat())
+                    binding.tvContent.setTextSize(
+                        TypedValue.COMPLEX_UNIT_SP,
+                        DataB.listSize.get(position).size.toFloat()
+                    )
+                    size = DataB.listSize.get(position).size
                 }
 
                 "Alignment" -> {
-                    binding.tvContent.gravity= DataB.listAligment[position].alignment or Gravity.CENTER
+                    binding.tvContent.gravity =
+                        DataB.listAligment[position].alignment or Gravity.CENTER
+                    alignment = DataB.listAligment[position].alignment or Gravity.CENTER
                 }
+
                 "Alignment Top" -> {
-                    binding.tvContent.gravity=DataB.listAligmentTop[position].alignmentTop or Gravity.CENTER
+                    binding.tvContent.gravity =
+                        DataB.listAligmentTop[position].alignmentTop or Gravity.CENTER
+                    alignment = DataB.listAligmentTop[position].alignmentTop or Gravity.CENTER
                 }
+
                 "Case" -> {
-                    if (position==0){
-                        binding.tvContent.text= binding.tvContent.text.toString()?.toUpperCase()
-                    }else if (position==1){
+                    if (position == 0) {
+                        binding.tvContent.text = binding.tvContent.text.toString()?.toUpperCase()
+                        textTransform = "UpperCase"
+                    } else if (position == 1) {
                         var name = binding.tvContent.text.toString().trim()
                         var firstLetter = name.substring(0, 1)
-                        val remainingLetters = name.substring(1,name.length).toLowerCase()
+                        val remainingLetters = name.substring(1, name.length).toLowerCase()
 
                         firstLetter = firstLetter.toUpperCase();
                         name = firstLetter + remainingLetters;
 
-                        binding.tvContent.text= name
-
-                    }else  binding.tvContent.text= binding.tvContent.text.toString()?.toLowerCase()
+                        binding.tvContent.text = name
+                        textTransform = "UpperCaseAndLowerCase"
+                    } else {
+                        binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
+                        textTransform = "LowerCase"
+                    }
 
                 }
+
                 "Shadow" -> {
-
+                    Toast.makeText(requireContext(), "The function is currently updating", Toast.LENGTH_SHORT).show()
                 }
+
                 "Stroke" -> {
+                    Toast.makeText(requireContext(), "The function is currently updating", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -322,7 +478,8 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         snapHelper.attachToRecyclerView(binding.rvEditText)
         binding.rvEditText.layoutManager = pickerLayoutManager
 
-        pickerItemAdapter = PickerItemAdapter(requireContext(), DataB.listTextEditings!!, binding.rvEditText)
+        pickerItemAdapter =
+            PickerItemAdapter(requireContext(), DataB.listTextEditings!!, binding.rvEditText)
         binding.rvEditText.adapter = pickerItemAdapter
 
         binding.rcvItem.visibility = View.VISIBLE
@@ -401,7 +558,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             val position = binding.rcvItem.getChildAdapterPosition(view)
             try {
                 setEffect(type, position)
-            }catch (e:Throwable){
+            } catch (e: Throwable) {
                 e.printStackTrace()
             }
 

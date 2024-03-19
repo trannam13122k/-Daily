@@ -22,7 +22,7 @@ class ThemesAdapter (private var listThemes : List<ThemesModel>?): RecyclerView.
             binding.root.setOnClickListener {
                 onClickItem?.invoke(data)
             }
-            binding.ivKey.setImageResource(if (data.isKey) R.drawable.icon_key else {
+            binding.ivKey.setImageResource(if (data.check) R.drawable.icon_key else {
                 binding.ivKey.visibility = View.GONE
                 0 })
 

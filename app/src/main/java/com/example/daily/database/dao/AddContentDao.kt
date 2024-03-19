@@ -9,7 +9,6 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.example.daily.model.AddModel
 
-
 @Dao
 interface AddContentDao {
     @Insert

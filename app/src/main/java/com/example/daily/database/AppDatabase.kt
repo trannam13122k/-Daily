@@ -6,17 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.daily.database.dao.AddContentDao
 import com.example.daily.database.dao.CollectionDao
+import com.example.daily.database.dao.EditDao
 import com.example.daily.database.dao.FavouriteDao
 import com.example.daily.model.AddModel
 import com.example.daily.model.CollectionModel
+import com.example.daily.model.EditModel
 import com.example.daily.model.FavouriteModel
 
-@Database(entities = [CollectionModel::class, AddModel::class, FavouriteModel::class], version = 1)
+@Database(entities = [CollectionModel::class, AddModel::class, FavouriteModel::class, EditModel::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun collectionDao(): CollectionDao
     abstract fun addContentDao(): AddContentDao
     abstract fun favouriteDao(): FavouriteDao
+    abstract fun editDao() : EditDao
 
     companion object {
         @Volatile

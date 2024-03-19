@@ -4,18 +4,17 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.daily.ui.fragment.mainFragment.content.Content
-import com.example.daily.ui.fragment.mainFragment.content.ContentFragment
+import com.example.daily.ui.fragment.mainFragment.contentMain.ContentMainFragment
 
-class ViewPager2Adapter(fragmentActivity: FragmentActivity, private val mListquestion: List<Content>) :
+class ViewPager2Adapter(fragmentActivity: FragmentActivity, private val mListquestion: List<String>) :
     FragmentStateAdapter(fragmentActivity) {
 
     override fun createFragment(position: Int): Fragment {
         val question = mListquestion[position]
 
-        val questionFragment = ContentFragment()
+        val questionFragment = ContentMainFragment()
         val bundle = Bundle()
-//        bundle.putSerializable("question_object", question)
+        bundle.putSerializable("question_object", question)
 
         questionFragment.arguments = bundle
         return questionFragment
@@ -26,7 +25,7 @@ class ViewPager2Adapter(fragmentActivity: FragmentActivity, private val mListque
     }
 }
 
-//
+
 //class ViewPager2Adapter(
 //    private val fragmentActivity: FragmentActivity,
 //    private val listContent: List<String>,
