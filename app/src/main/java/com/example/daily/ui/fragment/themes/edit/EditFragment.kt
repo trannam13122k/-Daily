@@ -84,86 +84,86 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         setUpTapLayoutMain()
         tabLayoutBackGroundEditing()
         setUpTextEditing()
-        setUpViewAll()
+//        setUpViewAll()
         colorEditing()
     }
 
-    private fun setUpViewAll() {
-        viewModel.allEdit.observe(viewLifecycleOwner) { editList ->
-            if (editList.isEmpty()) {
-                textColor = R.color.white
-                size = 30
-                alignment = Gravity.CENTER
-                font = R.font.amatic_bold
-                binding.tvContent.typeface =
-                    ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
-                binding.tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
-                binding.tvContent.gravity = Gravity.CENTER
-                binding.tvContent.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.color_six
-                    )
-                )
-            } else {
-                val lastEdit = editList.last()
-                setBackGround(lastEdit)
-                setCaseText(lastEdit)
-                textColor = lastEdit.textColor
-                size = lastEdit.size
-                alignment = lastEdit.alignment
-                font = lastEdit.font
-                binding.tvContent.typeface =
-                    ResourcesCompat.getFont(requireContext(), lastEdit.font ?: R.font.amatic_bold)
-                binding.tvContent.setTextSize(
-                    TypedValue.COMPLEX_UNIT_SP,
-                    lastEdit.size.toFloat() ?: 30F
-                )
-                binding.tvContent.gravity = lastEdit.alignment ?: Gravity.CENTER
-                binding.tvContent.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        lastEdit.textColor ?: R.color.white
-                    )
-                )
-            }
-
-        }
-    }
-
-    private fun setCaseText(lastEdit: EditModel) {
-        when (lastEdit.textTransform) {
-            "UpperCase" -> {
-                binding.tvContent.text = binding.tvContent.text.toString()?.toUpperCase()
-            }
-
-            "UpperCaseAndLowerCase" -> {
-                var name = binding.tvContent.text.toString().trim()
-                var firstLetter = name.substring(0, 1)
-                val remainingLetters = name.substring(1, name.length).toLowerCase()
-
-                firstLetter = firstLetter.toUpperCase();
-                name = firstLetter + remainingLetters;
-
-                binding.tvContent.text = name
-                textTransform = "UpperCaseAndLowerCase"
-            }
-
-            "LowerCase" -> {
-                binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
-            }
-        }
-    }
-
-    private fun setBackGround(lastEdit: EditModel) {
-        if (lastEdit.imageBg.isNotEmpty()) {
-            Glide.with(requireContext())
-                .load(lastEdit.imageBg)
-                .into(binding.ivBg)
-        } else {
-            binding.ivBg.setBackgroundResource(lastEdit.imageColor)
-        }
-    }
+//    private fun setUpViewAll() {
+//        viewModel.allEdit.observe(viewLifecycleOwner) { editList ->
+//            if (editList.isEmpty()) {
+//                textColor = R.color.white
+//                size = 30
+//                alignment = Gravity.CENTER
+//                font = R.font.amatic_bold
+//                binding.tvContent.typeface =
+//                    ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
+//                binding.tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
+//                binding.tvContent.gravity = Gravity.CENTER
+//                binding.tvContent.setTextColor(
+//                    ContextCompat.getColor(
+//                        requireContext(),
+//                        R.color.color_six
+//                    )
+//                )
+//            } else {
+//                val lastEdit = editList.last()
+//                setBackGround(lastEdit)
+//                setCaseText(lastEdit)
+//                textColor = lastEdit.textColor
+//                size = lastEdit.size
+//                alignment = lastEdit.alignment
+//                font = lastEdit.font
+//                binding.tvContent.typeface =
+//                    ResourcesCompat.getFont(requireContext(), lastEdit.font ?: R.font.amatic_bold)
+//                binding.tvContent.setTextSize(
+//                    TypedValue.COMPLEX_UNIT_SP,
+//                    lastEdit.size.toFloat() ?: 30F
+//                )
+//                binding.tvContent.gravity = lastEdit.alignment ?: Gravity.CENTER
+//                binding.tvContent.setTextColor(
+//                    ContextCompat.getColor(
+//                        requireContext(),
+//                        lastEdit.textColor ?: R.color.white
+//                    )
+//                )
+//            }
+//
+//        }
+//    }
+//
+//    private fun setCaseText(lastEdit: EditModel) {
+//        when (lastEdit.textTransform) {
+//            "UpperCase" -> {
+//                binding.tvContent.text = binding.tvContent.text.toString()?.toUpperCase()
+//            }
+//
+//            "UpperCaseAndLowerCase" -> {
+//                var name = binding.tvContent.text.toString().trim()
+//                var firstLetter = name.substring(0, 1)
+//                val remainingLetters = name.substring(1, name.length).toLowerCase()
+//
+//                firstLetter = firstLetter.toUpperCase();
+//                name = firstLetter + remainingLetters;
+//
+//                binding.tvContent.text = name
+//                textTransform = "UpperCaseAndLowerCase"
+//            }
+//
+//            "LowerCase" -> {
+//                binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
+//            }
+//        }
+//    }
+//
+//    private fun setBackGround(lastEdit: EditModel) {
+//        if (lastEdit.imageBg.isNotEmpty()) {
+//            Glide.with(requireContext())
+//                .load(lastEdit.imageBg)
+//                .into(binding.ivBg)
+//        } else {
+//            binding.ivBg.setBackgroundResource(lastEdit.imageColor)
+//        }
+//    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

@@ -175,15 +175,13 @@ object DataB {
         "Most popular",
         "Free today",
         "Plain",
-        "Animated",
         "Spiritual",
         "Iridescent",
-        "Soft oasis",
         "Tropical",
         "Flower",
         "Gems",
-        "Timeless heritage",
-        "Window"
+        "Sun set",
+        "Timeless heritage"
     ).map { TitleBackgroundModel(it) }
 
     val listTitleContent = listOf(

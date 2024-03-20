@@ -86,11 +86,10 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
         }
     }
 
-
     private fun setUpDataRecycleView() {
 
         binding.rvContentDefault.apply {
-            val layoutParams = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            val layoutParams =GridLayoutManager(requireContext(), 2)
             layoutManager = layoutParams
             categoriesAdapter = CategoriesAdapter(DataB?.listCategories)
             adapter = categoriesAdapter
