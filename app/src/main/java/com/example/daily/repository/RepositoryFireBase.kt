@@ -42,6 +42,24 @@ class RepositoryFireBase {
             }
     }
 
+    fun getThemesByRanDom(check :Boolean,callback: (List<ThemesModel>, Boolean) -> Unit) {
+        db.collection("background")
+            .whereEqualTo("check",false )
+            .get()
+            .addOnSuccessListener { result ->
+                val themesList = mutableListOf<ThemesModel>()
+                for (document in result) {
+                    Log.d(TAG, "getThemesByTitle: "+ document.toString())
+                    val theme = document.toObject(ThemesModel::class.java)
+                    themesList.add(theme)
+                }
+                callback(themesList,check)
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents.", exception)
+            }
+    }
+
     fun getAllContent(callback: (List<ContentModelFireBase>) -> Unit) {
         db.collection("content")
             .get()

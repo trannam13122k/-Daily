@@ -28,6 +28,7 @@ class RepositoryRoom(
     suspend fun insert(collection : CollectionModel){
         collectionDao.insertIfNotExists(collection)
     }
+    fun edit(): EditModel? = if (editDao.getAllData().isNotEmpty())editDao.getAllData().last() else null
 
     suspend fun update(collection: String){
         collectionDao.update(collection)

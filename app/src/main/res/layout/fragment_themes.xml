@@ -146,7 +146,7 @@
             app:layout_constraintTop_toBottomOf="@id/ivBack">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraint"
+                android:id="@+id/constraintNew"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:background="@drawable/bg_line">

@@ -24,6 +24,7 @@ class EditViewModel (application: Application) : AndroidViewModel(application) {
         repository = RepositoryRoom(collectionDao, addContentDao, favouriteDao,editDao)
         allEdit = repository.allEdit
     }
+     fun getEdit () : EditModel? =  repository.edit()
 
     fun insertEdit(editModel: EditModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertEdit(editModel)

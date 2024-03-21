@@ -1,5 +1,6 @@
 package com.example.daily.ui.fragment.themes.random
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.daily.base.BaseFragment
@@ -14,6 +15,8 @@ class RandomFragment : BaseFragment<FragmentRandomBinding>() {
     }
 
     override fun init() {
+        val randomImage = arguments?.getString("randomImage")
+        Log.d("RandomFragment", "Received randomImage: $randomImage")
 
     }
 

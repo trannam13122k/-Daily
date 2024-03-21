@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class EditModel (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val imageBg: String,
+    var imageBg: String,
     var imageColor :Int,
     var textColor : Int,
     var font :Int,

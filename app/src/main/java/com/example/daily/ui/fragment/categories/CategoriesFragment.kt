@@ -120,7 +120,8 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
 
                 "My affirmations" -> {
                     it.listContent = preferences.getList("list_my_affirmations")
-                    if (it.listContent == null) {
+                    Log.d("listContent", "setUpDataRecycleView: ${it.listContent}")
+                    if (it.listContent!!.isEmpty()) {
                         (activity as MainActivity).replaceFragment(AddYourOwnFragment())
                     } else {
                         preferences.setString("titleContent", it.titleContent).toString()
@@ -133,8 +134,8 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
                     (activity as MainActivity).replaceFragment(CollectionsFragment())
                     it.listContent = preferences.getList("list_content_by_collection")
                     Log.d("listContent", "setUpDataRecycleView: ${it.listContent}")
-                    if (it.listContent == null) {
-                        (activity as MainActivity).replaceFragment(AddYourOwnFragment())
+                    if (it.listContent!!.isEmpty()) {
+                        (activity as MainActivity).replaceFragment(CollectionsFragment())
                     } else {
                         preferences.setString("titleContent", it.titleContent).toString()
                         preferences.saveList("myListKey", it.listContent)

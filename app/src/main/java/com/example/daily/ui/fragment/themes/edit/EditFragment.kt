@@ -1,9 +1,11 @@
 package com.example.daily.ui.fragment.themes.edit
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
@@ -33,6 +35,7 @@ import com.example.daily.ui.fragment.themes.edit.backGroundEditing.unsplash.UnSp
 import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.PickerItemAdapter
 import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.pickerItem.ItemPickerAdapter
 import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.pickerItem.ItemPickerModel
+
 import com.example.daily.util.DataB
 import com.example.daily.util.PickerLayoutManager
 import com.example.daily.util.Utils
@@ -84,95 +87,100 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         setUpTapLayoutMain()
         tabLayoutBackGroundEditing()
         setUpTextEditing()
-//        setUpViewAll()
+        setUpViewAll()
         colorEditing()
     }
 
-//    private fun setUpViewAll() {
-//        viewModel.allEdit.observe(viewLifecycleOwner) { editList ->
-//            if (editList.isEmpty()) {
-//                textColor = R.color.white
-//                size = 30
-//                alignment = Gravity.CENTER
-//                font = R.font.amatic_bold
-//                binding.tvContent.typeface =
-//                    ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
-//                binding.tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
-//                binding.tvContent.gravity = Gravity.CENTER
-//                binding.tvContent.setTextColor(
-//                    ContextCompat.getColor(
-//                        requireContext(),
-//                        R.color.color_six
-//                    )
-//                )
-//            } else {
-//                val lastEdit = editList.last()
-//                setBackGround(lastEdit)
-//                setCaseText(lastEdit)
-//                textColor = lastEdit.textColor
-//                size = lastEdit.size
-//                alignment = lastEdit.alignment
-//                font = lastEdit.font
-//                binding.tvContent.typeface =
-//                    ResourcesCompat.getFont(requireContext(), lastEdit.font ?: R.font.amatic_bold)
-//                binding.tvContent.setTextSize(
-//                    TypedValue.COMPLEX_UNIT_SP,
-//                    lastEdit.size.toFloat() ?: 30F
-//                )
-//                binding.tvContent.gravity = lastEdit.alignment ?: Gravity.CENTER
-//                binding.tvContent.setTextColor(
-//                    ContextCompat.getColor(
-//                        requireContext(),
-//                        lastEdit.textColor ?: R.color.white
-//                    )
-//                )
-//            }
-//
-//        }
-//    }
-//
-//    private fun setCaseText(lastEdit: EditModel) {
-//        when (lastEdit.textTransform) {
-//            "UpperCase" -> {
-//                binding.tvContent.text = binding.tvContent.text.toString()?.toUpperCase()
-//            }
-//
-//            "UpperCaseAndLowerCase" -> {
-//                var name = binding.tvContent.text.toString().trim()
-//                var firstLetter = name.substring(0, 1)
-//                val remainingLetters = name.substring(1, name.length).toLowerCase()
-//
-//                firstLetter = firstLetter.toUpperCase();
-//                name = firstLetter + remainingLetters;
-//
-//                binding.tvContent.text = name
-//                textTransform = "UpperCaseAndLowerCase"
-//            }
-//
-//            "LowerCase" -> {
-//                binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
-//            }
-//        }
-//    }
-//
-//    private fun setBackGround(lastEdit: EditModel) {
-//        if (lastEdit.imageBg.isNotEmpty()) {
-//            Glide.with(requireContext())
-//                .load(lastEdit.imageBg)
-//                .into(binding.ivBg)
-//        } else {
-//            binding.ivBg.setBackgroundResource(lastEdit.imageColor)
-//        }
-//    }
+    private fun setUpViewAll() {
+        viewModel.allEdit.observe(viewLifecycleOwner) { editList ->
+            if (editList.isEmpty()) {
+                textColor = R.color.white
+                size = 30
+                alignment = Gravity.CENTER
+                font = R.font.amatic_bold
+                binding.tvContent.typeface =
+                    ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
+                binding.tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
+                binding.tvContent.gravity = Gravity.CENTER
+                binding.tvContent.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.color_six
+                    )
+                )
+            } else {
+                val lastEdit = editList.last()
+                setBackGround(lastEdit)
+                setCaseText(lastEdit)
+                textColor = lastEdit.textColor
+                size = lastEdit.size
+                alignment = lastEdit.alignment
+                font = lastEdit.font
+                binding.tvContent.typeface =
+                    ResourcesCompat.getFont(requireContext(), lastEdit.font ?: R.font.amatic_bold)
+                binding.tvContent.setTextSize(
+                    TypedValue.COMPLEX_UNIT_SP,
+                    lastEdit.size.toFloat() ?: 30F
+                )
+                binding.tvContent.gravity = lastEdit.alignment ?: Gravity.CENTER
+                binding.tvContent.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        lastEdit.textColor ?: R.color.white
+                    )
+                )
+            }
+
+        }
+    }
+
+    private fun setCaseText(lastEdit: EditModel) {
+        when (lastEdit.textTransform) {
+            "UpperCase" -> {
+                binding.tvContent.text = binding.tvContent.text.toString()?.toUpperCase()
+            }
+
+            "UpperCaseAndLowerCase" -> {
+                var name = binding.tvContent.text.toString().trim()
+                var firstLetter = name.substring(0, 1)
+                val remainingLetters = name.substring(1, name.length).toLowerCase()
+
+                firstLetter = firstLetter.toUpperCase();
+                name = firstLetter + remainingLetters;
+
+                binding.tvContent.text = name
+                textTransform = "UpperCaseAndLowerCase"
+            }
+
+            "LowerCase" -> {
+                binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
+            }
+        }
+    }
+
+    private fun setBackGround(lastEdit: EditModel) {
+        imageBg =lastEdit.imageBg
+        if (lastEdit.imageBg.isNotEmpty()) {
+            Glide.with(requireContext())
+                .load(imageBg)
+                .into(binding.ivBg)
+        } else {
+            binding.ivBg.setBackgroundResource(lastEdit.imageColor)
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         launcher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+
             if (uri != null) {
                 binding.ivBg?.setImageURI(uri)
                 saveImageUriToSharedPreferences(uri.toString())
+                Log.d("uri", "onAttach: $uri")
                 imageBg = uri.toString()
                 colorBg = 0
+                Log.d("imageBg", "onAttach: $imageBg")
+
             } else {
                 Toast.makeText(requireContext(), "No Load Image", Toast.LENGTH_SHORT).show()
                 loadImageFromSharedPreferences()
@@ -185,6 +193,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             val imageUri = preferences.getString("imageBg")
             if (!imageUri.isNullOrEmpty()) {
                 withContext(Dispatchers.Main) {
+                    Log.d("imageUri", "loadImageFromSharedPreferences: $imageUri")
                     binding.ivBg?.setImageURI(Uri.parse(imageUri))
                 }
             }
@@ -271,8 +280,10 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         textTransform = textTransform,
                     )
                     viewModel.updateEdit(edit)
+
                 }
             }
+
 
             Toast.makeText(requireContext(), "Save", Toast.LENGTH_SHORT).show()
             Log.d("Save", "imageBg: $imageBg")
@@ -283,7 +294,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             Log.d("Save", "font: $font")
             openFragment(MainFragment::class.java, null, true)
         }
-
     }
 
     private fun setUpTapLayoutMain() {
@@ -356,6 +366,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         }
         binding.tabLayoutBg.getTabAt(2)?.view?.setOnClickListener {
             binding.ivBg?.setImageURI(null)
+
             binding.rcvItem.visibility = View.VISIBLE
             colorAdapter.notifyDataSetChanged()
             binding.rcvItem.adapter = colorAdapter
@@ -398,7 +409,10 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     fun setEffect(type: String, position: Int) {
         if (binding.tabLayout.getTabAt(0)?.isSelected == true) {
-            binding.ivBg.setBackgroundResource(DataB.colorList.get(position))
+            binding.ivBg.setBackgroundResource(DataB.colorList[position])
+            binding.ivBg?.setImageURI(null)
+            colorBg = DataB.colorList[position]
+            Log.d("colorBg", "setEffect: $colorBg")
         } else {
             when (type) {
                 "Color" -> {
@@ -411,7 +425,9 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                 "Font" -> {
                     binding.tvContent.typeface =
                         ResourcesCompat.getFont(requireContext(), DataB.listFont.get(position).font)
+                    Log.e("setColor", "setColor: ${DataB.listFont.get(position).font}")
                     font = DataB.listFont.get(position).font
+
                 }
 
                 "Size" -> {
@@ -448,19 +464,17 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
                         binding.tvContent.text = name
                         textTransform = "UpperCaseAndLowerCase"
-                    } else {
-                        binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
-                        textTransform = "LowerCase"
-                    }
+
+                    } else binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
+                    textTransform = "LowerCase"
 
                 }
 
                 "Shadow" -> {
-                    Toast.makeText(requireContext(), "The function is currently updating", Toast.LENGTH_SHORT).show()
+
                 }
 
                 "Stroke" -> {
-                    Toast.makeText(requireContext(), "The function is currently updating", Toast.LENGTH_SHORT).show()
                 }
             }
         }

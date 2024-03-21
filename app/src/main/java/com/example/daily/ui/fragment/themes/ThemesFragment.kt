@@ -2,17 +2,23 @@ package com.example.daily.ui.fragment.themes
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
+import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentThemesBinding
+import com.example.daily.model.EditModel
 import com.example.daily.ui.activity.MainActivity
+import com.example.daily.ui.fragment.mainFragment.MainFragment
 import com.example.daily.ui.fragment.themes.edit.EditFragment
 import com.example.daily.ui.fragment.themes.themBackground.background.model.ThemesModel
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.ThemesAdapter
@@ -21,6 +27,9 @@ import com.example.daily.ui.fragment.themes.themBackground.background.DetailBgTi
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.TitleBackgroundAdapter
 import com.example.daily.ui.fragment.themes.themBackground.background.model.TitleBackgroundModel
 import com.example.daily.util.DataB
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.Serializable
 
 class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
@@ -62,13 +71,25 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
         binding.ivBack.setOnClickListener {
             activity?.onBackPressed()
         }
-
         binding.btnEdit.setOnClickListener {
             openFragment(EditFragment::class.java, null, true)
         }
 
         binding.constraintRandom.setOnClickListener {
-            openFragment(RandomFragment::class.java, null, true)
+            viewModel.getThemesByRanDom(false) { themesList, _ ->
+                val randomIndex = (0 until themesList.size).random()
+                val randomTheme = themesList[randomIndex]
+                val randomImage = randomTheme.image
+                Log.d("RanDom", "clickListener: $randomImage")
+                val bundle = Bundle().apply {
+                    putString("randomImage", randomImage)
+                }
+
+                openFragment(MainFragment::class.java,bundle,true)
+            }
+        }
+        binding.constraintNew.setOnClickListener {
+            openFragment(EditFragment::class.java,null,true)
         }
 
     }

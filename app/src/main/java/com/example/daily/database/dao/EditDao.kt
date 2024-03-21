@@ -20,4 +20,7 @@ interface EditDao {
 
     @Query("SELECT * FROM edit")
     fun getAllLiveData(): LiveData<List<EditModel>>
+
+    @Query("SELECT * FROM edit")
+    fun getAllData(): List<EditModel>
 }

@@ -48,7 +48,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 if (addBackStack) {
                     transaction.addToBackStack(tag)
                 }
-                transaction.add(R.id.fragment_container_viewMain, fragment, tag)
+                transaction.replace(R.id.fragment_container_viewMain, fragment, tag)
                 transaction.commit()
             } catch (e: InstantiationException) {
                 e.printStackTrace()

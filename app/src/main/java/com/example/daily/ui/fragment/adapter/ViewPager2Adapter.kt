@@ -8,7 +8,7 @@ import com.example.daily.ui.fragment.categories.model.Content
 import com.example.daily.ui.fragment.mainFragment.contentMain.ContentMainFragment
 import com.example.daily.ui.fragment.mainFragment.contentMain.ContentTest
 
-class ViewPager2Adapter(fragmentActivity: FragmentActivity, private val mListquestion: List<ContentTest>) :
+class ViewPager2Adapter(fragmentActivity: FragmentActivity, private val mListquestion: List<String>) :
     FragmentStateAdapter(fragmentActivity) {
 
     override fun createFragment(position: Int): Fragment {

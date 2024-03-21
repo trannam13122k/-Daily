@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_ten"
     tools:context=".ui.fragment.mainFragment.MainFragment">
 
     <ImageView
         android:id="@+id/imgBgMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@color/color_eight" />
+        android:scaleType="fitXY" />
 
 
     <androidx.viewpager2.widget.ViewPager2
