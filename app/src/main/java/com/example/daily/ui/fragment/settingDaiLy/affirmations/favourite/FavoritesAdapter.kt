@@ -1,6 +1,7 @@
 package com.example.daily.ui.fragment.settingDaiLy.affirmations.favourite
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.daily.R
@@ -9,6 +10,7 @@ import com.example.daily.model.FavouriteModel
 
 class FavoritesAdapter(private var list: List<FavouriteModel>?) :
     RecyclerView.Adapter<FavoritesAdapter.CollectionsViewHolder>() {
+
     var onClickItem: ((FavouriteModel) -> Unit)? = null
     var onClickIsFavourite: ((FavouriteModel) -> Unit)? = null
 
@@ -17,15 +19,15 @@ class FavoritesAdapter(private var list: List<FavouriteModel>?) :
         fun bind(data: FavouriteModel) {
             binding.tvContent.text = data.nameFavourite
             binding.tvDay.text = data.day
-//            binding.ivSave.setOnClickListener{
-//                onClickItem?.invoke(data)
-//            }
-            binding.ivFavourite.setImageResource(if (data.isFavourite) R.drawable.icon_lock_favourite else R.drawable.icon_favourite)
+
+            binding.ivFavourite.setImageResource(if (data.isFavourite) R.drawable.baseline_favorite_24 else R.drawable.icon_favourite)
             binding.ivFavourite.setOnClickListener {
                 data.isFavourite = !data.isFavourite
-                binding.ivFavourite.setImageResource(if (data.isFavourite) R.drawable.icon_favourite_add else R.drawable.icon_lock_favourite)
+                binding.ivFavourite.setImageResource(if (data.isFavourite) R.drawable.icon_favourite_add else R.drawable.baseline_favorite_24)
                 onClickIsFavourite?.invoke(data)
             }
+            binding.ivMore.visibility = View.GONE
+            binding.ivSave.visibility = View.GONE
         }
     }
 

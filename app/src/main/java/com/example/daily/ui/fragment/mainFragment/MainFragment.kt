@@ -23,23 +23,20 @@ import com.example.daily.ui.fragment.mainFragment.contentMain.ContentTest
 import com.example.daily.ui.fragment.settingDaiLy.settingMain.SettingFragment
 import com.example.daily.ui.fragment.themes.ThemesFragment
 import com.example.daily.ui.fragment.themes.edit.EditViewModel
+import com.example.daily.util.DataB
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
-
     lateinit var titleContent: String
-
-
-    private lateinit var viewModel: EditViewModel
-
-    var adapter: ViewPager2Adapter? = null
-
     private var mListquestion: List<String>? = null
 
     private lateinit var preferences: Preferences
+    private lateinit var viewModel: EditViewModel
+
+    private var adapter: ViewPager2Adapter? = null
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -87,7 +84,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
                 }
             }
-        }else{
+        } else {
             viewModel.allEdit.observe(viewLifecycleOwner) { editList ->
                 if (editList.isEmpty()) {
 
@@ -99,7 +96,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             }
         }
 
-        //set Category
         titleContent = preferences.getString("titleContent") ?: "General"
         binding.tvTitleContent.text = titleContent
     }
@@ -117,29 +113,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun onResume() {
         super.onResume()
         preferences.setString("titleContent", titleContent!!)
-        Log.d("titleContent", "${titleContent.toString()}")
     }
 
     private fun viewPager2() {
 
         mListquestion = preferences.getList("myListKey")
-        if(mListquestion==null){
-            mListquestion =
-                listOf(
-                " Love is the master key that opens the gates of happiness. - Oliver Wendell Holmes ",
-                " The only way to do great work is to love what you do.- Steve Jobs ",
-                " The only way to do great work is to love what you do. - Steve Jobs ",
-                " Keep your face to the sunshine and you cannot see a shadow. - Helen Keller ",
-                " Hope is being able to see that there is light despite all of the darkness.- Desmond Tutu ",
-                " It's not how much you have, but how much you enjoy that makes happiness. - Charles Spurgeon ",
-                " Life is a journey, not a destination. - Ralph Waldo Emerson ",
-                " Love is the master key that opens the gates of happiness. - Oliver Wendell Holmes ",
-                " The only way to do great work is to love what you do.- Steve Jobs ",
-                " The only way to do great work is to love what you do. - Steve Jobs ",
-                " Keep your face to the sunshine and you cannot see a shadow. - Helen Keller ",
-                " Hope is being able to see that there is light despite all of the darkness.- Desmond Tutu ",
-                " It's not how much you have, but how much you enjoy that makes happiness. - Charles Spurgeon ",
-                " Life is a journey, not a destination. - Ralph Waldo Emerson ",)
+        if (mListquestion == null) {
+            mListquestion = DataB?.listDataLocal
         }
         adapter = ViewPager2Adapter(requireActivity(), mListquestion!!)
         binding.viewPager2.adapter = adapter

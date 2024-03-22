@@ -28,11 +28,7 @@ class ContentMainFragment() : BaseFragment<FragmentContentBinding>() {
 
     private var isFavourite :Boolean =false
 
-
-    override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): FragmentContentBinding {
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentContentBinding {
      return FragmentContentBinding.inflate(inflater)
     }
 
@@ -57,30 +53,23 @@ class ContentMainFragment() : BaseFragment<FragmentContentBinding>() {
                 val format = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
                 val formattedDateTime = format.format(date)
                 var favourite = FavouriteModel(nameFavourite = contentMainModel!!, isFavourite = true, day = formattedDateTime)
-                Log.d("favourite", "handleDataContent: $favourite")
                 viewModel.insert(favourite)
             }
             else{
                 binding.imgFavourite.setImageResource(R.drawable.baseline_favorite_24)
             }
-
-
         }
     }
 
     override fun setUpView() {
-
         setData()
-
     }
 
     @SuppressLint("ResourceAsColor")
     private fun setData() {
         viewModel.allEdit.observe(viewLifecycleOwner) { editList ->
             if (editList.isEmpty()) {
-                Log.d("edit", "setData Null: ${editList.size}")
-                binding.tvContent.typeface =
-                    ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
+                binding.tvContent.typeface = ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
                 binding.tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30F)
                 binding.tvContent.gravity = Gravity.CENTER
                 binding.tvContent.setTextColor(R.color.black)

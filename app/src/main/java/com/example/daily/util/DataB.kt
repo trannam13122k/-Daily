@@ -213,4 +213,21 @@ object DataB {
         Content("My affirmations", "true", listOf(), R.drawable.icon_user_content),
         Content("My collection", "true", arrayListOf("dsds12232", "456"), R.drawable.book_open),
     )
+
+     val listDataLocal = listOf(
+    " Love is the master key that opens the gates of happiness. - Oliver Wendell Holmes ",
+    " The only way to do great work is to love what you do.- Steve Jobs ",
+    " The only way to do great work is to love what you do. - Steve Jobs ",
+    " Keep your face to the sunshine and you cannot see a shadow. - Helen Keller ",
+    " Hope is being able to see that there is light despite all of the darkness.- Desmond Tutu ",
+    " It's not how much you have, but how much you enjoy that makes happiness. - Charles Spurgeon ",
+    " Life is a journey, not a destination. - Ralph Waldo Emerson ",
+    " Love is the master key that opens the gates of happiness. - Oliver Wendell Holmes ",
+    " The only way to do great work is to love what you do.- Steve Jobs ",
+    " The only way to do great work is to love what you do. - Steve Jobs ",
+    " Keep your face to the sunshine and you cannot see a shadow. - Helen Keller ",
+    " Hope is being able to see that there is light despite all of the darkness.- Desmond Tutu ",
+    " It's not how much you have, but how much you enjoy that makes happiness. - Charles Spurgeon ",
+    " Life is a journey, not a destination. - Ralph Waldo Emerson ",
+    )
 }

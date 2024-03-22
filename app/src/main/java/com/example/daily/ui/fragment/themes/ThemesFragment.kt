@@ -22,14 +22,9 @@ import com.example.daily.ui.fragment.mainFragment.MainFragment
 import com.example.daily.ui.fragment.themes.edit.EditFragment
 import com.example.daily.ui.fragment.themes.themBackground.background.model.ThemesModel
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.ThemesAdapter
-import com.example.daily.ui.fragment.themes.random.RandomFragment
 import com.example.daily.ui.fragment.themes.themBackground.background.DetailBgTitleFragment
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.TitleBackgroundAdapter
-import com.example.daily.ui.fragment.themes.themBackground.background.model.TitleBackgroundModel
 import com.example.daily.util.DataB
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.Serializable
 
 class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
@@ -91,10 +86,8 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
         binding.constraintNew.setOnClickListener {
             openFragment(EditFragment::class.java,null,true)
         }
-
     }
 
-    //rcv text ngang
     private fun setUpDataTitleBg() {
 
         binding.rvListTitleBackground.apply {
@@ -112,7 +105,6 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
         }
     }
 
-    //rcv bg
     private fun setUpDataBackground(themesList: List<ThemesModel>) {
         binding.rvListBackground.apply {
             val layoutParams = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -126,7 +118,6 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
                 putString("titleBg", it.TitleBg)
                 putSerializable("themesList", themesList as Serializable)
                 Log.d("themesList", "setUpDataBackground: $themesList")
-
             }
             var detailBgTitleFragment = DetailBgTitleFragment().apply {
                 arguments = bundle

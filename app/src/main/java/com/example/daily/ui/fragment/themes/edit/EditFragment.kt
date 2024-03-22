@@ -2,8 +2,10 @@ package com.example.daily.ui.fragment.themes.edit
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -51,14 +53,11 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     private lateinit var colorAdapter: ColorAdapter
     private lateinit var pickerItemAdapter: PickerItemAdapter
     private lateinit var adapterItem: ItemPickerAdapter
-
-    private var type: String = "Color"
-
     private lateinit var viewModel: EditViewModel
 
+    private var type: String = "Color"
     private var imageBg: String = ""
     private var colorBg: Int = 0
-
     private var textColor: Int = 0
     private var size: Int = 0
     private var alignment: Int = 0
@@ -98,8 +97,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                 size = 30
                 alignment = Gravity.CENTER
                 font = R.font.amatic_bold
-                binding.tvContent.typeface =
-                    ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
+                binding.tvContent.typeface = ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
                 binding.tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
                 binding.tvContent.gravity = Gravity.CENTER
                 binding.tvContent.setTextColor(
@@ -179,8 +177,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                 Log.d("uri", "onAttach: $uri")
                 imageBg = uri.toString()
                 colorBg = 0
-                Log.d("imageBg", "onAttach: $imageBg")
-
             } else {
                 Toast.makeText(requireContext(), "No Load Image", Toast.LENGTH_SHORT).show()
                 loadImageFromSharedPreferences()
@@ -193,7 +189,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             val imageUri = preferences.getString("imageBg")
             if (!imageUri.isNullOrEmpty()) {
                 withContext(Dispatchers.Main) {
-                    Log.d("imageUri", "loadImageFromSharedPreferences: $imageUri")
                     binding.ivBg?.setImageURI(Uri.parse(imageUri))
                 }
             }
@@ -204,7 +199,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         preferences.setString("imageBg", imageUri)
     }
 
-    //permissions
     private fun checkPermissions() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -253,7 +247,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         binding.ivBack.setOnClickListener {
             activity?.onBackPressed()
         }
-
         binding.tvSave.setOnClickListener {
             viewModel.allEdit.observe(viewLifecycleOwner) { edit ->
                 if (edit.isEmpty()) {
@@ -267,6 +260,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         textTransform = textTransform
                     )
                     viewModel.insertEdit(editAdd)
+                    Log.e("allEdit_PL", "truoc : "+ {imageBg+" "+colorBg +" "+textColor+" "+font+" "+size+" "+alignment +" "+textTransform }, )
                 } else {
                     var lastEdit = edit.last()
                     var edit = EditModel(
@@ -280,18 +274,18 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         textTransform = textTransform,
                     )
                     viewModel.updateEdit(edit)
+                    Log.e("allEdit_PL", "sau : "+ {imageBg+" "+colorBg +" "+textColor+" "+font+" "+size+" "+alignment +" "+textTransform }, )
 
                 }
             }
 
+            Log.d("allEdit_PL", "imageBg: $imageBg")
+            Log.d("allEdit_PL", "imageColor: $colorBg")
+            Log.d("allEdit_PL", "textColor: $textColor")
+            Log.d("allEdit_PL", "size: $size")
+            Log.d("allEdit_PL", "alignment: $alignment")
+            Log.d("allEdit_PL", "font: $font")
 
-            Toast.makeText(requireContext(), "Save", Toast.LENGTH_SHORT).show()
-            Log.d("Save", "imageBg: $imageBg")
-            Log.d("Save", "imageColor: $colorBg")
-            Log.d("Save", "textColor: $textColor")
-            Log.d("Save", "size: $size")
-            Log.d("Save", "alignment: $alignment")
-            Log.d("Save", "font: $font")
             openFragment(MainFragment::class.java, null, true)
         }
     }
@@ -331,15 +325,14 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         })
     }
 
-    // backGround Editting...........................................................................
     private fun tabLayoutBackGroundEditing() {
         val color = binding.tabLayoutBg.newTab()
         val library = binding.tabLayoutBg.newTab()
         val unSplash = binding.tabLayoutBg.newTab()
 
         library.text = resources.getString(R.string.library)
-        unSplash.text = "Unsplash"
-        color.text = "Color"
+        unSplash.text = resources.getString(R.string.unSplash)
+        color.text = resources.getString(R.string.color)
 
         library.setIcon(R.drawable.icon_libary)
         unSplash.setIcon(R.drawable.icon_unsplash)
@@ -365,7 +358,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             openFragment(UnSplashFragment::class.java, null, true)
         }
         binding.tabLayoutBg.getTabAt(2)?.view?.setOnClickListener {
-            binding.ivBg?.setImageURI(null)
+            binding.ivBg?.setImageDrawable(ColorDrawable(DataB.colorList.get(0)))
 
             binding.rcvItem.visibility = View.VISIBLE
             colorAdapter.notifyDataSetChanged()
@@ -377,8 +370,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     private fun colorEditing() {
         binding.relativeLayout.visibility = View.GONE
 
-        val pickerLayoutManager =
-            PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
+        val pickerLayoutManager = PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
 
         colorAdapter = ColorAdapter(DataB.listDrawableColors)
         snapHelper.attachToRecyclerView(binding.rvEditText)
@@ -410,24 +402,21 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     fun setEffect(type: String, position: Int) {
         if (binding.tabLayout.getTabAt(0)?.isSelected == true) {
             binding.ivBg.setBackgroundResource(DataB.colorList[position])
+            imageBg=""
             binding.ivBg?.setImageURI(null)
             colorBg = DataB.colorList[position]
-            Log.d("colorBg", "setEffect: $colorBg")
         } else {
             when (type) {
                 "Color" -> {
                     context?.getColor(DataB.colorList[position])
                         ?.let { binding.tvContent.setTextColor(it) }
-                    Log.e("setColor", "setColor: ${DataB.colorList[position]}")
                     textColor = DataB.colorList[position]
                 }
 
                 "Font" -> {
                     binding.tvContent.typeface =
                         ResourcesCompat.getFont(requireContext(), DataB.listFont.get(position).font)
-                    Log.e("setColor", "setColor: ${DataB.listFont.get(position).font}")
                     font = DataB.listFont.get(position).font
-
                 }
 
                 "Size" -> {
@@ -467,17 +456,29 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
                     } else binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
                     textTransform = "LowerCase"
-
                 }
 
                 "Shadow" -> {
-
+                    showAlertDialog(requireContext(),"Notification","The function is currently updating")
                 }
 
                 "Stroke" -> {
+                    showAlertDialog(requireContext(),"Notification","The function is currently updating")
                 }
             }
         }
+    }
+
+    fun showAlertDialog(context: Context, title: String, message: String) {
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.setTitle(title)
+        alertDialogBuilder.setMessage(message)
+        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 
 
@@ -547,7 +548,6 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
         }
     }
 
-    // colors text ,font ,size
     fun setupRecyclerView(context: Context, itemList: List<ItemPickerModel>): RecyclerView {
         if (!::adapterItem.isInitialized) {
             adapterItem = ItemPickerAdapter(requireContext(), itemList, binding.rcvItem)

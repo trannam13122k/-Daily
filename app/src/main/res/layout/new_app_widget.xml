@@ -1,23 +1,42 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Widget.Daily.AppWidget.Container"
     android:layout_width="match_parent"
+    android:id="@+id/widgetLayout"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:theme="@style/Theme.Daily.AppWidgetContainer">
     <ImageView
-        android:src="@color/background"
+        android:src="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="20dp"/>
 
     <TextView
         android:id="@+id/appwidget_text"
-        style="@style/Widget.Daily.AppWidget.InnerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_margin="8dp"
-        android:contentDescription="@string/appwidget_text"
         android:text="@string/appwidget_text"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
-</RelativeLayout>
+
+    <Button
+        android:background="@color/color_four"
+        android:id="@+id/clickButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Click"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+
+    <Button
+        android:background="@color/color_four"
+        android:id="@+id/clickButton2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Click button 2"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+</LinearLayout>

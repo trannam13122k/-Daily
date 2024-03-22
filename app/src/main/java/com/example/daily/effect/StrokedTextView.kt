@@ -14,8 +14,6 @@ import com.example.daily.R
 
 class StrokedTextView : AppCompatTextView {
 
-    //region Constructors
-
     constructor(ctx: Context) : super(ctx, null)
     constructor(ctx: Context, attr: AttributeSet?) : super(ctx, attr, 0) {
         getStyledAttributes(attr)
@@ -24,18 +22,12 @@ class StrokedTextView : AppCompatTextView {
     constructor(ctx: Context, attr: AttributeSet?, defStyleAttr: Int) : super(ctx, attr, defStyleAttr) {
         getStyledAttributes(attr)
     }
-    //endregion
-
-    //region Members
 
     private var calcWidth = 0
 
     var strokeWidth = 4f
     var strokeColor = Color.RED
 
-    /**
-     * Static layout values are not mutable so we need to initialize it after text is set
-     */
     private lateinit var staticLayout: StaticLayout
 
     private val staticLayoutPaint by lazy {
@@ -44,10 +36,6 @@ class StrokedTextView : AppCompatTextView {
             typeface = this@StrokedTextView.typeface
         }
     }
-    //endregion
-
-    //region Methods
-
     private fun getStyledAttributes(attr: AttributeSet?) {
         context.obtainStyledAttributes(attr, R.styleable.StrokedTextView).apply {
             strokeWidth = getDimensionPixelSize(R.styleable.StrokedTextView_strokeThickness, 4).toFloat()
@@ -57,7 +45,6 @@ class StrokedTextView : AppCompatTextView {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        // Just grabbing the width for static layout
         setPadding(paddingStart + strokeWidth.toInt() / 2, paddingTop, paddingRight + strokeWidth.toInt() / 2, paddingBottom)
         calcWidth = (MeasureSpec.getSize(widthMeasureSpec) - paddingStart)
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -71,7 +58,6 @@ class StrokedTextView : AppCompatTextView {
 
         if (canvas == null) return
 
-        // Draw the background for this view
 
         reinitialzieStaticLayout()
 
@@ -79,11 +65,9 @@ class StrokedTextView : AppCompatTextView {
             save()
             translate(compoundPaddingLeft.toFloat(),compoundPaddingTop.toFloat())
 
-            // Draw stroke first
             staticLayoutPaint.configureForStroke()
             staticLayout.draw(this)
 
-            // Draw text
             staticLayoutPaint.configureForFill()
             staticLayout.draw(this)
 

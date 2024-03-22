@@ -16,8 +16,6 @@ interface EditDao {
     @Update
     fun update(editModel: EditModel)
 
-
-
     @Query("SELECT * FROM edit")
     fun getAllLiveData(): LiveData<List<EditModel>>
 

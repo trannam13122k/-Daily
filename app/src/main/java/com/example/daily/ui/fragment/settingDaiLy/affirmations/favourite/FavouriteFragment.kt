@@ -58,8 +58,6 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
                     favoritesModel.nameFavourite
                 }
                 preferences.saveList("list_favorites", stringList)
-                Log.d("stringList", "setUpDataRecycleView: $stringList")
-
             }
             if (collections.isEmpty()) {
                 binding.rvListFavorites.visibility = View.GONE
