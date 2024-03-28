@@ -9,6 +9,7 @@ import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.pickerIt
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.AddYourOwnFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.favourite.FavouriteFragment
+import com.example.daily.ui.fragment.settingDaiLy.setting.general.GeneralFragment
 import com.example.daily.ui.fragment.settingDaiLy.setting.reminders.RemindersFragment
 import com.example.daily.ui.fragment.settingDaiLy.settingMain.SettingModel
 import com.example.daily.ui.fragment.settingDaiLy.setting.widgets.WidgetsFragment
@@ -161,7 +162,7 @@ object DataB {
 
 
     val listSettings = listOf(
-        SettingModel("General", R.drawable.icon_setting),
+        SettingModel("General", R.drawable.icon_setting,GeneralFragment::class.java),
         SettingModel("Reminders", R.drawable.icon_reminders, RemindersFragment::class.java),
         SettingModel("Widgets", R.drawable.icon_widgets, WidgetsFragment::class.java)
     )

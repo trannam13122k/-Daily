@@ -66,5 +66,51 @@
     <string name="running">Running...</string>
     <string name="foregroundServiceChannel">Foreground Service Channel</string>
 
+    <string name="privacy_policy_text">
+    <![CDATA[
+        <b>1. Collect information</b>
+        <br/>
+        We collect personal information from users when they register or submit information through our application.
+        <br/>
+        Personal information may include name, email address, phone number and address.
+        <br/><br/>
+        <b>2. Use information</b>
+        <br/>
+        We use personal information collected to respond to user requests
+       , providing services and communicating with users regarding matters related to our application
+        or other services we provide.
+        <br/><br/>
+        <b>3. Information security</b>
+        <br/>
+         We take appropriate security measures to protect personal information
+         users against unauthorized access, loss or unwanted disclosure.
+         However, no method of communication over the Internet or method of electronic storage is completely secure.
+        <br/><br/>
+
+        <b>4. Share information</b>
+        <br/>
+      We do not sell,
+      exchange or share personal information
+      of users with third parties unless otherwise expressly agreed
+      of the user or as required by law.
+        <br/><br/>
+        <b>5. Cookie</b>
+        <br/>
+      We may use cookies to improve user experience.
+        Users can refuse cookies or
+         set alerts when cookies are sent.
+       However, refusing cookies may limit some of the app features.
+        <br/><br/>
+        <b>6. Policy changes</b>
+        <br/>
+       We reserve the right to update or change this Privacy Policy at any time.
+         Any changes will be notified on the application and take effect immediately.
+        <br/><br/>
+        <b>7. Contact</b>
+        <br/>
+        If you have any questions or requests about our Privacy Policy,
+         please contact us.
+    ]]>
+</string>
 
 </resources>
