@@ -59,8 +59,4 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             e.printStackTrace()
         }
     }
-    companion object{
-        var onBackPress : (()-> Unit)? = null
-    }
-
 }

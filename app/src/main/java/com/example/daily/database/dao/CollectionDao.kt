@@ -8,7 +8,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.example.daily.model.CollectionModel
 
-
 @Dao
 interface CollectionDao {
     @Insert
@@ -21,7 +20,7 @@ interface CollectionDao {
     fun delete(collection: CollectionModel)
 
     @Query("UPDATE collection SET nameCollection = :nameCollection")
-    suspend fun update(nameCollection:  String)
+    suspend fun update(nameCollection: String)
 
 
     @Query("SELECT COUNT(*) FROM collection WHERE nameCollection = :name")

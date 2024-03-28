@@ -12,15 +12,16 @@ import com.example.daily.base.BaseFragment
 import com.example.daily.databinding.FragmentCollectionsBinding
 import com.example.daily.model.CollectionModel
 import com.example.daily.ui.activity.MainActivity
+import com.example.daily.ui.fragment.mainFragment.MainFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.detailCollections.DetailCollectionsFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.newCollections.NewCollectionsFragment
+import com.example.daily.util.KeyWord
 
 class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
 
     private lateinit var viewModel: CollectionsViewModel
 
     private var collectionAdapter: CollectionsAdapter? = null
-
     private var collectionsList: List<CollectionModel> = listOf()
 
     override fun getViewBinding(
@@ -47,12 +48,12 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
             adapter = collectionAdapter
         }
         setData()
-        collectionAdapter?.onClickItem={
-            val bundle =Bundle()
-            bundle.putString("nameCollection", it.nameCollection)
-
+        collectionAdapter?.onClickItem = {
+            val bundle = Bundle()
+            bundle.putString(KeyWord.nameCollection, it.nameCollection)
+            bundle.putLong(KeyWord.idCollection, it.id)
             val fragment = DetailCollectionsFragment().apply {
-                arguments= bundle
+                arguments = bundle
             }
             (activity as MainActivity).replaceFragment(fragment)
         }
@@ -76,10 +77,10 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
 
     private fun setUpListener() {
         binding.ivBack.setOnClickListener {
-            (activity as MainActivity).supportFragmentManager.popBackStack()
+            activity?.onBackPressed()
         }
         binding.btnAdd.setOnClickListener {
-            (activity as MainActivity).replaceFragment(NewCollectionsFragment())
+            openFragment(NewCollectionsFragment()::class.java, null, false)
         }
     }
 }

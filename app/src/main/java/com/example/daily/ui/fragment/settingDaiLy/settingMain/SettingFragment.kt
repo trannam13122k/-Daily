@@ -35,28 +35,30 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     }
 
     private fun settings() {
-        binding.rvSetting.apply {
+        with(binding.rvSetting) {
             val linearLayoutManager = LinearLayoutManager(requireContext())
             layoutManager = linearLayoutManager
             settingAdapter = SettingAdapter(DataB.listSettings)
             adapter = settingAdapter
         }
+
         settingAdapter.onClickItem = { setting ->
-            if (setting.fragment != null){
+            if (setting.fragment != null) {
                 openFragment(setting.fragment, null, true)
             }
         }
     }
 
     private fun affirmations() {
-        binding.rvAffirmations.apply {
+        with(binding.rvAffirmations) {
             val linearLayoutManager = LinearLayoutManager(requireContext())
             layoutManager = linearLayoutManager
             settingAdapter = SettingAdapter(DataB.listAffirmations)
             adapter = settingAdapter
         }
+
         settingAdapter?.onClickItem = { affirmations ->
-            if (affirmations.fragment != null){
+            if (affirmations.fragment != null) {
                 openFragment(affirmations.fragment, null, true)
             }
         }

@@ -14,7 +14,7 @@ class WidgetsFragment : BaseFragment<FragmentWidgetsBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentWidgetsBinding {
-       return FragmentWidgetsBinding.inflate(inflater)
+        return FragmentWidgetsBinding.inflate(inflater)
     }
 
     override fun init() {

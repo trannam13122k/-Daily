@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.daily.databinding.ItemCollectionsBinding
 import com.example.daily.model.CollectionModel
 
-
 class CollectionsAdapter(private var listCollections: List<CollectionModel>?) :
     RecyclerView.Adapter<CollectionsAdapter.CollectionsViewHolder>() {
     var onClickItem: ((CollectionModel) -> Unit)? = null

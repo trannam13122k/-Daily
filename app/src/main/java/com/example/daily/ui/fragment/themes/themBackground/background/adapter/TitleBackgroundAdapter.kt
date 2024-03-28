@@ -15,6 +15,7 @@ class TitleBackgroundAdapter(private val listTitle: List<TitleBackgroundModel>) 
 
     inner class TitleBackgroundViewHolder(val binding: ItemTitileThemesBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(data: TitleBackgroundModel, position: Int) {
             binding.tvTitle.text = data.title
             if (position == selectedItemPosition) {

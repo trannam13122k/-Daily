@@ -39,6 +39,7 @@ import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.pickerIt
 import com.example.daily.ui.fragment.themes.edit.textEditing.textEffect.pickerItem.ItemPickerModel
 
 import com.example.daily.util.DataB
+import com.example.daily.util.KeyWord
 import com.example.daily.util.PickerLayoutManager
 import com.example.daily.util.Utils
 import com.google.android.material.tabs.TabLayout
@@ -97,7 +98,8 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                 size = 30
                 alignment = Gravity.CENTER
                 font = R.font.amatic_bold
-                binding.tvContent.typeface = ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
+                binding.tvContent.typeface =
+                    ResourcesCompat.getFont(requireContext(), R.font.amatic_bold)
                 binding.tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
                 binding.tvContent.gravity = Gravity.CENTER
                 binding.tvContent.setTextColor(
@@ -134,11 +136,11 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     private fun setCaseText(lastEdit: EditModel) {
         when (lastEdit.textTransform) {
-            "UpperCase" -> {
+            KeyWord.upperCase -> {
                 binding.tvContent.text = binding.tvContent.text.toString()?.toUpperCase()
             }
 
-            "UpperCaseAndLowerCase" -> {
+            KeyWord.upperCaseAndLowerCase -> {
                 var name = binding.tvContent.text.toString().trim()
                 var firstLetter = name.substring(0, 1)
                 val remainingLetters = name.substring(1, name.length).toLowerCase()
@@ -147,17 +149,17 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                 name = firstLetter + remainingLetters;
 
                 binding.tvContent.text = name
-                textTransform = "UpperCaseAndLowerCase"
+                textTransform = KeyWord.upperCaseAndLowerCase
             }
 
-            "LowerCase" -> {
+            KeyWord.lowerCase -> {
                 binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
             }
         }
     }
 
     private fun setBackGround(lastEdit: EditModel) {
-        imageBg =lastEdit.imageBg
+        imageBg = lastEdit.imageBg
         if (lastEdit.imageBg.isNotEmpty()) {
             Glide.with(requireContext())
                 .load(imageBg)
@@ -174,11 +176,9 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             if (uri != null) {
                 binding.ivBg?.setImageURI(uri)
                 saveImageUriToSharedPreferences(uri.toString())
-                Log.d("uri", "onAttach: $uri")
                 imageBg = uri.toString()
                 colorBg = 0
             } else {
-                Toast.makeText(requireContext(), "No Load Image", Toast.LENGTH_SHORT).show()
                 loadImageFromSharedPreferences()
             }
         }
@@ -186,7 +186,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     private fun loadImageFromSharedPreferences() {
         CoroutineScope(Dispatchers.IO).launch {
-            val imageUri = preferences.getString("imageBg")
+            val imageUri = preferences.getString(KeyWord.imageBg)
             if (!imageUri.isNullOrEmpty()) {
                 withContext(Dispatchers.Main) {
                     binding.ivBg?.setImageURI(Uri.parse(imageUri))
@@ -196,7 +196,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     }
 
     private fun saveImageUriToSharedPreferences(imageUri: String) {
-        preferences.setString("imageBg", imageUri)
+        preferences.setString(KeyWord.imageBg, imageUri)
     }
 
     private fun checkPermissions() {
@@ -253,6 +253,7 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                     var editAdd = EditModel(
                         imageBg = imageBg,
                         imageColor = colorBg,
+                        imageUnSplashFragment = 0,
                         textColor = textColor,
                         font = font,
                         size = size,
@@ -260,13 +261,13 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         textTransform = textTransform
                     )
                     viewModel.insertEdit(editAdd)
-                    Log.e("allEdit_PL", "truoc : "+ {imageBg+" "+colorBg +" "+textColor+" "+font+" "+size+" "+alignment +" "+textTransform }, )
                 } else {
                     var lastEdit = edit.last()
                     var edit = EditModel(
                         id = lastEdit.id,
                         imageBg = imageBg ?: lastEdit.imageBg,
                         imageColor = colorBg ?: lastEdit.imageColor,
+                        imageUnSplashFragment = 0,
                         textColor = textColor ?: R.color.black,
                         font = font ?: R.font.amatic_bold,
                         size = size ?: 30,
@@ -274,17 +275,8 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         textTransform = textTransform,
                     )
                     viewModel.updateEdit(edit)
-                    Log.e("allEdit_PL", "sau : "+ {imageBg+" "+colorBg +" "+textColor+" "+font+" "+size+" "+alignment +" "+textTransform }, )
-
                 }
             }
-
-            Log.d("allEdit_PL", "imageBg: $imageBg")
-            Log.d("allEdit_PL", "imageColor: $colorBg")
-            Log.d("allEdit_PL", "textColor: $textColor")
-            Log.d("allEdit_PL", "size: $size")
-            Log.d("allEdit_PL", "alignment: $alignment")
-            Log.d("allEdit_PL", "font: $font")
 
             openFragment(MainFragment::class.java, null, true)
         }
@@ -368,33 +360,36 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     }
 
     private fun colorEditing() {
-        binding.relativeLayout.visibility = View.GONE
+        with(binding) {
+            relativeLayout.visibility = View.GONE
 
-        val pickerLayoutManager = PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
+            val pickerLayoutManager =
+                PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
 
-        colorAdapter = ColorAdapter(DataB.listDrawableColors)
-        snapHelper.attachToRecyclerView(binding.rvEditText)
+            colorAdapter = ColorAdapter(DataB.listDrawableColors)
+            snapHelper.attachToRecyclerView(rvEditText)
 
-        pickerLayoutManager.apply {
-            changeAlpha = true
-            scaleDownBy = 0.99f
-            scaleDownDistance = 0.8f
-        }
-        binding.rcvItem.layoutManager = pickerLayoutManager
-        binding.rcvItem.adapter = colorAdapter
+            pickerLayoutManager.apply {
+                changeAlpha = true
+                scaleDownBy = 0.99f
+                scaleDownDistance = 0.8f
+            }
+            rcvItem.layoutManager = pickerLayoutManager
+            rcvItem.adapter = colorAdapter
 
-        pickerLayoutManager.setOnScrollStopListener { view ->
-            val position = binding.rcvItem.getChildAdapterPosition(view)
+            pickerLayoutManager.setOnScrollStopListener { view ->
+                val position = rcvItem.getChildAdapterPosition(view)
 
-            if (position in 0 until DataB.colorList.size) {
-                try {
-                    setEffect(type, position)
-                } catch (e: Throwable) {
-                    e.printStackTrace()
+                if (position in 0 until DataB.colorList.size) {
+                    try {
+                        setEffect(type, position)
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Please Select The Image ", Toast.LENGTH_SHORT)
+                        .show()
                 }
-            } else {
-                Toast.makeText(requireContext(), "Please Select The Image ", Toast.LENGTH_SHORT)
-                    .show()
             }
         }
     }
@@ -402,24 +397,24 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
     fun setEffect(type: String, position: Int) {
         if (binding.tabLayout.getTabAt(0)?.isSelected == true) {
             binding.ivBg.setBackgroundResource(DataB.colorList[position])
-            imageBg=""
+            imageBg = ""
             binding.ivBg?.setImageURI(null)
             colorBg = DataB.colorList[position]
         } else {
             when (type) {
-                "Color" -> {
+                KeyWord.color -> {
                     context?.getColor(DataB.colorList[position])
                         ?.let { binding.tvContent.setTextColor(it) }
                     textColor = DataB.colorList[position]
                 }
 
-                "Font" -> {
+                KeyWord.font -> {
                     binding.tvContent.typeface =
                         ResourcesCompat.getFont(requireContext(), DataB.listFont.get(position).font)
                     font = DataB.listFont.get(position).font
                 }
 
-                "Size" -> {
+                KeyWord.size -> {
                     binding.tvContent.setTextSize(
                         TypedValue.COMPLEX_UNIT_SP,
                         DataB.listSize.get(position).size.toFloat()
@@ -427,22 +422,22 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                     size = DataB.listSize.get(position).size
                 }
 
-                "Alignment" -> {
+                KeyWord.alignment -> {
                     binding.tvContent.gravity =
                         DataB.listAligment[position].alignment or Gravity.CENTER
                     alignment = DataB.listAligment[position].alignment or Gravity.CENTER
                 }
 
-                "Alignment Top" -> {
+                KeyWord.alignmentTop -> {
                     binding.tvContent.gravity =
                         DataB.listAligmentTop[position].alignmentTop or Gravity.CENTER
                     alignment = DataB.listAligmentTop[position].alignmentTop or Gravity.CENTER
                 }
 
-                "Case" -> {
+                KeyWord.case -> {
                     if (position == 0) {
                         binding.tvContent.text = binding.tvContent.text.toString()?.toUpperCase()
-                        textTransform = "UpperCase"
+                        textTransform = KeyWord.upperCase
                     } else if (position == 1) {
                         var name = binding.tvContent.text.toString().trim()
                         var firstLetter = name.substring(0, 1)
@@ -452,18 +447,26 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
                         name = firstLetter + remainingLetters;
 
                         binding.tvContent.text = name
-                        textTransform = "UpperCaseAndLowerCase"
+                        textTransform = KeyWord.upperCaseAndLowerCase
 
                     } else binding.tvContent.text = binding.tvContent.text.toString()?.toLowerCase()
-                    textTransform = "LowerCase"
+                    textTransform = KeyWord.lowerCase
                 }
 
-                "Shadow" -> {
-                    showAlertDialog(requireContext(),"Notification","The function is currently updating")
+                KeyWord.shadow -> {
+                    showAlertDialog(
+                        requireContext(),
+                        "Notification",
+                        "The function is currently updating"
+                    )
                 }
 
-                "Stroke" -> {
-                    showAlertDialog(requireContext(),"Notification","The function is currently updating")
+                KeyWord.stroke -> {
+                    showAlertDialog(
+                        requireContext(),
+                        "Notification",
+                        "The function is currently updating"
+                    )
                 }
             }
         }
@@ -505,43 +508,43 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             binding.tvNameEdit.text = selectedItem?.text
 
             when (selectedItem?.text) {
-                "Color" -> {
-                    type = "Color"
+                KeyWord.color -> {
+                    type = KeyWord.color
                     setupRecyclerView(requireContext(), DataB.listColor)
                 }
 
-                "Font" -> {
-                    type = "Font"
+                KeyWord.font -> {
+                    type = KeyWord.font
                     setupRecyclerView(requireContext(), DataB.listFont)
                 }
 
-                "Size" -> {
-                    type = "Size"
+                KeyWord.size -> {
+                    type = KeyWord.size
                     setupRecyclerView(requireContext(), DataB.listSize)
                 }
 
-                "Alignment" -> {
-                    type = "Alignment"
+                KeyWord.alignment -> {
+                    type = KeyWord.alignment
                     setupRecyclerView(requireContext(), DataB.listAligment)
                 }
 
-                "Alignment Top" -> {
-                    type = "Alignment Top"
+                KeyWord.alignmentTop -> {
+                    type = KeyWord.alignmentTop
                     setupRecyclerView(requireContext(), DataB.listAligmentTop)
                 }
 
-                "Case" -> {
-                    type = "Case"
+                KeyWord.case -> {
+                    type = KeyWord.case
                     setupRecyclerView(requireContext(), DataB.listCase)
                 }
 
-                "Shadow" -> {
-                    type = "Shadow"
+                KeyWord.shadow -> {
+                    type = KeyWord.shadow
                     setupRecyclerView(requireContext(), DataB.listColor)
                 }
 
-                "Stroke" -> {
-                    type = "Stroke"
+                KeyWord.stroke -> {
+                    type = KeyWord.stroke
                     setupRecyclerView(requireContext(), DataB.listStroke)
                 }
             }
@@ -550,19 +553,19 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
 
     fun setupRecyclerView(context: Context, itemList: List<ItemPickerModel>): RecyclerView {
         if (!::adapterItem.isInitialized) {
-            adapterItem = ItemPickerAdapter(requireContext(), itemList, binding.rcvItem)
+            adapterItem = ItemPickerAdapter(context, itemList, binding.rcvItem)
         } else {
             adapterItem.swapData(itemList)
         }
 
         adapterItem.notifyDataSetChanged()
+
         val pickerLayoutManager =
-            PickerLayoutManager(requireContext(), PickerLayoutManager.HORIZONTAL, false)
-        pickerLayoutManager.apply {
-            changeAlpha = true
-            scaleDownBy = 0.99f
-            scaleDownDistance = 0.8f
-        }
+            PickerLayoutManager(context, PickerLayoutManager.HORIZONTAL, false).apply {
+                changeAlpha = true
+                scaleDownBy = 0.99f
+                scaleDownDistance = 0.8f
+            }
 
         snapHelper.attachToRecyclerView(binding.rvEditText)
         binding.rcvItem.layoutManager = pickerLayoutManager
@@ -575,12 +578,10 @@ class EditFragment : BaseFragment<FragmentEditBinding>() {
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
-
         }
+
         return binding.rcvItem
     }
 
 
 }
-
-

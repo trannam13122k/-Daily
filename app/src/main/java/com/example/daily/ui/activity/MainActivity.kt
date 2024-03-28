@@ -1,30 +1,35 @@
 package com.example.daily.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.daily.R
 import com.example.daily.base.BaseActivity
 import com.example.daily.databinding.ActivityMainBinding
+import com.example.daily.service.NotificationService
 import com.example.daily.ui.fragment.mainFragment.MainFragment
+import com.example.daily.util.Utils
+
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-
-    private lateinit var mainFragment: MainFragment
 
     override fun getViewBinding(inflater: LayoutInflater): ActivityMainBinding {
         return ActivityMainBinding.inflate(inflater)
     }
 
     override fun init() {
-        mainFragment = MainFragment()
-        openFragment(mainFragment::class.java, null, false)
-
+        /**do nothing**/
     }
 
     override fun setUpView() {
-
+        val serviceIntent = Intent(this, NotificationService::class.java)
+        this.startService(serviceIntent)
+        openFragment(MainFragment()::class.java, null, false)
     }
 
     fun replaceFragment(fragment: Fragment) {
@@ -48,4 +53,3 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 }
-

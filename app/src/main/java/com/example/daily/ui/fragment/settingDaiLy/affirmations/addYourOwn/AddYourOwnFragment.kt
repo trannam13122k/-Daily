@@ -1,6 +1,5 @@
 package com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn
 
-
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
@@ -21,14 +20,14 @@ import com.example.daily.model.FavouriteModel
 import com.example.daily.ui.activity.MainActivity
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.addContentCollectionsFragment.AddContentCollectionsFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.newAddDataYourOwn.NewAddFragment
-
+import com.example.daily.util.KeyWord
 
 class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
 
     private lateinit var viewModel: AddYourOwnViewModel
     private lateinit var preferences: Preferences
 
-    private var addContentAdapter : AddYourOwnAdapter?=null
+    private var addContentAdapter: AddYourOwnAdapter? = null
     private var listContent: List<AddModel> = listOf()
 
     override fun getViewBinding(
@@ -51,43 +50,50 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
     private fun setUpDataRecycleView() {
         binding.rvListAdd.apply {
             val layoutParams = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            layoutManager=layoutParams
-            addContentAdapter= AddYourOwnAdapter(listOf())
-            adapter= addContentAdapter
+            layoutManager = layoutParams
+            addContentAdapter = AddYourOwnAdapter(listOf())
+            adapter = addContentAdapter
         }
         setUpData()
         addContentAdapter?.onClickItem = { item ->
             val bundle = Bundle()
-            bundle.putLong("itemId", item.id)
+            bundle.putLong(KeyWord.itemId, item.id)
             val fragment = AddContentCollectionsFragment()
             fragment.arguments = bundle
-
-            (activity as MainActivity).replaceFragment(fragment)
+            openFragment(AddContentCollectionsFragment::class.java, null, false)
         }
-        addContentAdapter?.onClickIsFavourite ={item->
-            Log.d("isFavourite", "setUpDataRecycleView: ${item.isFavourite}")
-            val editFavourite = AddModel(id=item.id,nameAdd = item.nameAdd, nameCollection = item.nameCollection, isFavourite = item.isFavourite, day = item.day)
+        addContentAdapter?.onClickIsFavourite = { item ->
+            val editFavourite = AddModel(
+                id = item.id,
+                nameAdd = item.nameAdd,
+                nameCollection = item.nameCollection,
+                isFavourite = item.isFavourite,
+                day = item.day
+            )
+
             viewModel.updateContent(editFavourite)
-
-            if(item.isFavourite){
-                val newFavourite = FavouriteModel(nameFavourite = item.nameAdd, isFavourite = true, day = item.day)
+            if (item.isFavourite) {
+                val newFavourite =
+                    FavouriteModel(nameFavourite = item.nameAdd, isFavourite = true, day = item.day)
                 viewModel.insertFavourite(newFavourite)
-
-            }
-            else{
+            } else {
                 viewModel.deleteFavourite(item.nameAdd)
             }
+            val stringList: List<String> = viewModel.allListFavourite.value?.map { favoritesModel ->
+                favoritesModel.nameFavourite
+            } ?: listOf()
+            preferences.saveList(KeyWord.myListKey, stringList)
         }
-        addContentAdapter?.onClickDialog={ item->
+        addContentAdapter?.onClickDialog = { item ->
             showDialog(item)
         }
+
 
     }
 
     private fun showDialog(item: AddModel) {
         val dialog = Dialog(requireContext(), R.style.CustomDialogStyle)
         val view = layoutInflater.inflate(R.layout.dialog_delete_edit, null)
-
         dialog.setContentView(view)
 
         val window = dialog.window
@@ -102,23 +108,28 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
         }
 
 
-        val btnEdit= view.findViewById<AppCompatButton>(R.id.btnEdit)
+        val btnEdit = view.findViewById<AppCompatButton>(R.id.btnEdit)
         val btnRemove = view.findViewById<AppCompatButton>(R.id.btnRemove)
 
         btnEdit.setOnClickListener {
             val bundle = Bundle().apply {
-                putParcelable("addModel", item)
-                Log.d("showDialog", "showDialog: $item")
+                putParcelable(KeyWord.addModel, item)
             }
-            val newAddFragment =NewAddFragment().apply {
-                arguments=bundle
+            val newAddFragment = NewAddFragment().apply {
+                arguments = bundle
             }
             (activity as MainActivity).replaceFragment(newAddFragment)
             dialog.dismiss()
 
         }
         btnRemove.setOnClickListener {
-            val deleteContent = AddModel(id=item.id,nameAdd = item.nameAdd ,nameCollection =item.nameCollection , isFavourite = item.isFavourite, day = item.day)
+            val deleteContent = AddModel(
+                id = item.id,
+                nameAdd = item.nameAdd,
+                nameCollection = item.nameCollection,
+                isFavourite = item.isFavourite,
+                day = item.day
+            )
             viewModel.deleteContent(deleteContent)
             dialog.dismiss()
         }
@@ -136,24 +147,24 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
                 val stringList: List<String> = listContent.map { addModel ->
                     addModel.nameAdd
                 }
-                preferences.saveList("list_my_affirmations", stringList)
+                preferences.saveList(KeyWord.list_my_affirmations, stringList)
             }
             if (collections.isEmpty()) {
                 binding.rvListAdd.visibility = View.GONE
-                binding.ivNoData.visibility=View.VISIBLE
+                binding.ivNoData.visibility = View.VISIBLE
 
             } else {
                 binding.rvListAdd.visibility = View.VISIBLE
-                binding.ivNoData.visibility=View.GONE
+                binding.ivNoData.visibility = View.GONE
             }
         }
     }
 
     private fun setUpListener() {
         binding.ivBack.setOnClickListener {
-            (activity as MainActivity).supportFragmentManager.popBackStack()
+            activity?.onBackPressed()
         }
-        binding.btnAdd.setOnClickListener{
+        binding.btnAdd.setOnClickListener {
             (activity as MainActivity).replaceFragment(NewAddFragment())
         }
     }

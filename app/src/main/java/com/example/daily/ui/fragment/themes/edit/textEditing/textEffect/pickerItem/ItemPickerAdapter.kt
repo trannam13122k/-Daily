@@ -7,7 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.daily.databinding.ItemColorPickerBinding
 
 
-class ItemPickerAdapter (private val context: Context, private var dataList: List<ItemPickerModel>, private val recyclerView: RecyclerView?) :
+class ItemPickerAdapter(
+    private val context: Context,
+    private var dataList: List<ItemPickerModel>,
+    private val recyclerView: RecyclerView?
+) :
     RecyclerView.Adapter<ItemPickerAdapter.TextViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextViewHolder {
@@ -32,7 +36,8 @@ class ItemPickerAdapter (private val context: Context, private var dataList: Lis
         notifyDataSetChanged()
     }
 
-    inner class TextViewHolder(private val binding: ItemColorPickerBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class TextViewHolder(private val binding: ItemColorPickerBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ItemPickerModel) {
             binding.ivIcon.setImageResource(item.icon)

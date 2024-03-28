@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.example.daily"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -78,5 +78,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:20.3.0")
 
     implementation ("com.google.code.gson:gson:2.10.1")
+
+    implementation ("androidx.work:work-runtime-ktx:2.7.0")
 
 }

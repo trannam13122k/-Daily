@@ -13,14 +13,17 @@ class CategoriesAdapter (private val list : List<Content>?): RecyclerView.Adapte
 
     inner class CategoriesViewHolder(val binding: ItemCategoriesBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(data : Content){
-            binding.tvTitle.text=data.titleContent
-            binding.ivLock.visibility= View.GONE
-            Glide.with(binding.ivIcon.context).load(data.icon).into(binding.ivIcon)
-            binding.root.setOnClickListener{
-                onClickItem?.invoke(data)
+            binding.apply {
+                tvTitle.text = data.titleContent
+                ivLock.visibility = View.GONE
+                Glide.with(ivIcon.context).load(data.icon).into(ivIcon)
+                root.setOnClickListener {
+                    onClickItem?.invoke(data)
+                }
             }
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
         val view= ItemCategoriesBinding.inflate(LayoutInflater.from(parent.context), parent,false)
         return CategoriesViewHolder(view)
@@ -29,7 +32,6 @@ class CategoriesAdapter (private val list : List<Content>?): RecyclerView.Adapte
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
         holder.bind(list!![position])
     }
-
 
     override fun getItemCount(): Int {
         return list!!.size

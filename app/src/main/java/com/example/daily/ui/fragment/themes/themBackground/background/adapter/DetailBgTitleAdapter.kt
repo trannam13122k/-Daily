@@ -10,28 +10,38 @@ import com.example.daily.databinding.ItemThemesBgBinding
 import com.example.daily.ui.fragment.themes.themBackground.background.model.ThemesModel
 
 
-class DetailBgTitleAdapter (private var listThemes : List<ThemesModel>?): RecyclerView.Adapter<DetailBgTitleAdapter.DetailBgTitleViewHolder>(){
+class DetailBgTitleAdapter(private var listThemes: List<ThemesModel>?) :
+    RecyclerView.Adapter<DetailBgTitleAdapter.DetailBgTitleViewHolder>() {
     var onClickViewAllItem: ((ThemesModel) -> Unit)? = null
     var onClickItem: ((ThemesModel) -> Unit)? = null
-    inner class DetailBgTitleViewHolder(val binding: ItemThemesBgBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(data : ThemesModel){
-            Glide.with(binding.ivBg.context).load(data.image).into(binding.ivBg)
-            binding.llViewAll.setOnClickListener {
-                onClickViewAllItem?.invoke(data)
-            }
-            binding.root.setOnClickListener {
-                onClickItem?.invoke(data)
-            }
-            binding.ivKey.setImageResource(if (data.check) R.drawable.icon_key else {
-                binding.ivKey.visibility = View.GONE
-                0 })
-            binding.llViewAll.visibility= View.GONE
 
+    inner class DetailBgTitleViewHolder(val binding: ItemThemesBgBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: ThemesModel) {
+            with(binding) {
+                Glide.with(ivBg.context).load(data.image).into(ivBg)
+                llViewAll.setOnClickListener {
+                    onClickViewAllItem?.invoke(data)
+                }
 
+                root.setOnClickListener {
+                    onClickItem?.invoke(data)
+                }
+
+                ivKey.setImageResource(
+                    if (data.check) R.drawable.icon_key else {
+                        ivKey.visibility = View.GONE
+                        0
+                    }
+                )
+
+                llViewAll.visibility = View.GONE
+            }
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailBgTitleViewHolder {
-        val view= ItemThemesBgBinding.inflate(LayoutInflater.from(parent.context), parent,false)
+        val view = ItemThemesBgBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DetailBgTitleViewHolder(view)
     }
 
@@ -42,8 +52,5 @@ class DetailBgTitleAdapter (private var listThemes : List<ThemesModel>?): Recycl
     override fun getItemCount(): Int {
         return listThemes!!.size
     }
-    fun updateData(newThemes: List<ThemesModel>) {
-        listThemes = newThemes
-        notifyDataSetChanged()
-    }
+
 }

@@ -6,7 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.daily.databinding.ItemColorPickerBinding
 
-class PickerItemAdapter(private val context: Context, private var dataList: List<PickerItem>, private val recyclerView: RecyclerView?) :
+class PickerItemAdapter(
+    private val context: Context,
+    private var dataList: List<PickerItem>,
+    private val recyclerView: RecyclerView?
+) :
 
     RecyclerView.Adapter<PickerItemAdapter.TextEditingViewHolder>() {
 
@@ -18,7 +22,8 @@ class PickerItemAdapter(private val context: Context, private var dataList: List
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextEditingViewHolder {
-        val binding = ItemColorPickerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemColorPickerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TextEditingViewHolder(binding)
     }
 

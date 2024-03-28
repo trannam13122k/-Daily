@@ -62,5 +62,9 @@
     <string name="select">Select</string>
     <string name="affirmations">Affirmations</string>
 
+    <string name="foregroundService">Foreground Service</string>
+    <string name="running">Running...</string>
+    <string name="foregroundServiceChannel">Foreground Service Channel</string>
+
 
 </resources>

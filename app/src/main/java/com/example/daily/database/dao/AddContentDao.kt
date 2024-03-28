@@ -34,6 +34,7 @@ interface AddContentDao {
             insert(addModel)
         }
     }
+
     @Query("UPDATE collection SET nameCollection = :nameCollection")
     suspend fun updateCollectionName(nameCollection: String)
 
@@ -41,7 +42,7 @@ interface AddContentDao {
     suspend fun updateNameCollection(id: Long, nameCollection: String)
 
     @Query("UPDATE 'add' SET isFavourite = :isFavourite WHERE id = :id")
-    suspend fun updateFavourite(id: Long, isFavourite :Boolean)
+    suspend fun updateFavourite(id: Long, isFavourite: Boolean)
 
     @Query("SELECT * FROM 'add' WHERE nameCollection = :nameCollection")
     suspend fun getItemsByCollection(nameCollection: String): List<AddModel>

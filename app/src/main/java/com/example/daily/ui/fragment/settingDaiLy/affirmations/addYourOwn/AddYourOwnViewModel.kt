@@ -16,28 +16,30 @@ class AddYourOwnViewModel(application: Application) : AndroidViewModel(applicati
 
     val allContent: LiveData<List<AddModel>>
 
+    val allListFavourite: LiveData<List<FavouriteModel>>
+
     init {
         val collectionDao = AppDatabase.getInstance(application).collectionDao()
         val addContentDao = AppDatabase.getInstance(application).addContentDao()
         val favouriteDao = AppDatabase.getInstance(application).favouriteDao()
         val editDao = AppDatabase.getInstance(application).editDao()
-        repository = RepositoryRoom(collectionDao, addContentDao, favouriteDao,editDao)
+        repository = RepositoryRoom(collectionDao, addContentDao, favouriteDao, editDao)
         allContent = repository.allContent
+        allListFavourite = repository.allFavourite
     }
 
     fun insertContent(addModel: AddModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertContent(addModel)
     }
 
-    fun updateCollectionName(nameCollection:String)= viewModelScope.launch(Dispatchers.IO) {
-        repository.updateCollectionName(nameCollection)
-    }
     fun insertFavourite(favourite: FavouriteModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertFavourite(favourite)
     }
+
     fun updateContent(addModel: AddModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateContent(addModel)
     }
+
     fun deleteContent(addModel: AddModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteContent(addModel)
     }

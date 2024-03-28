@@ -1,8 +1,9 @@
 package com.example.daily.ui.fragment.categories
 
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +17,10 @@ import com.example.daily.ui.fragment.categories.model.ContentModelFireBase
 import com.example.daily.ui.fragment.mainFragment.MainFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.AddYourOwnFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsFragment
-import com.example.daily.ui.fragment.settingDaiLy.affirmations.favourite.FavouriteFragment
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.TitleBackgroundAdapter
 import com.example.daily.util.DataB
+import com.example.daily.util.DialogUtils
+import com.example.daily.util.KeyWord
 
 class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
 
@@ -37,15 +39,17 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
     }
 
     override fun init() {
-
         preferences = Preferences.getInstance(requireContext())
-        viewModel = ViewModelProvider(this).get(CategoriesViewModel::class.java)
+        viewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
+        viewModel.getContentByTitle(KeyWord.mostPopular) { contentList, _ ->
+            setUpItemBySelect(contentList)
+        }
     }
 
     override fun setUpView() {
         clickListener()
-        setUpDataTitleBg()
-        setUpDataRecycleView()
+        setUpDataTitleSelect()
+        setUpDataMixCategory()
     }
 
     private fun clickListener() {
@@ -54,97 +58,153 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
         }
     }
 
-    private fun setUpDataTitleBg() {
-
-        binding.rvTitleContent.apply {
-            val layoutParams = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            layoutManager = layoutParams
+    private fun setUpDataTitleSelect() {
+        binding.rcvTitleSelect.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             titleContentAdapter = DataB?.listTitleContent?.let { TitleBackgroundAdapter(it) }
             adapter = titleContentAdapter
         }
         titleContentAdapter?.onClickItem = { titleBg ->
             val title = titleBg.title
             viewModel.getContentByTitle(title) { contentList, _ ->
-                Log.d("contentList", "setUpDataTitleBg: $contentList")
-                setUpContentByTitle(contentList)
+                setUpItemBySelect(contentList)
             }
         }
     }
 
-    private fun setUpContentByTitle(contentList: List<ContentModelFireBase>) {
+    private fun setUpItemBySelect(contentList: List<ContentModelFireBase>) {
         binding.rvContentByTitle.apply {
-            val layoutParams = GridLayoutManager(requireContext(), 2)
-            layoutManager = layoutParams
-            categoriesFireBaseAdapter = CategoriesFirebaseAdapter(contentList)
-            adapter = categoriesFireBaseAdapter
-        }
-        categoriesFireBaseAdapter?.onClickItem = {
-            preferences.setString("titleContent", it.nameContent).toString()
-            preferences.saveList("myListKey", it?.listContent)
-            (activity as MainActivity).replaceFragment(MainFragment())
-            Log.d("contentList", "setUpContentByTitle: ${it.listContent}")
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            categoriesFireBaseAdapter = CategoriesFirebaseAdapter(contentList).apply {
+                adapter = this
+                onClickItem = { item ->
+                    if (item.check) {
+                        showDialog(
+                            item,
+                            requireActivity(),
+                            "Notification",
+                            "Would you like to spend 2 cents to use it?"
+                        )
+                    } else {
+                        preferences.setString("titleContent", item.nameContent).toString()
+                        preferences.saveList(KeyWord.myListKey, item?.listContent)
+                        (activity as MainActivity).replaceFragment(MainFragment())
+                    }
+                }
+            }
         }
     }
 
-    private fun setUpDataRecycleView() {
+    private fun showDialog(
+        it: ContentModelFireBase,
+        context: Context,
+        title: String,
+        message: String
+    ) {
+        AlertDialog.Builder(context)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, which ->
+                preferences.setString(KeyWord.titleContent, it.nameContent).toString()
+                preferences.saveList(KeyWord.myListKey, it?.listContent)
+                openFragment(MainFragment::class.java, null, false)
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
 
-        binding.rvContentDefault.apply {
-            val layoutParams =GridLayoutManager(requireContext(), 2)
+    private fun setUpDataMixCategory() {
+        binding.rcvMixCategory.apply {
+            val layoutParams = GridLayoutManager(requireContext(), 2)
             layoutManager = layoutParams
             categoriesAdapter = CategoriesAdapter(DataB?.listCategories)
             adapter = categoriesAdapter
-            Log.d("listCategories", "setUpDataRecycleView: ${DataB.listCategories}")
 
         }
-        categoriesAdapter?.onClickItem = {
-            when (it.titleContent) {
-                "General" -> {
-                    preferences.setString("titleContent", it.titleContent).toString()
-                    preferences.saveList("myListKey", it.listContent)
-                    (activity as MainActivity).replaceFragment(MainFragment())
-                }
+//        categoriesAdapter?.onClickItem = {
+//            when (it.titleContent) {
+//                KeyWord.general -> {
+//                    preferences.setString(KeyWord.titleContent, it.titleContent).toString()
+//                    preferences.saveList(KeyWord.myListKey, it.listContent)
+//
+//                    openFragment(MainFragment::class.java, null, false)
+//                }
+//
+//                KeyWord.myFavorite -> {
+//                    it.listContent = preferences.getList(KeyWord.list_favorites)
+//                    if (it.listContent == null) {
+//                        DialogUtils.showDialog(
+//                            requireActivity(),
+//                            "Notification",
+//                            "Currently your data is not available, please check it"
+//                        )
+//                    } else {
+//                        preferences.setString(KeyWord.titleContent, it.titleContent).toString()
+//                        preferences.saveList(KeyWord.myListKey, it.listContent)
+//
+//                        openFragment(MainFragment::class.java, null, false)
+//                    }
+//                }
+//
+//                KeyWord.myAffirmations -> {
+//                    it.listContent = preferences.getList(KeyWord.list_my_affirmations)
+//                    if (it.listContent?.isEmpty() == true) {
+//                        openFragment(AddYourOwnFragment::class.java, null, false)
+//                    } else {
+//                        preferences.setString(KeyWord.titleContent, it.titleContent).toString()
+//                        preferences.saveList(KeyWord.myListKey, it.listContent)
+//                        openFragment(MainFragment::class.java, null, false)
+//                    }
+//                }
+//
+//                KeyWord.myCollection -> {
+//                    (activity as MainActivity).replaceFragment(CollectionsFragment())
+//                    it.listContent = preferences.getList(KeyWord.list_content_by_collection)
+//                    if (it.listContent!!.isEmpty()) {
+//                        openFragment(CollectionsFragment::class.java, null, false)
+//                    } else {
+//                        preferences.setString(KeyWord.titleContent, it.titleContent).toString()
+//                        preferences.saveList(KeyWord.myListKey, it.listContent)
+//                        openFragment(MainFragment::class.java, null, false)
+//                    }
+//                }
+//            }
+//        }
+        categoriesAdapter?.onClickItem = { item ->
+            item?.let {
+                when (it.titleContent) {
+                    KeyWord.general -> {
+                        preferences.setString(KeyWord.titleContent, it.titleContent)
+                        preferences.saveList(KeyWord.myListKey, it.listContent)
 
-                "My favorite" -> {
-                    (activity as MainActivity).replaceFragment(MainFragment())
-                    it.listContent = preferences.getList("list_favorites")
-                    Log.d("list", "setUpDataRecycleView: ${it.listContent}")
-                    if (it.listContent == null) {
-                        (activity as MainActivity).replaceFragment(FavouriteFragment())
-                    } else {
-                        preferences.setString("titleContent", it.titleContent).toString()
-                        preferences.saveList("myListKey", it.listContent)
-                        (activity as MainActivity).replaceFragment(MainFragment())
+                        openFragment(MainFragment::class.java, null, false)
                     }
 
-                }
-
-                "My affirmations" -> {
-                    it.listContent = preferences.getList("list_my_affirmations")
-                    Log.d("listContent", "setUpDataRecycleView: ${it.listContent}")
-                    if (it.listContent!!.isEmpty()) {
-                        (activity as MainActivity).replaceFragment(AddYourOwnFragment())
-                    } else {
-                        preferences.setString("titleContent", it.titleContent).toString()
-                        preferences.saveList("myListKey", it.listContent)
-                        (activity as MainActivity).replaceFragment(MainFragment())
+                    KeyWord.myFavorite -> {
+                        preferences.setString(KeyWord.titleContent, it.titleContent)
+//
+                        openFragment(MainFragment::class.java, null, false)
                     }
-                }
 
-                "My collection" -> {
-                    (activity as MainActivity).replaceFragment(CollectionsFragment())
-                    it.listContent = preferences.getList("list_content_by_collection")
-                    Log.d("listContent", "setUpDataRecycleView: ${it.listContent}")
-                    if (it.listContent!!.isEmpty()) {
-                        (activity as MainActivity).replaceFragment(CollectionsFragment())
-                    } else {
-                        preferences.setString("titleContent", it.titleContent).toString()
-                        preferences.saveList("myListKey", it.listContent)
-                        (activity as MainActivity).replaceFragment(MainFragment())
+                    KeyWord.myAffirmations -> {
+                        preferences.setString(KeyWord.titleContent, it.titleContent)
+                            openFragment(MainFragment::class.java, null, false)
+
+                    }
+
+                    KeyWord.myCollection -> {
+                        it.listContent = preferences.getList(KeyWord.list_content_by_collection)
+                        if (it.listContent?.isEmpty() == true) {
+                            openFragment(CollectionsFragment::class.java, null, false)
+                        } else {
+                            preferences.setString(KeyWord.titleContent, it.titleContent)
+                            preferences.saveList(KeyWord.myListKey, it.listContent)
+                            openFragment(MainFragment::class.java, null, false)
+                        }
                     }
                 }
             }
-
-
         }
     }
 

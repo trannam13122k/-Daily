@@ -14,10 +14,8 @@ class ColorAdapter(  private val listColor: List<ColorsBG>?) : RecyclerView.Adap
         return ColorViewHolder(binding)
     }
 
-
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
         holder.bind(listColor!![position])
-
     }
 
     override fun getItemCount(): Int {
@@ -26,11 +24,9 @@ class ColorAdapter(  private val listColor: List<ColorsBG>?) : RecyclerView.Adap
 
     inner class ColorViewHolder(private val binding: ItemColorPickerBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(colors: ColorsBG) {
-
             binding.ivIcon.post {
                 binding.ivIcon.setImageResource(colors.icon)
             }
-
             binding.root.setOnClickListener {
                 onClickItem?.invoke(colors)
             }

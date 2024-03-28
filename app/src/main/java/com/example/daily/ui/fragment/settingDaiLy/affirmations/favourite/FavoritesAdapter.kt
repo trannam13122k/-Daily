@@ -17,17 +17,20 @@ class FavoritesAdapter(private var list: List<FavouriteModel>?) :
     inner class CollectionsViewHolder(val binding: ItemNewAddBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: FavouriteModel) {
-            binding.tvContent.text = data.nameFavourite
-            binding.tvDay.text = data.day
+            with(binding) {
+                tvContent.text = data.nameFavourite
+                tvDay.text = data.day
 
-            binding.ivFavourite.setImageResource(if (data.isFavourite) R.drawable.baseline_favorite_24 else R.drawable.icon_favourite)
-            binding.ivFavourite.setOnClickListener {
-                data.isFavourite = !data.isFavourite
-                binding.ivFavourite.setImageResource(if (data.isFavourite) R.drawable.icon_favourite_add else R.drawable.baseline_favorite_24)
-                onClickIsFavourite?.invoke(data)
+                ivFavourite.setImageResource(if (data.isFavourite) R.drawable.baseline_favorite_24 else R.drawable.icon_favourite)
+                ivFavourite.setOnClickListener {
+                    data.isFavourite = !data.isFavourite
+                    ivFavourite.setImageResource(if (data.isFavourite) R.drawable.icon_favourite_add else R.drawable.baseline_favorite_24)
+                    onClickIsFavourite?.invoke(data)
+                }
+
+                ivMore.visibility = View.GONE
+                ivSave.visibility = View.GONE
             }
-            binding.ivMore.visibility = View.GONE
-            binding.ivSave.visibility = View.GONE
         }
     }
 

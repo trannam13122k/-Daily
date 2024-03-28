@@ -162,20 +162,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <!--        <com.example.daily.effect.StrokedTextView-->
-        <!--            android:id="@+id/tvContent"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="0dp"-->
-        <!--            android:gravity="center"-->
-        <!--            android:text="@string/iAm"-->
-        <!--            android:textSize="@dimen/_18sdp"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:strokeThickness="3dp" />-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

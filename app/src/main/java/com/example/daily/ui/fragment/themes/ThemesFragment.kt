@@ -25,6 +25,7 @@ import com.example.daily.ui.fragment.themes.themBackground.background.adapter.Th
 import com.example.daily.ui.fragment.themes.themBackground.background.DetailBgTitleFragment
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.TitleBackgroundAdapter
 import com.example.daily.util.DataB
+import com.example.daily.util.KeyWord
 import java.io.Serializable
 
 class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
@@ -44,17 +45,14 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
 
     override fun init() {
         preferences = Preferences.getInstance(requireContext())
-        val bg = preferences.getString("imageBg")
+        val bg = preferences.getString(KeyWord.imageBg)
         Glide.with(requireContext())
             .load(bg)
             .into(binding.ivBg)
         viewModel = ViewModelProvider(this).get(ThemesViewModel::class.java)
-        themesAdapter = ThemesAdapter(emptyList())
-        viewModel.themes.observe(viewLifecycleOwner, Observer { listThemes ->
-            Log.d("listThemes", "init: $listThemes")
-            themesAdapter?.updateData(listThemes)
-        })
-        viewModel.fetchAllThemes()
+        viewModel.getThemesByTitle(KeyWord.mostPopular) { themesList, _ ->
+            setUpDataBackground(themesList)
+        }
     }
 
     override fun setUpView() {
@@ -75,16 +73,15 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
                 val randomIndex = (0 until themesList.size).random()
                 val randomTheme = themesList[randomIndex]
                 val randomImage = randomTheme.image
-                Log.d("RanDom", "clickListener: $randomImage")
                 val bundle = Bundle().apply {
-                    putString("randomImage", randomImage)
+                    putString(KeyWord.randomImage, randomImage)
                 }
 
-                openFragment(MainFragment::class.java,bundle,true)
+                openFragment(MainFragment::class.java, bundle, true)
             }
         }
         binding.constraintNew.setOnClickListener {
-            openFragment(EditFragment::class.java,null,true)
+            openFragment(EditFragment::class.java, null, true)
         }
     }
 
@@ -113,11 +110,9 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
             adapter = themesAdapter
         }
         themesAdapter?.onClickViewAllItem = {
-            Log.d("it.titleBg", "setUpDataBackground: $themesList")
             val bundle = Bundle().apply {
-                putString("titleBg", it.TitleBg)
-                putSerializable("themesList", themesList as Serializable)
-                Log.d("themesList", "setUpDataBackground: $themesList")
+                putString(KeyWord.titleBg, it.TitleBg)
+                putSerializable(KeyWord.themesList, themesList as Serializable)
             }
             var detailBgTitleFragment = DetailBgTitleFragment().apply {
                 arguments = bundle

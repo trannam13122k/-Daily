@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 public class PickerLayoutManager extends LinearLayoutManager {
-
     public float scaleDownBy = 0.66f;
     public float scaleDownDistance = 0.9f;
     public boolean changeAlpha = true;
@@ -72,7 +71,6 @@ public class PickerLayoutManager extends LinearLayoutManager {
             }
         }
     }
-
 
     public void setOnScrollStopListener(onScrollStopListener onScrollStopListener) {
         this.onScrollStopListener = onScrollStopListener;

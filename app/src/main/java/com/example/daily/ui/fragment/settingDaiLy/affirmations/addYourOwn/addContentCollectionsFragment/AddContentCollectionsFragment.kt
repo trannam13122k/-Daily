@@ -1,30 +1,26 @@
 package com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.addContentCollectionsFragment
 
-import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentAddContentCollectionsBinding
 import com.example.daily.model.CollectionModel
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsAdapter
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsViewModel
+import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.newCollections.NewCollectionsFragment
+import com.example.daily.util.KeyWord
 
 class AddContentCollectionsFragment : BaseFragment<FragmentAddContentCollectionsBinding>() {
 
     private lateinit var viewModel: CollectionsViewModel
+    private lateinit var preferences: Preferences
 
     private var collectionAdapter: CollectionsAdapter? = null
-
     private var collectionsList: List<CollectionModel> = listOf()
-
-    private lateinit var preferences: Preferences
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -47,22 +43,25 @@ class AddContentCollectionsFragment : BaseFragment<FragmentAddContentCollections
         binding.ivClose.setOnClickListener {
             activity?.onBackPressed()
         }
+        binding.btnAdd.setOnClickListener {
+            openFragment(NewCollectionsFragment::class.java,null,false)
+        }
     }
 
     private fun setDataRecycleView() {
         binding.rvCollection.apply {
-            val layoutParams = LinearLayoutManager(requireContext())
-            layoutManager = layoutParams
+            layoutManager = LinearLayoutManager(requireContext())
             collectionAdapter = CollectionsAdapter(listOf())
             adapter = collectionAdapter
         }
         setData()
-        collectionAdapter?.onClickItem = {
-            preferences.setString("NameCollections", it.nameCollection)
-            val itemId = arguments?.getLong("itemId")
-            Log.d("itemId", "setDataRecycleView: $itemId")
-            viewModel.updateNameCollection(itemId!!, it.nameCollection)
-          activity?.onBackPressed()
+        collectionAdapter?.onClickItem = { collection ->
+            preferences.setString(KeyWord.nameCollections, collection.nameCollection)
+            val itemId = arguments?.getLong(KeyWord.itemId)
+            if (itemId != null) {
+                viewModel.updateNameCollection(itemId, collection.nameCollection)
+            }
+            activity?.onBackPressed()
         }
     }
 

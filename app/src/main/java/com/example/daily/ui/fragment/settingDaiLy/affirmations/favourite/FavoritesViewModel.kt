@@ -21,11 +21,15 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         val addContentDao = AppDatabase.getInstance(application).addContentDao()
         val favouriteDao = AppDatabase.getInstance(application).favouriteDao()
         val editDao = AppDatabase.getInstance(application).editDao()
-        repository = RepositoryRoom(collectionDao, addContentDao, favouriteDao,editDao)
+        repository = RepositoryRoom(collectionDao, addContentDao, favouriteDao, editDao)
         allFavourite = repository.allFavourite
     }
 
     fun insert(favourite: FavouriteModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertFavourite(favourite)
+    }
+
+    fun deleteFavourite(favourite: FavouriteModel) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteFavourite(favourite)
     }
 }

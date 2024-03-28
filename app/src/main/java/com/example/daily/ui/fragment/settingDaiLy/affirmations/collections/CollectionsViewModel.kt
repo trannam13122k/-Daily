@@ -12,7 +12,6 @@ import com.example.daily.repository.RepositoryRoom
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class CollectionsViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: RepositoryRoom
 
@@ -23,7 +22,7 @@ class CollectionsViewModel(application: Application) : AndroidViewModel(applicat
         val addContentDao = AppDatabase.getInstance(application).addContentDao()
         val favouriteDao = AppDatabase.getInstance(application).favouriteDao()
         val editDao = AppDatabase.getInstance(application).editDao()
-        repository = RepositoryRoom(collectionDao, addContentDao, favouriteDao,editDao)
+        repository = RepositoryRoom(collectionDao, addContentDao, favouriteDao, editDao)
         allCollections = repository.allCollection
     }
 
@@ -31,13 +30,10 @@ class CollectionsViewModel(application: Application) : AndroidViewModel(applicat
         repository.insert(collection)
     }
 
-    fun updateCollection(collection: String) = viewModelScope.launch(Dispatchers.IO) {
-        repository.update(collection)
-    }
-
     fun deleteCollection(collection: CollectionModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.delete(collection)
     }
+
     fun updateNameCollection(id: Long, nameCollection: String) {
         viewModelScope.launch {
             repository.updateNameCollection(id, nameCollection)

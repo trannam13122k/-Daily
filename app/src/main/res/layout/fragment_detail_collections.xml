@@ -31,7 +31,15 @@
             android:textColor="@color/black"
             android:textSize="25dp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivMore"
+            android:layout_margin="5dp"
+            android:src="@drawable/icon_more"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"/>
     </LinearLayout>
+
     <ImageView
         android:id="@+id/ivNoData"
         android:src="@drawable/no_adder"

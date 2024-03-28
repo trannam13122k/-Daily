@@ -2,10 +2,10 @@ package com.example.daily.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.daily.model.FavouriteModel
-
 
 @Dao
 interface FavouriteDao {
@@ -27,5 +27,8 @@ interface FavouriteDao {
 
     @Query("DELETE FROM favourite WHERE nameFavourite = :name")
     suspend fun deleteByName(name: String)
+
+    @Delete
+    suspend fun deleteFavourite(favourite: FavouriteModel)
 
 }

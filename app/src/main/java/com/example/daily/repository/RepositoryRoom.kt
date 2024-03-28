@@ -17,56 +17,56 @@ class RepositoryRoom(
     private val editDao: EditDao
 ) {
 
-    val allCollection : LiveData<List<CollectionModel>> = collectionDao.getAllCollectionLiveData()
+    val allCollection: LiveData<List<CollectionModel>> = collectionDao.getAllCollectionLiveData()
 
-    val allContent : LiveData<List<AddModel>> =addContentDao.getAllContentLiveData()
+    val allContent: LiveData<List<AddModel>> = addContentDao.getAllContentLiveData()
 
-    val allFavourite : LiveData<List<FavouriteModel>> =favouriteDao.getAllFavouriteLiveData()
+    val allFavourite: LiveData<List<FavouriteModel>> = favouriteDao.getAllFavouriteLiveData()
 
-    val allEdit : LiveData<List<EditModel>> =editDao.getAllLiveData()
+    val allAddContent: LiveData<List<AddModel>> = addContentDao.getAllContentLiveData()
 
-    suspend fun insert(collection : CollectionModel){
+    val allEdit: LiveData<List<EditModel>> = editDao.getAllLiveData()
+
+    suspend fun insert(collection: CollectionModel) {
         collectionDao.insertIfNotExists(collection)
     }
-    fun edit(): EditModel? = if (editDao.getAllData().isNotEmpty())editDao.getAllData().last() else null
 
-    suspend fun update(collection: String){
+    fun edit(): EditModel? =
+        if (editDao.getAllData().isNotEmpty()) editDao.getAllData().last() else null
+
+    suspend fun update(collection: String) {
         collectionDao.update(collection)
     }
-    suspend fun countCollectionsByName(name: String): Int {
-        return collectionDao.countCollectionsByName(name)
-    }
 
-    suspend fun delete(collection: CollectionModel){
+    fun delete(collection: CollectionModel) {
         collectionDao.delete(collection)
     }
 
-    suspend fun insertContent(addModel: AddModel){
+    suspend fun insertContent(addModel: AddModel) {
         addContentDao.insertIfNotExists(addModel)
     }
-    suspend fun updateCollectionName(nameCollection: String){
+
+    suspend fun updateCollectionName(nameCollection: String) {
         addContentDao.updateCollectionName(nameCollection)
     }
+
     suspend fun updateNameCollection(id: Long, nameCollection: String) {
         addContentDao.updateNameCollection(id, nameCollection)
-    }
-    suspend fun updateFavourite(id: Long, isFavourite :Boolean){
-        addContentDao.updateFavourite(id,isFavourite)
     }
 
     suspend fun getItemsByCollection(nameCollection: String): List<AddModel> {
         return addContentDao.getItemsByCollection(nameCollection)
     }
 
-    suspend fun insertFavourite(favourite :FavouriteModel){
+    suspend fun insertFavourite(favourite: FavouriteModel) {
         favouriteDao.insertIfNotExists(favourite)
     }
 
-    fun updateContent(addModel: AddModel){
+    fun updateContent(addModel: AddModel) {
         addContentDao.updateContent(addModel)
     }
 
-    fun deleteContent(addModel: AddModel){
+    fun deleteContent(addModel: AddModel) {
         addContentDao.deleteContent(addModel)
     }
 
@@ -74,13 +74,15 @@ class RepositoryRoom(
         favouriteDao.deleteByName(name)
     }
 
-    suspend fun insertEdit(editModel: EditModel){
+    fun insertEdit(editModel: EditModel) {
         editDao.insert(editModel)
     }
 
-    suspend fun updateEdit(editModel: EditModel){
+    fun updateEdit(editModel: EditModel) {
         editDao.update(editModel)
     }
 
-
+    suspend fun deleteFavourite(favourite: FavouriteModel) {
+        favouriteDao.deleteFavourite(favourite)
+    }
 }

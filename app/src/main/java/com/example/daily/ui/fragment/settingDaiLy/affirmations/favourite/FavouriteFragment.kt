@@ -1,28 +1,24 @@
 package com.example.daily.ui.fragment.settingDaiLy.affirmations.favourite
 
-import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentFavouriteBinding
 import com.example.daily.model.FavouriteModel
+import com.example.daily.util.KeyWord
 
 class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
 
     private lateinit var viewModel: FavoritesViewModel
+    private lateinit var preferences: Preferences
 
     private var adapterFavorites: FavoritesAdapter? = null
-
     private var listFavorites: List<FavouriteModel> = listOf()
-
-    private lateinit var preferences: Preferences
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -32,22 +28,26 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
     }
 
     override fun init() {
-        viewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
+        viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
         preferences = Preferences.getInstance(requireContext())
     }
 
     override fun setUpView() {
-        setUpDataRecycleView()
+        setUpDataListFavourite()
         setUpListener()
     }
 
-    private fun setUpDataRecycleView() {
+    private fun setUpDataListFavourite() {
         binding.rvListFavorites.apply {
-            val layoutParams =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            val layoutParams = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             layoutManager = layoutParams
             adapterFavorites = FavoritesAdapter(listOf())
             adapter = adapterFavorites
+        }
+
+        adapterFavorites?.onClickIsFavourite = { favourite ->
+            var deleteFavourite = FavouriteModel(favourite.id, favourite.nameFavourite, false, "")
+            viewModel.deleteFavourite(deleteFavourite)
         }
 
         viewModel.allFavourite.observe(viewLifecycleOwner) { collections ->
@@ -57,7 +57,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
                 val stringList: List<String> = listFavorites.map { favoritesModel ->
                     favoritesModel.nameFavourite
                 }
-                preferences.saveList("list_favorites", stringList)
+                preferences.saveList(KeyWord.list_favorites, stringList)
             }
             if (collections.isEmpty()) {
                 binding.rvListFavorites.visibility = View.GONE
@@ -68,10 +68,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
                 binding.ivNoData.visibility = View.GONE
             }
         }
-
     }
-
-
 
     private fun setUpListener() {
         binding.ivBack.setOnClickListener {

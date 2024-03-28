@@ -8,7 +8,7 @@ class ItemPickerModel(
     val size: Int,
     val alignment: Int,
     val alignmentTop: Int,
-    var textTransform:String
+    var textTransform: String
 
 ) {
     enum class TextTransform {

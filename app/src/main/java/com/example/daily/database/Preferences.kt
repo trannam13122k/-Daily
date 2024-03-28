@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-
 class Preferences(private var sharedPreferences: SharedPreferences? = null) {
     private val gson = Gson()
 
@@ -55,7 +54,7 @@ class Preferences(private var sharedPreferences: SharedPreferences? = null) {
     }
 
     fun getList(key: String): List<String>? {
-        val json = sharedPreferences?.getString(key, null)
+        val json = sharedPreferences?.getString(key,"")
         return gson.fromJson(json, object : TypeToken<List<String>>() {}.type)
     }
 

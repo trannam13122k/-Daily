@@ -19,7 +19,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     private lateinit var activity1: BaseActivity<*>
 
-    var onBackInvokedCallback : (()-> Unit) ? = null
+    var onBackInvokedCallback: (() -> Unit)? = null
 
     abstract fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 
