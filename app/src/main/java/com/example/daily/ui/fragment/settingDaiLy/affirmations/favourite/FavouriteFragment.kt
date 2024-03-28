@@ -46,8 +46,10 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
         }
 
         adapterFavorites?.onClickIsFavourite = { favourite ->
-            var deleteFavourite = FavouriteModel(favourite.id, favourite.nameFavourite, false, "")
+            var deleteFavourite = FavouriteModel(favourite.id, favourite.nameFavourite, favourite.nameCollection,false, "")
             viewModel.deleteFavourite(deleteFavourite)
+            viewModel.updateNameFavourite(favourite.nameFavourite,false)
+
         }
 
         viewModel.allFavourite.observe(viewLifecycleOwner) { collections ->

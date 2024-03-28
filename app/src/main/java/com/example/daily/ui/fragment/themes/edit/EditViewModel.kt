@@ -21,6 +21,8 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
 
     val allAdd: LiveData<List<AddModel>>
 
+
+
     init {
         val collectionDao = AppDatabase.getInstance(application).collectionDao()
         val addContentDao = AppDatabase.getInstance(application).addContentDao()
@@ -44,6 +46,15 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
 
     fun insert(favourite: FavouriteModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertFavourite(favourite)
+    }
+
+    fun deleteFavourite(name: String) {
+        viewModelScope.launch {
+            repository.deleteFavourite(name)
+        }
+    }
+    fun updateNameFavourite(name:String, isFavourite :Boolean) = viewModelScope.launch(Dispatchers.IO){
+        repository.updateName(name,isFavourite)
     }
 
 

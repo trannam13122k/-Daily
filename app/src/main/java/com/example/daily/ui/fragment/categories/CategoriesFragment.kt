@@ -127,6 +127,7 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
             item?.let {
                 when (it.titleContent) {
                     KeyWord.general -> {
+                        it.listContent=DataB.listDataLocal
                         preferences.setString(KeyWord.titleContent, it.titleContent)
                         preferences.saveList(KeyWord.myListKey, it.listContent)
 
@@ -144,16 +145,6 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
                             openFragment(MainFragment::class.java, null, false)
                     }
 
-                    KeyWord.myCollection -> {
-                        it.listContent = preferences.getList(KeyWord.list_content_by_collection)
-                        if (it.listContent?.isEmpty() == true) {
-                            openFragment(CollectionsFragment::class.java, null, false)
-                        } else {
-                            preferences.setString(KeyWord.titleContent, it.titleContent)
-                            preferences.saveList(KeyWord.myListKey, it.listContent)
-                            openFragment(MainFragment::class.java, null, false)
-                        }
-                    }
                 }
             }
         }

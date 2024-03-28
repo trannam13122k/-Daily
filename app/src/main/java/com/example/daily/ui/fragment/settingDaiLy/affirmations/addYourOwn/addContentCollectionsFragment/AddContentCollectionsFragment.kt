@@ -1,5 +1,6 @@
 package com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.addContentCollectionsFragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,7 @@ class AddContentCollectionsFragment : BaseFragment<FragmentAddContentCollections
         collectionAdapter?.onClickItem = { collection ->
             preferences.setString(KeyWord.nameCollections, collection.nameCollection)
             val itemId = arguments?.getLong(KeyWord.itemId)
+            Log.d("itemId", "setDataRecycleView: $itemId")
             if (itemId != null) {
                 viewModel.updateNameCollection(itemId, collection.nameCollection)
             }
@@ -71,6 +73,7 @@ class AddContentCollectionsFragment : BaseFragment<FragmentAddContentCollections
                 collectionsList = it
                 collectionAdapter!!.setData(collectionsList)
             }
+
             if (collections.isEmpty()) {
                 binding.rvCollection.visibility = View.GONE
                 binding.ivNoData.visibility = View.VISIBLE

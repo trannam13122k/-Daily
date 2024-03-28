@@ -60,7 +60,7 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
             bundle.putLong(KeyWord.itemId, item.id)
             val fragment = AddContentCollectionsFragment()
             fragment.arguments = bundle
-            openFragment(AddContentCollectionsFragment::class.java, null, false)
+            openFragment(AddContentCollectionsFragment::class.java, bundle, false)
         }
         addContentAdapter?.onClickIsFavourite = { item ->
             val editFavourite = AddModel(
@@ -74,7 +74,7 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
             viewModel.updateContent(editFavourite)
             if (item.isFavourite) {
                 val newFavourite =
-                    FavouriteModel(nameFavourite = item.nameAdd, isFavourite = true, day = item.day)
+                    FavouriteModel(nameFavourite = item.nameAdd, isFavourite = true, nameCollection = item.nameCollection, day = item.day)
                 viewModel.insertFavourite(newFavourite)
             } else {
                 viewModel.deleteFavourite(item.nameAdd)
@@ -147,6 +147,7 @@ class AddYourOwnFragment : BaseFragment<FragmentAddYourOwnBinding>() {
                 val stringList: List<String> = listContent.map { addModel ->
                     addModel.nameAdd
                 }
+
                 preferences.saveList(KeyWord.list_my_affirmations, stringList)
             }
             if (collections.isEmpty()) {

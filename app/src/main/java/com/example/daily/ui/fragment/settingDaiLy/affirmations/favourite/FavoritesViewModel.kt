@@ -32,4 +32,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     fun deleteFavourite(favourite: FavouriteModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteFavourite(favourite)
     }
+     fun updateNameFavourite(name:String, isFavourite :Boolean) = viewModelScope.launch(Dispatchers.IO){
+        repository.updateName(name,isFavourite)
+    }
 }

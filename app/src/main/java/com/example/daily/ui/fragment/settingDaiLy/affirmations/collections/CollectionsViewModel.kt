@@ -3,11 +3,13 @@ package com.example.daily.ui.fragment.settingDaiLy.affirmations.collections
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.daily.database.AppDatabase
 import com.example.daily.model.AddModel
 import com.example.daily.model.CollectionModel
+import com.example.daily.model.FavouriteModel
 import com.example.daily.repository.RepositoryRoom
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,4 +47,18 @@ class CollectionsViewModel(application: Application) : AndroidViewModel(applicat
             emit(repository.getItemsByCollection(nameCollection))
         }
     }
+
+    fun insertFavourite(favourite: FavouriteModel) = viewModelScope.launch(Dispatchers.IO) {
+        repository.insertFavourite(favourite)
+    }
+
+    fun updateContent(addModel: AddModel) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateContent(addModel)
+    }
+
+    fun deleteFavourite(name: String) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteFavouriteByName(name)
+    }
+
+
 }

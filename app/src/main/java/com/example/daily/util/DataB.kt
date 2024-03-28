@@ -216,7 +216,6 @@ object DataB {
         ),
         Content("My favorite", "true", listOf("456", "789"), R.drawable.icon_favourite),
         Content("My affirmations", "true", listOf(), R.drawable.icon_user_content),
-        Content("My collection", "true", arrayListOf("dsds12232", "456"), R.drawable.book_open),
     )
 
     val listDataLocal = listOf(

@@ -48,4 +48,5 @@ class AddYourOwnViewModel(application: Application) : AndroidViewModel(applicati
         repository.deleteFavouriteByName(name)
     }
 
+
 }

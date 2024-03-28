@@ -1,6 +1,7 @@
 package com.example.daily.ui.fragment.mainFragment.contentMain
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -39,6 +40,16 @@ class ContentMainFragment() : BaseFragment<FragmentContentBinding>() {
             contentTitle = bundleN[KeyWord.question_object] as String
             contentTitle?.let { contentTitle ->
                 binding.tvContent.setText(contentTitle)
+                viewModel.allFavourite.observe(viewLifecycleOwner) { allFavouriteList ->
+                    if (contentTitle in allFavouriteList.map { it.nameFavourite }) {
+                        binding.imgFavourite.setImageResource(R.drawable.icon_true_fav)
+                        isFavourite=true
+                    }
+                    else{
+                        isFavourite=false
+                        binding.imgFavourite.setImageResource(R.drawable.icon_fav)
+                    }
+                }
             }
         }
 
@@ -53,11 +64,16 @@ class ContentMainFragment() : BaseFragment<FragmentContentBinding>() {
                 val favourite = FavouriteModel(
                     nameFavourite = contentTitle!!,
                     isFavourite = true,
+                    nameCollection = "",
                     day = formattedDateTime
                 )
                 viewModel.insert(favourite)
             } else {
                 binding.imgFavourite.setImageResource(R.drawable.icon_fav)
+                viewModel.deleteFavourite(contentTitle!!)
+                viewModel.updateNameFavourite(contentTitle!!,false)
+
+
             }
         }
     }

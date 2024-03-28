@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 data class AddModel(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val nameAdd: String,
+    var nameAdd: String,
     var nameCollection: String,
     var isFavourite: Boolean,
     var day: String

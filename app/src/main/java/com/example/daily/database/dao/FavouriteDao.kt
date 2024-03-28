@@ -31,4 +31,7 @@ interface FavouriteDao {
     @Delete
     suspend fun deleteFavourite(favourite: FavouriteModel)
 
+    @Query("DELETE FROM favourite WHERE nameFavourite = :name")
+    suspend fun deleteFavouriteByName(name: String)
+
 }

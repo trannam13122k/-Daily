@@ -16,6 +16,7 @@ import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentDetailCollectionsBinding
 import com.example.daily.model.AddModel
 import com.example.daily.model.CollectionModel
+import com.example.daily.model.FavouriteModel
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.AddYourOwnAdapter
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsViewModel
 import com.example.daily.util.KeyWord
@@ -36,7 +37,7 @@ class DetailCollectionsFragment : BaseFragment<FragmentDetailCollectionsBinding>
     }
 
     override fun init() {
-        viewModel = ViewModelProvider(this).get(CollectionsViewModel::class.java)
+        viewModel = ViewModelProvider(this)[CollectionsViewModel::class.java]
         preferences = Preferences.getInstance(requireContext())
     }
 
@@ -81,6 +82,35 @@ class DetailCollectionsFragment : BaseFragment<FragmentDetailCollectionsBinding>
             layoutManager = layoutParams
             detailAdapter = AddYourOwnAdapter(listOf())
             adapter = detailAdapter
+        }
+
+        detailAdapter?.onClickItem = {
+            viewModel.updateNameCollection(it.id, "")
+            setUpData()
+        }
+
+        detailAdapter?.onClickIsFavourite = { item ->
+            val editFavourite = AddModel(
+                id = item.id,
+                nameAdd = item.nameAdd,
+                nameCollection = item.nameCollection,
+                isFavourite = item.isFavourite,
+                day = item.day
+            )
+
+            viewModel.updateContent(editFavourite)
+            if (item.isFavourite) {
+                val newFavourite =
+                    FavouriteModel(
+                        nameFavourite = item.nameAdd,
+                        isFavourite = true,
+                        nameCollection = item.nameCollection,
+                        day = item.day
+                    )
+                viewModel.insertFavourite(newFavourite)
+            } else {
+                viewModel.deleteFavourite(item.nameAdd)
+            }
         }
         setUpData()
     }

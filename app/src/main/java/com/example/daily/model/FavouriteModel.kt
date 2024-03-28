@@ -9,5 +9,6 @@ data class FavouriteModel(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val nameFavourite: String,
+    var nameCollection: String,
     var isFavourite : Boolean,
     var day :String)

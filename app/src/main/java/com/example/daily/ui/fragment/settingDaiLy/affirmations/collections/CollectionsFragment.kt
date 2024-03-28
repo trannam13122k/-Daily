@@ -55,7 +55,8 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>() {
             val fragment = DetailCollectionsFragment().apply {
                 arguments = bundle
             }
-            (activity as MainActivity).replaceFragment(fragment)
+
+            openFragment(DetailCollectionsFragment::class.java,bundle,true)
         }
     }
 

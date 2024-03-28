@@ -38,6 +38,9 @@ interface AddContentDao {
     @Query("UPDATE collection SET nameCollection = :nameCollection")
     suspend fun updateCollectionName(nameCollection: String)
 
+    @Query("UPDATE `add` SET nameAdd = :nameAdd, isFavourite = :isFavourite")
+    suspend fun updateName(nameAdd: String, isFavourite: Boolean)
+
     @Query("UPDATE 'add' SET nameCollection = :nameCollection WHERE id = :id")
     suspend fun updateNameCollection(id: Long, nameCollection: String)
 

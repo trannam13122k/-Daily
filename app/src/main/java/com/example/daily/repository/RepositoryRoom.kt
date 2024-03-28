@@ -85,4 +85,11 @@ class RepositoryRoom(
     suspend fun deleteFavourite(favourite: FavouriteModel) {
         favouriteDao.deleteFavourite(favourite)
     }
+    suspend fun deleteFavourite(name: String) {
+        favouriteDao.deleteFavouriteByName(name)
+    }
+
+    suspend fun updateName(name:String, isFavourite:Boolean){
+        addContentDao.updateName(name,isFavourite)
+    }
 }
