@@ -122,55 +122,7 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
             adapter = categoriesAdapter
 
         }
-//        categoriesAdapter?.onClickItem = {
-//            when (it.titleContent) {
-//                KeyWord.general -> {
-//                    preferences.setString(KeyWord.titleContent, it.titleContent).toString()
-//                    preferences.saveList(KeyWord.myListKey, it.listContent)
-//
-//                    openFragment(MainFragment::class.java, null, false)
-//                }
-//
-//                KeyWord.myFavorite -> {
-//                    it.listContent = preferences.getList(KeyWord.list_favorites)
-//                    if (it.listContent == null) {
-//                        DialogUtils.showDialog(
-//                            requireActivity(),
-//                            "Notification",
-//                            "Currently your data is not available, please check it"
-//                        )
-//                    } else {
-//                        preferences.setString(KeyWord.titleContent, it.titleContent).toString()
-//                        preferences.saveList(KeyWord.myListKey, it.listContent)
-//
-//                        openFragment(MainFragment::class.java, null, false)
-//                    }
-//                }
-//
-//                KeyWord.myAffirmations -> {
-//                    it.listContent = preferences.getList(KeyWord.list_my_affirmations)
-//                    if (it.listContent?.isEmpty() == true) {
-//                        openFragment(AddYourOwnFragment::class.java, null, false)
-//                    } else {
-//                        preferences.setString(KeyWord.titleContent, it.titleContent).toString()
-//                        preferences.saveList(KeyWord.myListKey, it.listContent)
-//                        openFragment(MainFragment::class.java, null, false)
-//                    }
-//                }
-//
-//                KeyWord.myCollection -> {
-//                    (activity as MainActivity).replaceFragment(CollectionsFragment())
-//                    it.listContent = preferences.getList(KeyWord.list_content_by_collection)
-//                    if (it.listContent!!.isEmpty()) {
-//                        openFragment(CollectionsFragment::class.java, null, false)
-//                    } else {
-//                        preferences.setString(KeyWord.titleContent, it.titleContent).toString()
-//                        preferences.saveList(KeyWord.myListKey, it.listContent)
-//                        openFragment(MainFragment::class.java, null, false)
-//                    }
-//                }
-//            }
-//        }
+
         categoriesAdapter?.onClickItem = { item ->
             item?.let {
                 when (it.titleContent) {
@@ -183,14 +135,13 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
 
                     KeyWord.myFavorite -> {
                         preferences.setString(KeyWord.titleContent, it.titleContent)
-//
+
                         openFragment(MainFragment::class.java, null, false)
                     }
 
                     KeyWord.myAffirmations -> {
                         preferences.setString(KeyWord.titleContent, it.titleContent)
                             openFragment(MainFragment::class.java, null, false)
-
                     }
 
                     KeyWord.myCollection -> {

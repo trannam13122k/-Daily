@@ -45,7 +45,7 @@ class ContentMainFragment() : BaseFragment<FragmentContentBinding>() {
         binding.imgFavourite.setOnClickListener {
             isFavourite = !isFavourite
             if (isFavourite) {
-                binding.imgFavourite.setImageResource(R.drawable.baseline_favorite_border_24)
+                binding.imgFavourite.setImageResource(R.drawable.icon_true_fav)
                 val senderRealTime = System.currentTimeMillis()
                 val date = Date(senderRealTime)
                 val format = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
@@ -57,7 +57,7 @@ class ContentMainFragment() : BaseFragment<FragmentContentBinding>() {
                 )
                 viewModel.insert(favourite)
             } else {
-                binding.imgFavourite.setImageResource(R.drawable.baseline_favorite_24)
+                binding.imgFavourite.setImageResource(R.drawable.icon_fav)
             }
         }
     }

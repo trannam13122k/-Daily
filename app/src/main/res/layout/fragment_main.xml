@@ -8,6 +8,7 @@
     tools:context=".ui.fragment.mainFragment.MainFragment">
 
     <ImageView
+        android:background="@color/color_four"
         android:id="@+id/imgBgMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,14 +28,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintBottomMAin"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="20dp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_margin="@dimen/_13sdp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:id="@+id/llGeneral"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/background_custom"
             android:gravity="center"
@@ -52,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_6sdp"
-                android:layout_marginRight="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_6sdp"
                 android:text="@string/general" />
         </LinearLayout>
 
