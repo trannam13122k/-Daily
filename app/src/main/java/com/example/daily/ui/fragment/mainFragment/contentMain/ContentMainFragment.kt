@@ -1,11 +1,15 @@
 package com.example.daily.ui.fragment.mainFragment.contentMain
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
@@ -81,6 +85,9 @@ class ContentMainFragment() : BaseFragment<FragmentContentBinding>() {
     override fun setUpView() {
         setData()
     }
+
+
+
 
     @SuppressLint("ResourceAsColor")
     private fun setData() {

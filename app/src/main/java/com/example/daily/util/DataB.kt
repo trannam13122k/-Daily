@@ -162,7 +162,7 @@ object DataB {
 
 
     val listSettings = listOf(
-        SettingModel("General", R.drawable.icon_setting,GeneralFragment::class.java),
+        SettingModel("General", R.drawable.icon_setting, GeneralFragment::class.java),
         SettingModel("Reminders", R.drawable.icon_reminders, RemindersFragment::class.java),
         SettingModel("Widgets", R.drawable.icon_widgets, WidgetsFragment::class.java)
     )
@@ -235,15 +235,15 @@ object DataB {
         " Life is a journey, not a destination. - Ralph Waldo Emerson ",
     )
 
-   val listUnsplash = listOf(
-    UnsplashModel(R.drawable.bg_one),
-    UnsplashModel(R.drawable.bg_two),
-    UnsplashModel(R.drawable.bg_three),
-    UnsplashModel(R.drawable.bg_five),
-    UnsplashModel(R.drawable.bg_four),
-    UnsplashModel(R.drawable.bg_six),
-    UnsplashModel(R.drawable.bg_seven),
-    UnsplashModel(R.drawable.bg_eight),
-    UnsplashModel(R.drawable.bg_nine)
+    val listUnsplash = listOf(
+        UnsplashModel(R.drawable.bg_one),
+        UnsplashModel(R.drawable.bg_two),
+        UnsplashModel(R.drawable.bg_three),
+        UnsplashModel(R.drawable.bg_five),
+        UnsplashModel(R.drawable.bg_four),
+        UnsplashModel(R.drawable.bg_six),
+        UnsplashModel(R.drawable.bg_seven),
+        UnsplashModel(R.drawable.bg_eight),
+        UnsplashModel(R.drawable.bg_nine)
     )
 }

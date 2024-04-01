@@ -1,9 +1,15 @@
 package com.example.daily.ui.fragment.mainFragment
 
+import android.content.Context
 import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.viewpager2.widget.ViewPager2
@@ -23,6 +29,7 @@ import com.example.daily.util.DialogUtils
 import com.example.daily.util.KeyWord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
@@ -44,12 +51,59 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun init() {
         preferences = Preferences.getInstance(requireContext())
         viewModel = ViewModelProvider(this)[EditViewModel::class.java]
+
+        val isNetworkAvailable = isNetworkAvailable(requireActivity())
+
+        if (isNetworkAvailable) {
+            Toast.makeText(
+                requireActivity(),
+                " Network is available, perform network-related operations - true",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                requireActivity(),
+                "Network is not available, handle the absence of network",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
-    override fun setUpView() {
+    override fun setUpView() {                     
         clickListener()
         viewPager2()
         setBackGround()
+    }
+
+    fun isNetworkAvailable(context: Context?): Boolean {
+        if (context == null) return false
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                when {
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                        return true
+                    }
+
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                        return true
+                    }
+
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                        return true
+                    }
+                }
+            }
+        } else {
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun setBackGround() {
@@ -190,3 +244,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
 }
+
+
+
+
