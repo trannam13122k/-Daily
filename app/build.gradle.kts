@@ -82,4 +82,6 @@ dependencies {
 
     implementation ("androidx.work:work-runtime-ktx:2.7.0")
 
+    implementation("commons-io:commons-io:2.11.0")
+
 }

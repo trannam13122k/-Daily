@@ -1,10 +1,12 @@
 package com.example.daily.ui.fragment.settingDaiLy.settingMain
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.daily.base.BaseFragment
 import com.example.daily.databinding.FragmentSettingBinding
+import com.example.daily.ui.inapp.PurchaseActivity
 import com.example.daily.util.DataB
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>() {
@@ -45,6 +47,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         settingAdapter.onClickItem = { setting ->
             if (setting.fragment != null) {
                 openFragment(setting.fragment, null, true)
+            }
+            else{
+                startActivity(Intent(context, PurchaseActivity::class.java))
             }
         }
     }
