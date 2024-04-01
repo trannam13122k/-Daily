@@ -112,5 +112,6 @@
          please contact us.
     ]]>
 </string>
+    <string name="message_purchase_one">%s</string>
 
 </resources>

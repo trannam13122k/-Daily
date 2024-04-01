@@ -43,6 +43,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.inapp.PurchaseActivity"
+            android:exported="false"/>
 
         <receiver android:name=".broadcast.AlarmReceiver" />
 

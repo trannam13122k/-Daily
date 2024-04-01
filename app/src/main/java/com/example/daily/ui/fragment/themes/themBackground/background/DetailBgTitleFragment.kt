@@ -1,8 +1,11 @@
 package com.example.daily.ui.fragment.themes.themBackground.background
 
+import android.app.AlertDialog
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +18,7 @@ import com.example.daily.ui.fragment.mainFragment.MainFragment
 import com.example.daily.ui.fragment.themes.edit.EditViewModel
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.DetailBgTitleAdapter
 import com.example.daily.ui.fragment.themes.themBackground.background.model.ThemesModel
+import com.example.daily.ui.inapp.PrefHelper
 import com.example.daily.util.DialogUtils
 import com.example.daily.util.KeyWord
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +32,9 @@ class DetailBgTitleFragment : BaseFragment<FragmentDetailBgTitleBinding>() {
 
     private var themesList: List<ThemesModel>? = null
     private var detailBgTitleAdapter: DetailBgTitleAdapter? = null
+    private lateinit var pref: PrefHelper
+
+    private var currentCoin = 0
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -38,6 +45,8 @@ class DetailBgTitleFragment : BaseFragment<FragmentDetailBgTitleBinding>() {
 
     override fun init() {
         preferences = Preferences.getInstance(requireContext())
+        pref = PrefHelper.getInstance(requireContext())!!
+        currentCoin = pref.getValueCoin()
         viewModel = ViewModelProvider(this)[EditViewModel::class.java]
         val titleBg = arguments?.getString(KeyWord.titleBg)
         themesList = arguments?.getSerializable(KeyWord.themesList) as? List<ThemesModel>
@@ -59,12 +68,35 @@ class DetailBgTitleFragment : BaseFragment<FragmentDetailBgTitleBinding>() {
             detailBgTitleAdapter?.onClickItem = { background ->
                 preferences.setString(KeyWord.imageBg, background.image)
                 if (background.check) {
-                    DialogUtils.showDialog(
-                        requireActivity(),
-                        "Notification",
-                        "Would you like to spend 2 cents to use it?"
-                    )
-                } else {
+                    val alertDialog = AlertDialog.Builder(context)
+                    alertDialog.apply {
+                        setTitle("Purchase confirmation")
+                        setMessage("Would you like to pay 1 gold to use this feature??")
+                        setPositiveButton(
+                            "Yes"
+                        ) { dialogInterface, which ->
+                            if (currentCoin >= 1) {
+                                currentCoin -= 1
+                                pref.setValueCoin(currentCoin)
+                                updateBackground(background.image)
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "You do not have enough gold to perform this feature!",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                        setNegativeButton(
+                            "No"
+                        ) { dialog, which ->
+                            dialog.dismiss()
+                        }
+                    }
+                    val dialog = alertDialog.create()
+                    dialog.show()
+                }
+                else{
                     updateBackground(background.image)
                 }
 

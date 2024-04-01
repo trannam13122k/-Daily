@@ -1,22 +1,16 @@
 package com.example.daily.ui.fragment.themes
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
-import com.example.daily.R
 import com.example.daily.base.BaseFragment
 import com.example.daily.database.Preferences
 import com.example.daily.databinding.FragmentThemesBinding
-import com.example.daily.model.EditModel
 import com.example.daily.ui.activity.MainActivity
 import com.example.daily.ui.fragment.mainFragment.MainFragment
 import com.example.daily.ui.fragment.themes.edit.EditFragment
@@ -24,6 +18,8 @@ import com.example.daily.ui.fragment.themes.themBackground.background.model.Them
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.ThemesAdapter
 import com.example.daily.ui.fragment.themes.themBackground.background.DetailBgTitleFragment
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.TitleBackgroundAdapter
+import com.example.daily.ui.inapp.PrefHelper
+import com.example.daily.ui.inapp.PurchaseActivity
 import com.example.daily.util.DataB
 import com.example.daily.util.KeyWord
 import java.io.Serializable
@@ -35,6 +31,9 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
     private lateinit var viewModel: ThemesViewModel
     private var themesAdapter: ThemesAdapter? = null
     private var titleBackgroundAdapter: TitleBackgroundAdapter? = null
+    private lateinit var pref: PrefHelper
+
+    private var currentCoin = 0
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -45,6 +44,9 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
 
     override fun init() {
         preferences = Preferences.getInstance(requireContext())
+        pref = PrefHelper.getInstance(requireContext())!!
+        currentCoin = pref.getValueCoin()
+        binding.tvCurrentCoin.text = pref.getValueCoin().toString()
         val bg = preferences.getString(KeyWord.imageBg)
         Glide.with(requireContext())
             .load(bg)
@@ -66,6 +68,9 @@ class ThemesFragment : BaseFragment<FragmentThemesBinding>() {
         }
         binding.btnEdit.setOnClickListener {
             openFragment(EditFragment::class.java, null, true)
+        }
+        binding.btnStore.setOnClickListener {
+            startActivity(Intent(context, PurchaseActivity::class.java))
         }
 
         binding.constraintRandom.setOnClickListener {

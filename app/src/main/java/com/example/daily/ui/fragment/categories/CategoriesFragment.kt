@@ -1,8 +1,10 @@
 package com.example.daily.ui.fragment.categories
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +20,8 @@ import com.example.daily.ui.fragment.mainFragment.MainFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.addYourOwn.AddYourOwnFragment
 import com.example.daily.ui.fragment.settingDaiLy.affirmations.collections.CollectionsFragment
 import com.example.daily.ui.fragment.themes.themBackground.background.adapter.TitleBackgroundAdapter
+import com.example.daily.ui.inapp.PrefHelper
+import com.example.daily.ui.inapp.PurchaseActivity
 import com.example.daily.util.DataB
 import com.example.daily.util.DialogUtils
 import com.example.daily.util.KeyWord
@@ -31,6 +35,10 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
     private lateinit var preferences: Preferences
     private lateinit var viewModel: CategoriesViewModel
 
+    private var currentCoin = 0
+
+    private lateinit var pref: PrefHelper
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -40,6 +48,9 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
 
     override fun init() {
         preferences = Preferences.getInstance(requireContext())
+        pref = PrefHelper.getInstance(requireContext())!!
+        currentCoin = pref.getValueCoin()
+        binding.tvCurrentCoin.text = pref.getValueCoin().toString()
         viewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
         viewModel.getContentByTitle(KeyWord.mostPopular) { contentList, _ ->
             setUpItemBySelect(contentList)
@@ -55,6 +66,9 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
     private fun clickListener() {
         binding.ivBack.setOnClickListener {
             activity?.onBackPressed()
+        }
+        binding.btnStore.setOnClickListener {
+            startActivity(Intent(context, PurchaseActivity::class.java))
         }
     }
 
@@ -83,7 +97,7 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
                             item,
                             requireActivity(),
                             "Notification",
-                            "Would you like to spend 2 cents to use it?"
+                            "Would you like to spend 1 cents to use it?"
                         )
                     } else {
                         preferences.setString("titleContent", item.nameContent).toString()
@@ -105,11 +119,30 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>() {
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton("OK") { dialog, which ->
-                preferences.setString(KeyWord.titleContent, it.nameContent).toString()
-                preferences.saveList(KeyWord.myListKey, it?.listContent)
-                openFragment(MainFragment::class.java, null, false)
+                if (currentCoin >= 1) {
+                    currentCoin -= 1
+                    pref.setValueCoin(currentCoin)
+                    preferences.setString(KeyWord.titleContent, it.nameContent).toString()
+                    preferences.saveList(KeyWord.myListKey, it?.listContent)
+                    openFragment(MainFragment::class.java, null, false)
+                } else {
+                    Toast.makeText(
+                        context,
+                        "You do not have enough gold to perform this feature!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
                 dialog.dismiss()
             }
+            .setNegativeButton(
+                "No"
+            ) { dialog, which ->
+                dialog.dismiss()
+            }
+
+
+
             .create()
             .show()
     }
