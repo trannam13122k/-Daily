@@ -61,4 +61,8 @@ object KeyWord {
     const val setBackgroundColor: String = "setBackgroundColor"
     const val noItemsAvailable: String = "  No items available"
 
+    const val networksTrue: String = " Network is available, perform network-related operations"
+    const val networksfalse: String = " Network is not available, perform network-related operations"
+
+
 }

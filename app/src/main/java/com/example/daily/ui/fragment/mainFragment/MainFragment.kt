@@ -57,13 +57,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         if (isNetworkAvailable) {
             Toast.makeText(
                 requireActivity(),
-                " Network is available, perform network-related operations - true",
+                KeyWord.networksTrue,
                 Toast.LENGTH_SHORT
             ).show()
         } else {
             Toast.makeText(
                 requireActivity(),
-                "Network is not available, handle the absence of network",
+                KeyWord.networksfalse,
                 Toast.LENGTH_SHORT
             ).show()
         }
