@@ -19,7 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:src="@drawable/back" />
+            android:src="@drawable/back"
+            android:contentDescription="@null"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +98,8 @@
                         android:text="@string/Daily_practice_reminder"
                         android:textColor="@color/gray"
                         android:textSize="@dimen/_14sdp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        />
 
                     <TextView
                         android:id="@+id/tvHourNotifition"
@@ -132,7 +134,8 @@
                         android:id="@+id/swichBt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3" />
+                        android:layout_weight="3"
+                        android:contentDescription="@null"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -195,7 +198,8 @@
                         android:id="@+id/switchWidget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3" />
+                        android:layout_weight="3"
+                        android:contentDescription="@null"/>
                 </LinearLayout>
             </LinearLayout>
 

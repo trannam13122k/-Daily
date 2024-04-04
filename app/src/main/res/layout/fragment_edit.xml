@@ -134,7 +134,8 @@
         android:clipToPadding="false"
         android:paddingLeft="183dp"
         android:paddingRight="183dp"
-        tools:listitem="@layout/item_color_picker" />
+        tools:listitem="@layout/item_color_picker"
+        android:contentDescription="@null"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="260dp"
