@@ -162,7 +162,7 @@ object DataB {
 
 
     val listSettings = listOf(
-        SettingModel("General", R.drawable.icon_setting, GeneralFragment::class.java),
+//        SettingModel("General", R.drawable.icon_setting, GeneralFragment::class.java),
         SettingModel("Reminders", R.drawable.icon_reminders, RemindersFragment::class.java),
         SettingModel("Widgets", R.drawable.icon_widgets, WidgetsFragment::class.java),
         SettingModel("Purchase", R.drawable.icon_purchase, null)

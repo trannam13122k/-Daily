@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -55,21 +56,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         val isNetworkAvailable = isNetworkAvailable(requireActivity())
 
         if (isNetworkAvailable) {
-            Toast.makeText(
-                requireActivity(),
-                KeyWord.networksTrue,
-                Toast.LENGTH_SHORT
-            ).show()
+            Log.d("TAG", "networks:${KeyWord.networksTrue} ")
         } else {
-            Toast.makeText(
-                requireActivity(),
-                KeyWord.networksfalse,
-                Toast.LENGTH_SHORT
-            ).show()
+            Log.d("TAG", "networks:${KeyWord.networksfalse} ")
         }
     }
 
-    override fun setUpView() {                     
+    override fun setUpView() {
         clickListener()
         viewPager2()
         setBackGround()
